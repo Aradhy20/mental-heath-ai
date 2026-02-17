@@ -1,0 +1,33 @@
+@echo off
+echo Stopping Multimodal Mental Health Detection System Services...
+echo.
+
+echo Stopping Authentication Service...
+taskkill /FI "WINDOWTITLE eq Auth Service*" /F >nul 2>&1
+
+echo Stopping Text Analysis Service...
+taskkill /FI "WINDOWTITLE eq Text Service*" /F >nul 2>&1
+
+echo Stopping Voice Analysis Service...
+taskkill /FI "WINDOWTITLE eq Voice Service*" /F >nul 2>&1
+
+echo Stopping Face Analysis Service...
+taskkill /FI "WINDOWTITLE eq Face Service*" /F >nul 2>&1
+
+echo Stopping Fusion Service...
+taskkill /FI "WINDOWTITLE eq Fusion Service*" /F >nul 2>&1
+
+echo Stopping Doctor Service...
+taskkill /FI "WINDOWTITLE eq Doctor Service*" /F >nul 2>&1
+
+echo Stopping Notification Service...
+taskkill /FI "WINDOWTITLE eq Notification Service*" /F >nul 2>&1
+
+echo Stopping Report Service...
+taskkill /FI "WINDOWTITLE eq Report Service*" /F >nul 2>&1
+
+echo.
+echo All services stopped!
+echo.
+echo Press any key to exit...
+pause >nul

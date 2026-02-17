@@ -1,0 +1,32 @@
+# AI Models - Python Requirements
+# Install with: pip install -r requirements.txt
+
+# Core dependencies (required)
+torch>=2.0.0
+transformers>=4.35.0
+sentence-transformers>=2.2.2
+
+# Text analysis
+langchain>=0.1.0
+langchain-community>=0.0.13
+
+# Voice analysis
+librosa>=0.9.0
+scikit-learn>=1.0.0
+joblib>=1.2.0
+
+# Face analysis  
+opencv-python>=4.5.0  # May require C++ compiler
+# Alternative: opencv-python-headless>=4.5.0
+
+# Optional for training
+tensorflow>=2.10.0  # For face model training
+datasets>=2.0.0     # For text model training
+
+# Utilities
+numpy>=1.21.0
+scipy>=1.7.0
+pillow>=9.0.0
+
+# Note: Some packages may require Visual C++ Build Tools on Windows
+# If opencv-python fails, try: pip install opencv-python-headless

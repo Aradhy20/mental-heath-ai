@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Smile, Frown, Meh, CloudRain, Sun } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/lib/store/auth-store'
+import api from '@/lib/api'
 
 const moods = [
     { icon: Sun, label: 'Radiant', color: 'text-yellow-500', bg: 'bg-yellow-100 dark:bg-yellow-900/30' },
@@ -29,23 +30,14 @@ const MoodWheel = () => {
         try {
             const mood = moods[index]
             const score = 5 - (index / (moods.length - 1)) * 4
-            const moodUrl = process.env.NEXT_PUBLIC_MOOD_JOURNAL_URL || 'http://localhost:5000/api/mood';
-            const authStore = useAuthStore.getState();
 
-            const response = await fetch(moodUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${authStore.token}`
-                },
-                body: JSON.stringify({
-                    mood_label: mood.label,
-                    score: score,
-                    notes: `Logged via MoodWheel at ${new Date().toLocaleTimeString()}`
-                })
+            const response = await api.post('/mood', {
+                mood_label: mood.label,
+                score: score,
+                notes: `Logged via MoodWheel at ${new Date().toLocaleTimeString()}`
             })
 
-            if (response.ok) {
+            if (response.status === 200 || response.status === 201) {
                 setShowSuccess(true)
                 setTimeout(() => setShowSuccess(false), 3000)
             }

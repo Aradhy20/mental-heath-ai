@@ -31,11 +31,11 @@ For your hybrid architecture, we recommend the following hosting providers:
     3.  Build Command: `npm install`
     4.  Start Command: `node server.js`
 
-### 3. AI services (Python/FastAPI) -> [Railway](https://railway.app) or [Render Docker]
-*   **Why:** Python AI models need more RAM and Docker support.
+### 3. AI services (Python/FastAPI) -> [Railway](https://railway.app) or [Render]
+*   **Why:** Python AI models need stable hosting and sufficient RAM.
 *   **Setup:** 
-    *   Use the included `Dockerfile` in the root.
-    *   It will automatically launch your 10 microservices using the `start_services.py` entrypoint.
+    *   Use the included `Dockerfile` only if you want containerization.
+    *   Local Python startup is fully supported via `start_services.py` and is the recommended development path.
 
 ---
 

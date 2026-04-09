@@ -37,11 +37,17 @@ def train_voice_model(data_dir="dataset", output_dir="../model"):
     print("Initializing Voice Model Training...")
     
     if not os.path.exists(data_dir):
-        print(f"Dataset directory {data_dir} not found. Please populate with audio files organized by class.")
-        # Create dummy data for demonstration
-        print("Generating dummy data for demonstration...")
-        X = np.random.rand(100, 40) # 40 MFCCs
-        y = np.random.choice(['calm', 'stress', 'anxiety'], 100)
+        print("Generating structured dummy data for demonstration...")
+        # 3 classes, 100 samples each
+        X_calm = np.random.randn(100, 40) * 0.1 + 0.2
+        y_calm = np.array(['calm'] * 100)
+        X_stress = np.random.randn(100, 40) * 0.1 + 0.5
+        y_stress = np.array(['stress'] * 100)
+        X_anx = np.random.randn(100, 40) * 0.1 + 0.8
+        y_anx = np.array(['anxiety'] * 100)
+        
+        X = np.vstack([X_calm, X_stress, X_anx])
+        y = np.concatenate([y_calm, y_stress, y_anx])
     else:
         # Load real data
         X = []

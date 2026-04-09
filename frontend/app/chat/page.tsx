@@ -6,6 +6,7 @@ import FloatingCard from '@/components/anti-gravity/FloatingCard'
 import AIChatBubble from '@/components/anti-gravity/AIChatBubble'
 import { Send, Sparkles, Video, VideoOff, Mic, Camera, User, Smile, Heart } from 'lucide-react'
 import { useAuthStore } from '@/lib/store/auth-store'
+import api from '@/lib/api'
 import { useVoiceAssistant } from '@/lib/hooks/useVoiceAssistant'
 import Webcam from 'react-webcam'
 
@@ -87,35 +88,18 @@ export default function ChatPage() {
     setLastFrameTime(now)
 
     try {
-      const response = await fetch('http://localhost:8004/v1/analyze/face', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          user_id: user?.user_id || "anonymous",
-          image: imageSrc
-        })
+      const response = await api.post('/analysis/face', {
+        user_id: user?.user_id || 'anonymous',
+        image: imageSrc
       })
 
-      if (response.ok) {
-        const data = await response.json()
-        setEmotion(data.emotion)
+      if (response.status === 200) {
+        setEmotion(response.data.emotion || response.data.result?.emotion || null)
       }
     } catch (error) {
-      console.error("Face analysis failed:", error)
+      console.error('Face analysis failed:', error)
     }
-  }, [isVideoOn, lastFrameTime, user?.user_id])
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout
-    if (isVideoOn) {
-      interval = setInterval(captureAndAnalyze, 1000)
-    }
-    return () => clearInterval(interval)
-  }, [isVideoOn, captureAndAnalyze])
-
-  const handleSend = async () => {
-    if (!input.trim()) return
-
+  }, [api, isVideoOn, lastFrameTime, user?.user_id])
     const userMessage = {
       id: Date.now(),
       text: input,
@@ -128,22 +112,15 @@ export default function ChatPage() {
     setIsTyping(true)
 
     try {
-      const userId = user?.user_id ? parseInt(user.user_id.toString()) : 1
       const enhancedInput = emotion ? `[User Emotion: ${emotion}] ${input}` : input
-
-      const response = await fetch('http://localhost:8010/v1/mood', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          user_id: isNaN(userId) ? 1 : userId,
-          mood_input: enhancedInput
-        })
+      const response = await api.post('/chat/send', {
+        message: enhancedInput
       })
 
-      if (!response.ok) throw new Error('Service error')
+      if (response.status !== 200) throw new Error('Service error')
 
-      const data = await response.json()
-      const aiResponseText = `${data.message} ${data.follow_up || ''}`
+      const data = response.data
+      const aiResponseText = data?.response || data?.message || 'I am here to support you. Let us continue.'
 
       const aiMessage = {
         id: Date.now() + 1,
@@ -156,16 +133,15 @@ export default function ChatPage() {
       speak(aiResponseText, language)
 
       if (emotion) {
-        fetch('http://localhost:8005/v1/analyze/fusion', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            user_id: userId,
-            text_emotion: data.dominant_emotion || "neutral",
-            face_emotion: emotion,
-            face_score: 0.8
-          })
-        }).catch(() => { })
+        api.post('/analysis/fuzzy', {
+          user_id: user?.user_id || 1,
+          mood_score: 5,
+          sentiment_score: 0,
+          energy_level: 5,
+          text_emotion: data?.dominant_emotion || 'neutral',
+          face_emotion: emotion,
+          face_score: 0.8
+        }).catch(() => {})
       }
     } catch (error) {
       setMessages(prev => [...prev, {

@@ -4,9 +4,11 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import FloatingCard from '@/components/anti-gravity/FloatingCard'
 import BreathingExercise from '@/components/anti-gravity/BreathingExercise'
+import { useAuthStore } from '@/lib/store/auth-store'
 import { Play, Clock, Wind, Zap, Brain, Shield, Heart } from 'lucide-react'
 
 export default function MeditationPage() {
+  const { token } = useAuthStore()
   const [copingCategory, setCopingCategory] = useState('general')
   const [strategy, setStrategy] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -15,14 +17,30 @@ export default function MeditationPage() {
     setIsLoading(true)
     setCopingCategory(category)
     try {
-      const response = await fetch('http://localhost:8010/v1/coping', {
+      const authToken = token || (typeof window !== 'undefined' ? localStorage.getItem('token') : null)
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json'
+      }
+      if (authToken) {
+        headers.Authorization = `Bearer ${authToken}`
+      }
+
+      const prompt = `Provide practical coping strategies for ${category}. Keep the advice gentle, supportive, and suitable for a wellness app user.`
+      const response = await fetch('/api/analysis/text/contextual', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ category })
+        headers,
+        body: JSON.stringify({ text: prompt, user_id: 1 })
       })
+
       if (response.ok) {
         const data = await response.json()
-        setStrategy(data.strategies)
+        const contextual = data?.result?.contextual_response || ''
+        const recommendations = Array.isArray(data?.result?.recommendations)
+          ? data.result.recommendations.join(' ')
+          : ''
+        setStrategy(contextual || recommendations || data?.message || 'Try these gentle breathing and grounding techniques.')
+      } else {
+        console.error('AI strategy fetch failed:', response.statusText)
       }
     } catch (err) {
       console.error('Failed to fetch strategy:', err)

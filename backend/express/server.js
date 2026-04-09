@@ -64,21 +64,39 @@ if (process.env.NODE_ENV === 'development') {
 // MONGODB CONNECTION
 // =======================
 
+let dbConnected = false;
+
 const connectDB = async () => {
     try {
         console.log(`Connecting to MongoDB at: ${process.env.MONGODB_URI}`);
         await mongoose.connect(process.env.MONGODB_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
+            serverSelectionTimeoutMS: 5000,
         });
         console.log('✅ MongoDB Connected Successfully');
+        dbConnected = true;
     } catch (error) {
-        console.error('❌ MONGODB CONNECTION FAILED:', error.message);
-        process.exit(1); // Exit if DB is required and fails
+        console.error('⚠️  MONGODB CONNECTION WARNING:', error.message);
+        console.log('🔄 Continuing in DEMO MODE with mock data');
+        console.log('🔗 Note: Configure MongoDB Atlas for persistent storage');
+        console.log('   Instructions: https://www.mongodb.com/cloud/atlas');
+        dbConnected = false;
+        // Don't exit - continue in demo mode
     }
 };
 
 connectDB();
+
+// Add health check endpoint that doesn't require DB
+app.get('/health', (req, res) => {
+    res.json({
+        status: 'OK',
+        timestamp: new Date().toISOString(),
+        database: dbConnected ? 'Connected' : 'Running in Demo Mode',
+        version: '1.0.0'
+    });
+});
 
 // =======================
 // ROUTES

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import FloatingCard from '@/components/anti-gravity/FloatingCard'
 import { Save, PenTool, Mic, Trash2, History, ChevronRight, Sparkles, Plus } from 'lucide-react'
 import { useAuthStore } from '@/lib/store/auth-store'
+import api from '@/lib/api'
 
 interface JournalEntry {
     id: string
@@ -26,14 +27,8 @@ export default function JournalPage() {
         const authStore = useAuthStore.getState();
         if (!authStore.token) return
         try {
-            const journalUrl = process.env.NEXT_PUBLIC_MOOD_JOURNAL_URL || 'http://localhost:5000/api/journal';
-            const response = await fetch(journalUrl, {
-                headers: { 'Authorization': `Bearer ${authStore.token}` }
-            })
-            if (response.ok) {
-                const data = await response.json()
-                setEntries(data.entries)
-            }
+            const response = await api.get('/journal')
+            setEntries(response.data.entries || response.data)
         } catch (error) {
             console.error('Failed to fetch entries:', error)
         } finally {
@@ -52,21 +47,13 @@ export default function JournalPage() {
         setIsSaving(true)
 
         try {
-            const journalUrl = process.env.NEXT_PUBLIC_MOOD_JOURNAL_URL || 'http://localhost:5000/api/journal';
-            const response = await fetch(journalUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${authStore.token}`
-                },
-                body: JSON.stringify({
-                    title: title || 'Untitled Entry',
-                    content: content,
-                    is_private: true
-                })
+            const response = await api.post('/journal', {
+                title: title || 'Untitled Entry',
+                content: content,
+                is_private: true
             })
 
-            if (response.ok) {
+            if (response.status === 200 || response.status === 201) {
                 setTitle('')
                 setContent('')
                 fetchEntries()
@@ -82,12 +69,8 @@ export default function JournalPage() {
         const authStore = useAuthStore.getState();
         if (!authStore.token) return
         try {
-            const journalUrl = process.env.NEXT_PUBLIC_MOOD_JOURNAL_URL || 'http://localhost:5000/api/journal';
-            const response = await fetch(`${journalUrl}/${id}`, {
-                method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${authStore.token}` }
-            })
-            if (response.ok) {
+            const response = await api.delete(`/journal/${id}`)
+            if (response.status === 200) {
                 setEntries(prev => prev.filter(e => (e as any)._id !== id))
             }
         } catch (error) {

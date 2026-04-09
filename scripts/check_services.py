@@ -73,7 +73,7 @@ async def main():
 
         print()
         print("Troubleshooting:")
-        print("  - Start MongoDB: net start MongoDB (or docker)")
+        print("  - Start MongoDB: net start MongoDB")
         print("  - Start backend: python backend/start_services.py")
         print("  - Or use: start_complete_app.bat")
     

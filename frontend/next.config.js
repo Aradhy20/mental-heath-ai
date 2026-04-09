@@ -2,24 +2,19 @@
 const nextConfig = {
   reactStrictMode: true,
   async rewrites() {
+    const backend = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5003'
     return [
       {
         source: '/api/:path*',
-        destination: process.env.BACKEND_URL
-          ? `${process.env.BACKEND_URL}/api/:path*`
-          : 'http://localhost:5000/api/:path*',
+        destination: `${backend}/api/:path*`,
       },
       {
         source: '/docs',
-        destination: process.env.BACKEND_URL
-          ? `${process.env.BACKEND_URL}/docs`
-          : 'http://127.0.0.1:8000/docs',
+        destination: `${backend}/docs`,
       },
       {
         source: '/openapi.json',
-        destination: process.env.BACKEND_URL
-          ? `${process.env.BACKEND_URL}/openapi.json`
-          : 'http://127.0.0.1:8000/openapi.json',
+        destination: `${backend}/openapi.json`,
       }
     ]
   },

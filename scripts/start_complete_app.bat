@@ -24,7 +24,7 @@ if %errorlevel% == 0 (
         echo   Please start MongoDB manually:
         echo   - Option 1: Run "net start MongoDB" as Administrator
         echo   - Option 2: Start mongod manually: "mongod --dbpath=C:\data\db"
-        echo   - Option 3: Use Docker: "docker run -d -p 27017:27017 mongo"
+        echo   - Option 3: Use MongoDB Atlas or a local MongoDB instance
         echo.
         pause
     )

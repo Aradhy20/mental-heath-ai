@@ -192,7 +192,41 @@ class WellnessCalculator:
             recommendations.append("Continue your current wellness practices")
         
         return recommendations[:5]  # Limit to top 5
-    
+
+    def generate_personalized_plan(self, factors: WellnessFactors, category_scores: Dict[str, float]) -> Dict:
+        """Generate a personalized wellness plan from current assessment."""
+        plan = {
+            "focus_areas": [],
+            "daily_actions": [],
+            "check_in_period": "7 days"
+        }
+
+        if category_scores["emotional"] < 60:
+            plan["focus_areas"].append("Emotional regulation")
+            plan["daily_actions"].append("Practice 5-10 minutes of guided breathing or mindful reflection.")
+
+        if category_scores["behavioral"] < 60:
+            plan["focus_areas"].append("Lifestyle consistency")
+            plan["daily_actions"].append("Keep a sleep log and move for at least 15 minutes each day.")
+
+        if category_scores["treatment"] < 70:
+            plan["focus_areas"].append("Treatment adherence")
+            plan["daily_actions"].append("Track medication and therapy appointments in a calendar.")
+
+        if category_scores["self_care"] < 40:
+            plan["focus_areas"].append("Self-care habits")
+            plan["daily_actions"].append("Complete one self-care activity, like journaling or a short walk.")
+
+        if category_scores["risk"] < 75:
+            plan["focus_areas"].append("Risk reduction")
+            plan["daily_actions"].append("Stay connected to a trusted support person and seek help when needed.")
+
+        if not plan["focus_areas"]:
+            plan["focus_areas"].append("Maintenance")
+            plan["daily_actions"].append("Continue your wellness practices and review progress this week.")
+
+        return plan
+
     def _calculate_trend(self, current_score: float, historical_scores: List[float] = None) -> str:
         """Calculate wellness trend"""
         if not historical_scores or len(historical_scores) < 2:

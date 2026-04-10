@@ -145,22 +145,31 @@ export default function InsightsPage() {
                             const avgMood = chartData.reduce((acc, curr) => acc + curr.mood, 0) / (chartData.length || 1);
                             const response = await analysisAPI.getWellnessScore({
                                 mood_score: avgMood * 2,
-                                sentiment_score: 0.2,
-                                energy_level: 6
+                                anxiety_level: 40,
+                                stress_level: 45,
+                                sleep_quality: 60,
+                                exercise_frequency: 55,
+                                social_interaction: 60,
+                                medication_adherence: 90,
+                                therapy_attendance: 85,
+                                meditation_practice: 20,
+                                journaling_frequency: 15,
+                                substance_use: 5,
+                                self_harm_thoughts: 2
                             });
 
                             if (response.data) {
                                 const data = response.data;
-                                alert(`Fuzzy Logic Assessment: ${data.result.label}\nRisk: ${data.result.riskLevel}\nVitality Score: ${data.result.vitalityScore}`);
+                                alert(`Wellness Score: ${data.result.overall_score}\nTrend: ${data.result.trend}\nRecommendations:\n- ${data.result.recommendations.join('\n- ')}`);
                             }
                         } catch (e) {
-                            console.error("Fuzzy analysis failed:", e);
+                            console.error("Wellness analysis failed:", e);
                         }
                     }}
                     className="px-6 py-3 bg-indigo-600 text-white rounded-2xl font-bold flex items-center gap-2 hover:bg-indigo-700 transition-all shadow-lg hover:shadow-indigo-500/25"
                 >
                     <Zap size={20} />
-                    Run Fuzzy Logic Analysis
+                    Run Wellness Analysis
                 </button>
 
                 <button

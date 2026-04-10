@@ -3,7 +3,7 @@ AI-Generated Goals System
 Creates personalized mental health goals using AI analysis
 """
 
-from typing import List, Dict
+from typing import List, Dict, Optional
 from pydantic import BaseModel
 from datetime import datetime, timedelta
 from enum import Enum
@@ -80,7 +80,48 @@ class GoalGenerator:
             goals.extend(self._generate_therapeutic_goals(user_id, therapy_notes))
         
         return goals[:5]  # Return top 5 goals
-    
+
+    def generate_personalized_plan(
+        self,
+        user_id: int,
+        user_profile: Dict,
+        wellness_data: Dict,
+        therapy_notes: Optional[List[Dict]] = None
+    ) -> Dict:
+        """Generate a concise, actionable wellness plan for the user."""
+        plan_steps = []
+        emotional_score = wellness_data.get("emotional_score", 50)
+        behavioral_score = wellness_data.get("behavioral_score", 50)
+        social_score = wellness_data.get("social_score", 50)
+        self_care_score = wellness_data.get("self_care_score", 50)
+
+        if emotional_score < 60:
+            plan_steps.append("Schedule 10 minutes of guided mindfulness or breathing each morning.")
+        if behavioral_score < 60:
+            plan_steps.append("Set a consistent sleep schedule and include a short daily walk.")
+        if social_score < 60:
+            plan_steps.append("Reach out to one trusted friend or family member this week.")
+        if self_care_score < 50:
+            plan_steps.append("Add one self-care activity to your daily routine, such as journaling or stretching.")
+
+        if therapy_notes:
+            plan_steps.append("Review recent therapy notes and identify one new strategy to practice this week.")
+
+        if not plan_steps:
+            plan_steps.append("Keep maintaining healthy habits and check in on your progress every few days.")
+
+        return {
+            "user_id": user_id,
+            "focus_areas": [
+                "emotional regulation",
+                "behavioral consistency",
+                "social connection",
+                "self-care routines"
+            ],
+            "plan_steps": plan_steps,
+            "target_date": datetime.utcnow() + timedelta(days=14)
+        }
+
     def _generate_emotional_goals(self, user_id: int) -> List[Goal]:
         """Generate goals for emotional well-being"""
         return [
@@ -187,13 +228,11 @@ class GoalGenerator:
     
     def update_goal_progress(self, goal_id: int, progress: float) -> Goal:
         """Update goal progress"""
-        # In production, update database
-        pass
+        raise NotImplementedError("Goal progress updates are handled in storage or persistence layer")
     
     def complete_goal(self, goal_id: int) -> Goal:
         """Mark goal as completed"""
-        # In production, update database and celebrate achievement
-        pass
+        raise NotImplementedError("Goal completion is handled in storage or persistence layer")
 
 
 # Global goal generator

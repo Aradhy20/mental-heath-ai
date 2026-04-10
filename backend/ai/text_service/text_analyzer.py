@@ -83,21 +83,32 @@ class TextEmotionAnalyzer:
         
         return dominant_emotion, emotion_score, confidence
     
-    def analyze_with_context(self, text: str) -> dict:
+    def analyze_with_context(self, text: str, user_id: int = None) -> dict:
         """
         Analyze text with vector database and RAG context
         Returns comprehensive analysis with recommendations
         """
         # Get emotion analysis
         emotion_label, emotion_score, confidence = self.analyze_emotion(text)
-        
+        emotion_distribution = None
+
+        if self.analyzer and hasattr(self.analyzer, "get_all_scores"):
+            try:
+                emotion_distribution = self.analyzer.get_all_scores(text)
+            except Exception:
+                emotion_distribution = None
+
         # Get RAG-based response
-        rag_result = rag_system.analyze_with_rag(text, emotion_label)
+        rag_result = rag_system.analyze_with_rag(text, emotion_label, user_id=user_id)
         
         # Search for similar documents in vector database
-        similar_docs = vector_db.search_similar_documents(text, n_results=2)
-        
-        return {
+        similar_docs = []
+        try:
+            similar_docs = vector_db.search_similar_documents(text, n_results=2)
+        except Exception:
+            similar_docs = []
+
+        analysis_result = {
             "emotion_analysis": {
                 "emotion_label": emotion_label,
                 "emotion_score": emotion_score,
@@ -108,6 +119,11 @@ class TextEmotionAnalyzer:
             "risk_level": rag_result["risk_level"],
             "recommendations": self._generate_recommendations(emotion_label, rag_result["risk_level"])
         }
+
+        if emotion_distribution:
+            analysis_result["emotion_distribution"] = emotion_distribution
+
+        return analysis_result
     
     def _generate_recommendations(self, emotion_label: str, risk_level: str) -> list:
         """

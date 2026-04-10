@@ -5,6 +5,14 @@ model training pipelines sequentially. It is intended for local development
 and model refresh workflows.
 """
 
+import sys
+import os
+
+# Add project root to path
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
 from ai_models.face.training.train import train_face_model
 from ai_models.text.training.train import train_text_model
 from ai_models.voice.training.train import train_voice_model

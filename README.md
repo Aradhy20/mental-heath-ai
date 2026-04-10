@@ -1,192 +1,169 @@
 # Mental Health App
 
-A comprehensive mental health and wellness application with AI-powered features, mood tracking, journaling, and professional support.
+A Git-first mental health and wellness platform with AI-enhanced mood tracking, journaling, personalized support, and analytics.
 
-## 🌟 Features
+This repository is designed to work without Docker. All setup and development is managed using Git, Node, Python, and local environment tools.
 
-- **AI Chat Assistant** - Personalized mental health support with gender-aware voice
-- **Mood Tracking** - Interactive mood wheel with database persistence
-- **Daily Journal** - Private journaling with history and search
-- **Meditation & Coping** - AI-powered coping strategies for anxiety, stress, and sadness
-- **Wellness Insights** - Analytics and trend visualization
-- **Specialist Directory** - Find nearby mental health professionals
-- **Multi-modal Analysis** - Text, voice, and facial emotion detection
+## 🌈 What This App Offers
 
-## 🚀 Tech Stack
+- **Intelligent mental health assistant** with conversational support
+- **Mood tracking dashboard** with progress insights
+- **Personal journal** for thoughts, reflections, and growth
+- **AI-powered coping tools** for stress and anxiety
+- **Emotion detection** using text, voice, and face analysis
+- **Professional resources** and therapist directory
+- **Responsive interface** for mobile and desktop
+
+## 🧩 Tech Stack
 
 ### Frontend
-- **Next.js 14** - React framework with App Router
-- **TypeScript** - Type-safe development
-- **Tailwind CSS** - Utility-first styling
-- **Framer Motion** - Smooth animations
-- **Recharts** - Data visualization
-- **Zustand** - State management
+- Next.js + App Router
+- TypeScript
+- Tailwind CSS
+- Framer Motion
+- Recharts
+- Zustand
 
 ### Backend
-- **FastAPI** - High-performance Python API
-- **SQLite** - Lightweight database
-- **SQLAlchemy** - ORM
-- **Microservices Architecture** - 10 independent services
+- FastAPI Python microservices
+- SQLite for local persistence
+- SQLAlchemy ORM
+- Axios / REST API integration
 
 ### AI Models
-- **DistilRoBERTa** - Text emotion analysis
-- **DeepFace** - Facial expression recognition
-- **Custom Fusion Model** - Multi-modal emotion detection
+- Transformers-based text emotion model
+- Voice emotion analysis model
+- Face emotion model with TensorFlow/Keras
+- Multi-modal fusion and inference utilities
 
-## 📦 Installation
+## 📁 Project Structure
 
-### Prerequisites
-- Node.js 18+
-- Python 3.9+
-- Git
-
-### Clone Repository
-```bash
-git clone https://github.com/Aradhy20/mental-health.git
-cd mental-health
+```
+project/
+├── ai_models/           # AI training, inference, and model code
+├── backend/             # Python backend services and APIs
+├── docs/                # Documentation and architectural notes
+├── frontend/            # Next.js application and UI
+├── scripts/             # Auxiliary scripts and helpers
+└── README.md            # Project overview and setup guide
 ```
 
-### Frontend Setup
+## 🚀 Local Setup (Git-only)
+
+### Prerequisites
+
+- Git
+- Node.js 18+
+- Python 3.10+ (recommended)
+- npm or pnpm
+
+### Clone the repository
+
+```bash
+git clone https://github.com/Aradhy20/mental-heath-.git
+cd mental-heath-
+```
+
+### Install frontend dependencies
+
 ```bash
 cd frontend
 npm install
+```
+
+### Install backend dependencies
+
+```bash
+cd ../backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+### Configure environment
+
+Copy the example environment file and update any secrets:
+
+```bash
+cp .env.example .env
+```
+
+Then open `.env` and configure at minimum:
+
+- `MONGO_DETAILS`
+- `JWT_SECRET_KEY`
+- `CORS_ORIGINS`
+
+### Run the app
+
+Start backend services and frontend in separate terminals.
+
+```bash
+# Terminal 1
+cd backend
+source .venv/bin/activate
+python start_services.py
+
+# Terminal 2
+cd frontend
 npm run dev
 ```
 
-### Backend Setup
+Open the app at `http://localhost:3000`.
+
+## 💡 AI Model Training
+
+This project includes AI model training scripts under `ai_models/`.
+
+Use the local Python environment and the optional `.venv-ai` virtual environment if needed.
+
+```bash
+cd ai_models
+python train_all.py
+```
+
+> This repository is configured to run without Docker. No Docker commands are required.
+
+## 🧪 Available Scripts
+
+### Frontend
+
+```bash
+cd frontend
+npm run dev
+npm run build
+npm run start
+```
+
+### Backend
+
 ```bash
 cd backend
-pip install -r requirements.txt
+source .venv/bin/activate
 python start_services.py
 ```
 
-## 🌐 Deployment
+### AI Models
 
-### Quick Deploy to Vercel
 ```bash
-cd frontend
-npx vercel --prod
+cd ai_models
+python train_all.py
 ```
 
-### Deploy Backend to Railway
-```bash
-cd backend
-railway up
-```
-
-See `DEPLOYMENT_GUIDE.md` for detailed instructions.
-
-## 🛠️ Development
-
-### Run Debugging Tools
-```bash
-# Check service health
-python debug_services.py
-
-# Monitor continuously
-python debug_services.py watch
-
-# Inspect database
-python debug_database.py
-
-# Test frontend routes
-python debug_frontend.py
-```
-
-### Project Structure
-```
-mental-health/
-├── frontend/          # Next.js application
-│   ├── app/          # App router pages
-│   ├── components/   # React components
-│   └── lib/          # Utilities and hooks
-├── backend/          # FastAPI microservices
-│   ├── auth_service/
-│   ├── chatbot_service/
-│   ├── mood_journal_service/
-│   └── shared/       # Shared utilities
-├── ai_models/        # AI model implementations
-└── docs/            # Documentation
-```
-
-## 📊 Services
-
-| Service | Port | Status |
-|---------|------|--------|
-| Auth | 8001 | ✅ Working |
-| Text Analysis | 8002 | ⚠️ Mock Data |
-| Voice Analysis | 8003 | ⚠️ Mock Data |
-| Face Analysis | 8004 | ⚠️ Mock Data |
-| Fusion | 8005 | ⚠️ Partial |
-| Doctor | 8006 | ✅ Working |
-| Notification | 8007 | ✅ Fixed |
-| Mood/Journal | 8008 | ✅ Working |
-| Report | 8009 | ✅ Fixed |
-| Chatbot | 8010 | ✅ Working |
-
-## 🎯 Key Features Implemented
-
-- ✅ User authentication and registration
-- ✅ Real-time mood tracking with database
-- ✅ Journal entries with full CRUD
-- ✅ AI-powered coping strategies
-- ✅ Specialist provider directory
-- ✅ Analytics dashboard with charts
-- ✅ Personalized AI voice assistant
-- ✅ Theme switching (light/dark)
-- ✅ Responsive design
-- ✅ Performance optimizations
-
-## 📈 Performance
-
-- **70% faster login** (2-3s → 500ms)
-- **75% faster tab switching** (800ms → 200ms)
-- **50% faster page load** (3-4s → 1-2s)
-- **100% smoother animations** (30fps → 60fps)
-
-## 🔒 Security
-
-- Environment variables for sensitive data
-- CORS configuration
-- Input validation
-- SQL injection prevention
-- XSS protection
-
-## 📝 Documentation
-
-- `DEPLOYMENT_GUIDE.md` - Deployment instructions
-- `DEBUGGING_GUIDE.md` - Debugging tools and tips
-- `OPTIMIZATION_REPORT.md` - Performance improvements
-- `PROJECT_STATUS.md` - Current project status
-
-## 🤝 Contributing
+## ✅ Contribution Guidelines
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create a branch: `git checkout -b feature/your-feature`
+3. Commit your changes: `git commit -m "Add feature description"`
+4. Push to GitHub: `git push origin feature/your-feature`
 5. Open a Pull Request
 
-## 📄 License
+## 📌 Notes
 
-This project is licensed under the MIT License.
+- This project is purposely Docker-free.
+- Use Git and local tools for development.
+- Keep secrets out of version control by using `.env`.
 
-## 👥 Authors
+## 📞 Contact
 
-- **Aradhy Jain** - Initial work - [Aradhy20](https://github.com/Aradhy20)
-
-## 🙏 Acknowledgments
-
-- Next.js team for the amazing framework
-- FastAPI for the high-performance backend
-- All open-source contributors
-
-## 📞 Support
-
-For support, email your-email@example.com or open an issue on GitHub.
-
----
-
-**⭐ Star this repo if you find it helpful!**
-
-*Built with ❤️ for mental health awareness*
+If you need help or want to collaborate, create a GitHub issue or message the repository owner.

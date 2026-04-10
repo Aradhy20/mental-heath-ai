@@ -99,6 +99,32 @@ router.post('/fuzzy', auth, async (req, res) => {
     }
 });
 
+// @route   POST api/analysis/wellness
+// @desc    Advanced AI wellness scoring
+// @access  Private
+router.post('/wellness', auth, async (req, res) => {
+    try {
+        const response = await axios.post(`${process.env.AI_TEXT_SERVICE_URL}/v1/analyze/wellness`, req.body);
+        res.json(response.data);
+    } catch (err) {
+        console.error('Wellness Service Error:', err.message);
+        res.status(500).json({ message: 'Wellness analysis failed', error: err.message });
+    }
+});
+
+// @route   POST api/analysis/goals
+// @desc    Generate personalized wellness goals
+// @access  Private
+router.post('/goals', auth, async (req, res) => {
+    try {
+        const response = await axios.post(`${process.env.AI_TEXT_SERVICE_URL}/v1/analyze/goals`, req.body);
+        res.json(response.data);
+    } catch (err) {
+        console.error('Goal Generation Error:', err.message);
+        res.status(500).json({ message: 'Goal generation failed', error: err.message });
+    }
+});
+
 // @route   POST api/analysis/report
 // @desc    Generate a wellness report
 // @access  Private

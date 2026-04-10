@@ -64,7 +64,8 @@ export const analysisAPI = {
       headers: { 'Content-Type': 'multipart/form-data' }
     });
   },
-  getWellnessScore: (data: any) => api.post('/analysis/fuzzy', data),
+  getWellnessScore: (data: any) => api.post('/analysis/wellness', data),
+  generateGoals: (data: any) => api.post('/analysis/goals', data),
 };
 
 export const doctorsAPI = {

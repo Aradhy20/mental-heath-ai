@@ -27,7 +27,8 @@
 2. Sign up with Google/GitHub (FREE)
 3. Create M0 cluster (FREE TIER)
 4. Get connection string: mongodb+srv://user:pass@cluster.mongodb.net/db
-5. Update .env: MONGODB_URI=mongodb+srv://...
+5. Update root .env: MONGO_DETAILS=mongodb+srv://...
+   Or update `backend/express/.env`: MONGODB_URI=mongodb+srv://...
 6. Add your IP to whitelist (or allow all for dev)
 ```
 
@@ -218,9 +219,7 @@ curl http://localhost:5003/health
 ┌──────▼──────────┐    ┌────────▼────────┐
 │ MongoDB Atlas   │    │ Python FastAPI  │
 │ (Main Data)     │    │ (AI Services)   │
-└─────────────────┘    │ + ChromaDB      │
-                       └─────────────────┘
-```
+└─────────────────┘    │ 
 
 **This architecture provides:**
 - ✅ Persistence (MongoDB)

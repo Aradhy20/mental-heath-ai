@@ -78,6 +78,11 @@ venv/
 env/
 ENV/
 .venv
+.venv-ai
+
+# AI training artifacts
+ai_models/face/training/dataset/
+# model artifacts are ignored by extension patterns (*.h5, *.pkl, *.pth, etc.)
 
 # Jupyter Notebook
 .ipynb_checkpoints

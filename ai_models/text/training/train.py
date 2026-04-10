@@ -67,7 +67,7 @@ def train_text_model(dataset_path=None, output_dir=None, epochs=1):
         dataset = load_dataset('csv', data_files=dataset_path)
     else:
         print("No local dataset found. Downloading 'dair-ai/emotion' from Hugging Face ...")
-        dataset = load_dataset("dair-ai/emotion", trust_remote_code=True)
+        dataset = load_dataset("dair-ai/emotion")
 
     # ---- Optional subsetting for speed ----------------------------------
     if SUBSET_SIZE is not None:
@@ -111,10 +111,10 @@ def train_text_model(dataset_path=None, output_dir=None, epochs=1):
         weight_decay=0.01,
         logging_dir=logs_dir,
         logging_steps=10,
-        evaluation_strategy="epoch",
+        eval_strategy="epoch",
         save_strategy="epoch",
         load_best_model_at_end=True,
-        no_cuda=not use_gpu,
+        use_cpu=not use_gpu,
         report_to="none",  # disable wandb/tensorboard external reporting
     )
 

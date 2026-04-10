@@ -30,12 +30,20 @@ def extract_features_from_file(file_path):
         print(f"Error processing {file_path}: {e}")
         return None
 
-def train_voice_model(data_dir="dataset", output_dir="../model"):
+def train_voice_model(data_dir=None, output_dir=None):
     """
     Train voice stress detection model
     """
     print("Initializing Voice Model Training...")
-    
+
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    if data_dir is None:
+        data_dir = os.path.join(script_dir, 'dataset')
+    if output_dir is None:
+        output_dir = os.path.normpath(os.path.join(script_dir, '..', 'model'))
+    elif not os.path.isabs(output_dir):
+        output_dir = os.path.normpath(os.path.join(script_dir, output_dir))
+
     if not os.path.exists(data_dir):
         print("Generating structured dummy data for demonstration...")
         # 3 classes, 100 samples each

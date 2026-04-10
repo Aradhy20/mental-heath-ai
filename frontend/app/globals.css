@@ -4,39 +4,39 @@
 
 @layer base {
   :root {
-    --background: 222.2 84% 4.9%;
+    --background: 231 32% 8%;
     --foreground: 210 40% 98%;
 
-    --card: 222.2 84% 4.9%;
+    --card: 226 28% 10%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222.2 84% 4.9%;
+    --popover: 232 30% 12%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 263 95% 65%;
+    --primary-foreground: 222 13% 14%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 175 84% 60%;
+    --secondary-foreground: 222 13% 14%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 228 11% 29%;
+    --muted-foreground: 215 22% 75%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 190 85% 60%;
+    --accent-foreground: 222 13% 14%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 85% 55%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 231 35% 14%;
+    --input: 231 35% 18%;
+    --ring: 210 24% 80%;
 
-    --radius: 0.5rem;
+    --radius: 1.25rem;
 
-    /* Custom Gradient Colors */
-    --neon-violet: #8b5cf6;
-    --neon-teal: #2dd4bf;
+    --neon-violet: #a855f7;
+    --neon-cyan: #06b6d4;
+    --neon-mint: #2dd4bf;
   }
 }
 
@@ -45,36 +45,69 @@
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    min-height: 100vh;
+    @apply bg-slate-950 text-slate-100 antialiased;
+    background-image: radial-gradient(circle at top left, rgba(99, 102, 241, 0.18), transparent 24%),
+                      radial-gradient(circle at bottom right, rgba(34, 211, 238, 0.16), transparent 22%),
+                      linear-gradient(180deg, #020617 0%, #050f2a 100%);
+    background-attachment: fixed;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
   }
 }
 
 /* Glassmorphism Utilities */
 .glass-panel {
-  background: rgba(30, 41, 59, 0.4);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 30px 80px rgba(15, 23, 42, 0.4);
 }
 
 .glass-input {
-  background: rgba(15, 23, 42, 0.6) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: rgba(15, 23, 42, 0.8) !important;
+  border: 1px solid rgba(148, 163, 184, 0.16) !important;
   color: white !important;
-  backdrop-filter: blur(4px);
-  transition: all 0.3s ease;
+  backdrop-filter: blur(6px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  transition: all 0.25s ease;
 }
 
 .glass-input:focus {
-  border-color: var(--neon-violet) !important;
-  box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+  border-color: rgba(168, 85, 247, 0.9) !important;
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.22);
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center rounded-3xl bg-gradient-to-r from-purple-500 via-fuchsia-500 to-cyan-400 text-slate-950 font-semibold shadow-glow px-6 py-3 transition duration-300 hover:scale-[1.01] hover:brightness-110;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center rounded-3xl border border-slate-600 bg-slate-900/70 text-slate-300 font-medium px-6 py-3 transition duration-300 hover:border-slate-400 hover:text-white;
 }
 
 .text-gradient {
-  background: linear-gradient(to right, #c084fc, #2dd4bf);
+  background: linear-gradient(90deg, #c084fc 0%, #22d3ee 50%, #5eead4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+.shadow-glow {
+  box-shadow: 0 20px 60px rgba(99, 102, 241, 0.22);
+}
+
+.card-glow {
+  box-shadow: 0 20px 70px rgba(15, 23, 42, 0.35);
 }

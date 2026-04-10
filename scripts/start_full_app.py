@@ -65,7 +65,7 @@ class CleanAppManager:
             time.sleep(1) # stagger
 
         # 2. Start Express Backend
-        express_cwd = os.path.join(self.root_dir, "backend-express")
+        express_cwd = os.path.join(self.root_dir, "backend/express")
         self.start_process(["npm", "start"], express_cwd, "Express API Gateway (5000)")
         time.sleep(2)
 

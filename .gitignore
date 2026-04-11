@@ -98,3 +98,13 @@ ngrok
 *.egg-info/
 dist/
 build/
+# Large ML model files (use Git LFS or cloud storage for these)
+*.safetensors
+*.pt
+*.bin
+*.h5
+*.pkl
+ai_models/text/model/
+ai_models/voice/model/
+ai_models/face/model/
+backend/venv/

@@ -1,36 +1,31 @@
+import os
+os.environ["USE_TF"] = "0"
+os.environ["USE_TORCH"] = "1"
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import os
-import sys
+from routers import auth, analysis, fusion
 
-# Add 'ai' directory to path to find microservices
-ai_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'ai')
-if ai_path not in sys.path:
-    sys.path.append(ai_path)
+app = FastAPI(
+    title="MindfulAI Backend API",
+    description="Multimodal mental health analysis platform API",
+    version="1.0.0"
+)
 
-# Import the fusion service as the primary entry point
-try:
-    from fusion_service.main import app as fusion_app
-    app = fusion_app
-except ImportError as e:
-    # If fusion import fails, create a fallback diagnostic app
-    app = FastAPI(title="AI Services Gateway Fallback")
-    
-    @app.get("/")
-    async def root():
-        return {
-            "status": "partial_health",
-            "message": "Gateway running, but primary service failed to load",
-            "error": str(e),
-            "cwd": os.getcwd(),
-            "path": sys.path
-        }
-
-# Ensure CORS is handled at the gateway level too
+# Robust CORS Setup for the Multi-Page React SaaS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Connect Routers
+app.include_router(auth.router, prefix="/api/v1")
+app.include_router(analysis.router, prefix="/api/v1")
+app.include_router(fusion.router, prefix="/api/v1")
+
+@app.get("/")
+def health_check():
+    return {"status": "online", "message": "MindfulAI Backend is fully operational"}

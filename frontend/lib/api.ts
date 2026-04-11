@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // API Configuration
 // API Configuration
-const API_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
+const API_URL = 'http://localhost:8000/api/v1';
 
 // Create Axios Instance
 const api = axios.create({
@@ -36,8 +36,6 @@ api.interceptors.response.use(
       // Auto-logout on 401
       if (typeof window !== 'undefined') {
         localStorage.removeItem('token');
-        // Optional: Redirect to login
-        // window.location.href = '/login';
       }
     }
     return Promise.reject(error);
@@ -46,7 +44,7 @@ api.interceptors.response.use(
 
 export const authAPI = {
   login: (credentials: any) => api.post('/auth/login', credentials),
-  register: (userData: any) => api.post('/auth/register', userData),
+  register: (userData: any) => api.post('/auth/signup', userData),
   requestOTP: (data: { phone?: string; email?: string }) => api.post('/auth/request-otp', data),
   verifyOTP: (data: { phone?: string; email?: string; otp: string }) => api.post('/auth/verify-otp', data),
   getMe: () => api.get('/auth/me'),

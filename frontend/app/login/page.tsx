@@ -2,14 +2,23 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
-import { Mail, Smartphone, ArrowRight, Loader2, KeyRound, ShieldCheck, Lock } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, Loader2, ShieldCheck, Mail, Lock, Phone } from 'lucide-react';
 import { authAPI } from '@/lib/api';
 import { useAuthStore } from '@/lib/store/auth-store';
 
+const COOKIE_MAX_AGE = 60 * 60 * 24 * 7; // 7 days
+
+function saveTokenCookie(token: string) {
+  if (typeof window === 'undefined') return;
+  const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+  document.cookie = `token=${token};path=/;max-age=${COOKIE_MAX_AGE};SameSite=Lax${secure}`;
+}
+
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const setAuth = useAuthStore((state) => state.login);
 
   const [loginMode, setLoginMode] = useState<'password' | 'otp'>('password');
@@ -22,6 +31,14 @@ export default function LoginPage() {
   const [contact, setContact] = useState('');
   const [otp, setOtp] = useState('');
 
+  const redirectPath = searchParams?.get('redirect') || '/dashboard';
+
+  const handleLoginSuccess = (user: any, token: string) => {
+    setAuth(user, token);
+    saveTokenCookie(token);
+    router.push(redirectPath);
+  };
+
   const handlePasswordLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -29,8 +46,7 @@ export default function LoginPage() {
 
     try {
       const response = await authAPI.login(emailData);
-      setAuth(response.data.user, response.data.token);
-      router.push('/dashboard');
+      handleLoginSuccess(response.data.user, response.data.token);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Invalid credentials. Please try again.');
     } finally {
@@ -66,8 +82,7 @@ export default function LoginPage() {
     try {
       const payload = otpMode === 'email' ? { email: contact, otp } : { phone: contact, otp };
       const response = await authAPI.verifyOTP(payload);
-      setAuth(response.data.user, response.data.token);
-      router.push('/dashboard');
+      handleLoginSuccess(response.data.user, response.data.token);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Invalid code. Please try again.');
     } finally {
@@ -76,185 +91,240 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen overflow-hidden bg-slate-950">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(99,102,241,0.16),_transparent_24%),radial-gradient(circle_at_bottom_right,_rgba(34,211,238,0.14),_transparent_22%)]" />
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl items-center px-4 py-10 sm:px-6 lg:px-8">
-        <div className="grid w-full gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-          <motion.section
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="glass-panel flex flex-col justify-between rounded-[2rem] border border-white/10 p-10 shadow-glow"
-          >
-            <div className="space-y-8">
-              <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200 shadow-sm">
-                <ShieldCheck size={18} className="text-cyan-300" />
-                MindfulAI Secure Access
-              </div>
-              <div className="space-y-4">
-                <p className="text-sm uppercase tracking-[0.35em] text-cyan-300/80">Welcome to your wellness control center</p>
-                <h1 className="text-5xl font-semibold tracking-tight text-white sm:text-6xl">Sign in to continue your journey</h1>
-                <p className="max-w-xl text-base text-slate-300 sm:text-lg">
-                  A calm, modern experience for logging your mood, journaling thoughts, and connecting with mental health tools powered by AI.
-                </p>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2">
-                {[
-                  { icon: '💡', title: 'Smart insights', description: 'Personalized suggestions and mood trends.' },
-                  { icon: '🔒', title: 'Secure access', description: 'Encrypted login with OTP and password protection.' },
-                  { icon: '🌙', title: 'Relaxing UI', description: 'Soft gradients and effortless navigation.' },
-                  { icon: '⚡', title: 'Fast startup', description: 'Instant access to AI support and wellness tools.' },
-                ].map((item) => (
-                  <div key={item.title} className="rounded-3xl border border-white/10 bg-white/5 p-5">
-                    <p className="mb-3 text-3xl">{item.icon}</p>
-                    <h3 className="font-semibold text-white">{item.title}</h3>
-                    <p className="mt-2 text-sm text-slate-400">{item.description}</p>
+    <div className="min-h-screen w-full flex bg-[#030014] overflow-hidden selection:bg-purple-500/30">
+      {/* LEFT PANEL - BRANDING & VISUALS */}
+      <div className="hidden lg:flex w-1/2 relative items-center justify-center p-12 overflow-hidden">
+        {/* Glows */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-[120px] mix-blend-screen opacity-50 animate-pulse"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-cyan-400/20 rounded-full blur-[100px] mix-blend-screen opacity-40" style={{ animationDelay: '1s' }}></div>
+        
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: 'easeOut' }}
+          className="relative z-10 w-full max-w-lg"
+        >
+          <Link href="/" className="inline-flex items-center gap-2 mb-12 group cursor-pointer hover:opacity-80 transition-opacity">
+             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-500 to-cyan-400 flex items-center justify-center text-white font-bold text-xl shadow-[0_0_20px_rgba(168,85,247,0.4)] group-hover:scale-105 transition-transform">
+                M
+             </div>
+             <span className="text-2xl font-bold tracking-tight text-white">MindfulAI</span>
+          </Link>
+          
+          <h1 className="text-5xl font-medium tracking-tight text-white leading-[1.1] mb-6">
+            Your sanctuary for<br/>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">mental clarity.</span>
+          </h1>
+          <p className="text-lg text-slate-400 leading-relaxed mb-12">
+            Secure, encrypted access to your personal AI wellness companion. Track, reflect, and grow in a space designed for your peace of mind.
+          </p>
+
+          <div className="space-y-6">
+            <div className="flex items-center gap-4 text-slate-300">
+              <div className="flex -space-x-4">
+                {[1,2,3].map((i) => (
+                  <div key={i} className={`w-12 h-12 rounded-full border-2 border-[#030014] bg-slate-800 flex items-center justify-center text-xs overflow-hidden`}>
+                    <img src={`https://api.dicebear.com/7.x/notionists/svg?seed=${i * 10}`} alt="avatar" />
                   </div>
                 ))}
               </div>
+              <p className="text-sm">
+                Join <span className="text-white font-semibold flex-shrink-0">10,000+</span> professionals maintaining their edge.
+              </p>
             </div>
-            <div className="mt-10 rounded-3xl border border-white/10 bg-slate-900/80 p-6 text-slate-300 shadow-xl shadow-slate-950/40">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-cyan-300">Ready when you are</h2>
-              <p className="mt-3 text-sm leading-6 text-slate-400">Your personalized wellness dashboard is one login away. Use the secure access form to continue.</p>
-            </div>
-          </motion.section>
+          </div>
+        </motion.div>
+      </div>
 
-          <motion.article
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="glass-panel rounded-[2rem] border border-white/10 p-8 shadow-glow"
-          >
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <p className="text-xs uppercase tracking-[0.35em] text-cyan-300/80">Login Method</p>
-                <h2 className="mt-3 text-3xl font-semibold text-white">Secure Sign In</h2>
-              </div>
-              <div className="rounded-full bg-slate-900/80 px-4 py-2 text-sm text-slate-300 ring-1 ring-white/10">
-                {loginMode === 'password' ? 'Password' : 'One-time PIN'}
-              </div>
+      {/* RIGHT PANEL - AUTH FORM */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 relative z-10">
+        <div className="absolute inset-0 lg:hidden bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.2),rgba(255,255,255,0))] pointer-events-none"></div>
+        
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="w-full max-w-[440px] relative"
+        >
+          {/* Form Container */}
+          <div className="glass-panel rounded-3xl p-8 sm:p-10 border border-white/[0.05] shadow-[0_8px_32px_rgba(0,0,0,0.5)] bg-slate-900/60 backdrop-blur-2xl">
+            
+            <div className="lg:hidden flex items-center justify-center gap-3 mb-8">
+               <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-500 to-cyan-400 flex items-center justify-center text-white font-bold shadow-[0_0_20px_rgba(168,85,247,0.4)]">
+                  M
+               </div>
+               <span className="text-xl font-bold text-white">MindfulAI</span>
             </div>
 
-            <div className="mt-8 grid gap-3 rounded-3xl bg-slate-900/90 p-2 ring-1 ring-white/10">
+            <div className="mb-8">
+              <h2 className="text-3xl font-semibold text-white tracking-tight mb-2">Welcome back</h2>
+              <p className="text-slate-400 text-sm">Enter your credentials to access your dashboard.</p>
+            </div>
+
+            {/* Login Toggle */}
+            <div className="flex p-1 mb-8 bg-white/[0.03] rounded-2xl border border-white/[0.05]">
               <button
                 type="button"
                 onClick={() => { setLoginMode('password'); setStep(1); setError(''); }}
-                className={`rounded-3xl px-4 py-3 text-sm font-semibold transition ${loginMode === 'password' ? 'bg-gradient-to-r from-purple-500 to-cyan-400 text-slate-950 shadow-glow' : 'text-slate-300 hover:text-white'}`}
+                className={`flex-1 py-2.5 text-sm font-medium rounded-xl transition-all duration-300 ${loginMode === 'password' ? 'bg-white/10 text-white shadow-sm' : 'text-slate-500 hover:text-slate-300'}`}
               >
                 Password
               </button>
               <button
                 type="button"
-                onClick={() => { setLoginMode('otp'); setStep(1); setError(''); setContact(''); setOtp(''); }}
-                className={`rounded-3xl px-4 py-3 text-sm font-semibold transition ${loginMode === 'otp' ? 'bg-gradient-to-r from-purple-500 to-cyan-400 text-slate-950 shadow-glow' : 'text-slate-300 hover:text-white'}`}
+                onClick={() => { setLoginMode('otp'); setStep(1); setError(''); }}
+                className={`flex-1 py-2.5 text-sm font-medium rounded-xl transition-all duration-300 ${loginMode === 'otp' ? 'bg-white/10 text-white shadow-sm' : 'text-slate-500 hover:text-slate-300'}`}
               >
-                OTP Login
+                Passcode (OTP)
               </button>
             </div>
 
-            {error ? (
-              <div className="mt-6 rounded-3xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-200">
-                {error}
-              </div>
-            ) : null}
-
-            <form
-              onSubmit={loginMode === 'password' ? handlePasswordLogin : step === 1 ? handleRequestOTP : handleVerifyOTP}
-              className="mt-8 space-y-6"
-            >
-              <div className="grid gap-5">
-                <label className="block text-sm font-semibold text-slate-200">
-                  Email address
-                  <input
-                    type="email"
-                    value={loginMode === 'password' ? emailData.email : otpMode === 'email' ? contact : contact}
-                    onChange={(e) => {
-                      if (loginMode === 'password') {
-                        setEmailData({ ...emailData, email: e.target.value });
-                      } else {
-                        setContact(e.target.value);
-                      }
-                    }}
-                    placeholder="you@domain.com"
-                    className="mt-3 w-full rounded-3xl border border-white/10 px-5 py-4 text-sm text-white outline-none glass-input"
-                    required
-                  />
-                </label>
-
-                {loginMode === 'password' ? (
-                  <label className="block text-sm font-semibold text-slate-200">
-                    Password
-                    <input
-                      type="password"
-                      value={emailData.password}
-                      onChange={(e) => setEmailData({ ...emailData, password: e.target.value })}
-                      placeholder="Enter password"
-                      className="mt-3 w-full rounded-3xl border border-white/10 px-5 py-4 text-sm text-white outline-none glass-input"
-                      required
-                    />
-                  </label>
-                ) : step === 2 ? (
-                  <label className="block text-sm font-semibold text-slate-200">
-                    Verification Code
-                    <input
-                      type="text"
-                      value={otp}
-                      onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
-                      placeholder="6-digit OTP"
-                      maxLength={6}
-                      className="mt-3 w-full rounded-3xl border border-white/10 px-5 py-4 text-sm text-white outline-none glass-input font-mono tracking-[0.2em]"
-                      required
-                    />
-                  </label>
-                ) : null}
-              </div>
-
-              {loginMode === 'otp' ? (
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="flex gap-3 rounded-3xl bg-slate-900/80 p-3 text-sm text-slate-400 ring-1 ring-white/10">
-                    <button
-                      type="button"
-                      onClick={() => { setOtpMode('email'); setContact(''); }}
-                      className={`rounded-full px-4 py-2 transition ${otpMode === 'email' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white'}`}
-                    >
-                      Email
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => { setOtpMode('phone'); setContact(''); }}
-                      className={`rounded-full px-4 py-2 transition ${otpMode === 'phone' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-white'}`}
-                    >
-                      Phone
-                    </button>
+            <AnimatePresence mode="wait">
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="mb-6 overflow-hidden"
+                >
+                  <div className="p-3 text-sm text-red-400 bg-red-400/10 border border-red-400/20 rounded-xl flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" />
+                    {error}
                   </div>
-                  {step === 2 ? (
-                    <button
-                      type="button"
-                      onClick={() => setStep(1)}
-                      className="text-sm text-slate-400 hover:text-white transition"
-                    >
-                      Change method
-                    </button>
-                  ) : null}
-                </div>
-              ) : null}
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="btn-primary w-full justify-center py-4 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {isLoading ? <Loader2 className="animate-spin" /> : loginMode === 'password' ? 'Login Securely' : step === 1 ? 'Send OTP' : 'Verify & Enter'}
-                <ArrowRight size={18} />
-              </button>
+            <form onSubmit={loginMode === 'password' ? handlePasswordLogin : step === 1 ? handleRequestOTP : handleVerifyOTP}>
+              <AnimatePresence mode="wait">
+                {loginMode === 'password' ? (
+                  <motion.div
+                    key="password-form"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 10 }}
+                    transition={{ duration: 0.2 }}
+                    className="space-y-4"
+                  >
+                    <div className="relative group">
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-purple-400 transition-colors" size={18} />
+                      <input
+                        type="email"
+                        required
+                        value={emailData.email}
+                        onChange={(e) => setEmailData({ ...emailData, email: e.target.value })}
+                        placeholder="Email address"
+                        className="w-full bg-white/[0.03] border border-white/[0.1] rounded-2xl py-4 pl-12 pr-4 text-white placeholder-slate-500 focus:bg-white/[0.05] focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all outline-none"
+                      />
+                    </div>
+                    <div className="relative group">
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-purple-400 transition-colors" size={18} />
+                      <input
+                        type="password"
+                        required
+                        value={emailData.password}
+                        onChange={(e) => setEmailData({ ...emailData, password: e.target.value })}
+                        placeholder="Password"
+                        className="w-full bg-white/[0.03] border border-white/[0.1] rounded-2xl py-4 pl-12 pr-4 text-white placeholder-slate-500 focus:bg-white/[0.05] focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all outline-none"
+                      />
+                    </div>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="otp-form"
+                    initial={{ opacity: 0, x: 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -10 }}
+                    transition={{ duration: 0.2 }}
+                    className="space-y-4"
+                  >
+                    {step === 1 ? (
+                      <>
+                        <div className="flex gap-2 p-1 bg-white/[0.02] rounded-xl mb-4 border border-white/[0.05]">
+                          <button
+                            type="button"
+                            onClick={() => setOtpMode('email')}
+                            className={`flex-1 py-1.5 text-xs font-medium rounded-lg transition-all ${otpMode === 'email' ? 'bg-white/10 text-white' : 'text-slate-500 hover:text-slate-300'}`}
+                          >
+                            Use Email
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setOtpMode('phone')}
+                            className={`flex-1 py-1.5 text-xs font-medium rounded-lg transition-all ${otpMode === 'phone' ? 'bg-white/10 text-white' : 'text-slate-500 hover:text-slate-300'}`}
+                          >
+                            Use Phone
+                          </button>
+                        </div>
+                        <div className="relative group">
+                          {otpMode === 'email' ? (
+                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-purple-400 transition-colors" size={18} />
+                          ) : (
+                            <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-purple-400 transition-colors" size={18} />
+                          )}
+                          <input
+                            type={otpMode === 'email' ? 'email' : 'tel'}
+                            required
+                            value={contact}
+                            onChange={(e) => setContact(e.target.value)}
+                            placeholder={otpMode === 'email' ? 'Email address' : 'Phone number'}
+                            className="w-full bg-white/[0.03] border border-white/[0.1] rounded-2xl py-4 pl-12 pr-4 text-white placeholder-slate-500 focus:bg-white/[0.05] focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all outline-none"
+                          />
+                        </div>
+                      </>
+                    ) : (
+                      <div className="space-y-4">
+                        <div className="text-sm text-slate-400 text-center mb-4">
+                          Code sent to <span className="text-white font-medium">{contact}</span>
+                          <button type="button" onClick={() => setStep(1)} className="ml-2 text-purple-400 hover:text-purple-300 underline underline-offset-4">Change</button>
+                        </div>
+                        <div className="relative group">
+                          <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-purple-400 transition-colors" size={18} />
+                          <input
+                            type="text"
+                            required
+                            maxLength={6}
+                            value={otp}
+                            onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
+                            placeholder="Enter 6-digit OTP"
+                            className="w-full bg-white/[0.03] border border-white/[0.1] rounded-2xl py-4 pl-12 pr-4 text-white placeholder-slate-500 focus:bg-white/[0.05] focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all outline-none font-mono tracking-widest text-center"
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <div className="mt-8">
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full bg-white text-[#030014] rounded-2xl py-4 font-semibold hover:bg-slate-200 transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 group"
+                >
+                  {isLoading ? <Loader2 className="animate-spin" size={20} /> : loginMode === 'password' ? 'Sign in to Continue' : step === 1 ? 'Send verification code' : 'Verify Securely'}
+                  {!isLoading && <ArrowRight size={18} className="text-[#030014]/60 group-hover:translate-x-1 transition-transform" />}
+                </button>
+              </div>
             </form>
 
-            <div className="mt-8 border-t border-white/10 pt-6 text-center text-sm text-slate-400">
-              <p className="mb-3">Need a new account?</p>
-              <Link href="/register" className="btn-secondary inline-flex w-full justify-center py-3 sm:w-auto">
-                Create Account
+            <div className="mt-8 text-center text-sm text-slate-400">
+              Don't have an account?{' '}
+              <Link href="/register" className="text-white hover:text-purple-400 transition-colors font-semibold border-b border-transparent hover:border-purple-400/30 pb-0.5">
+                Create one now
               </Link>
             </div>
-          </motion.article>
-        </div>
+            
+          </div>
+          
+          <div className="mt-6 text-center">
+             <div className="inline-flex items-center gap-1.5 text-xs text-slate-500 bg-white/[0.02] border border-white/[0.02] px-3 py-1.5 rounded-full">
+                <ShieldCheck size={14} className="text-green-400/80" />
+                End-to-end encrypted connection
+             </div>
+          </div>
+        </motion.div>
       </div>
     </div>
   );

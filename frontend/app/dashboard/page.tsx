@@ -1,196 +1,175 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Activity, Plus, Smile, Book, Wind } from 'lucide-react'
-import DashboardCard from '@/components/ui/DashboardCard'
-import MoodTracker from '@/components/features/MoodTracker'
-import RecommendationCarousel from '@/components/features/RecommendationCarousel'
-import EmotionHeatmap from '@/components/features/EmotionHeatmap'
-import FloatingActionButton from '@/components/ui/FloatingActionButton'
+import { Activity, Smile, Book, Wind, Target, TrendingUp, Sparkles, AlertCircle, ArrowUpRight, BarChart3, Plus } from 'lucide-react'
 import { useAuthStore } from '@/lib/store/auth-store'
-import { userAPI } from '@/lib/api'
-import { useRouter } from 'next/navigation'
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Legend } from 'recharts'
+import * as Tabs from '@radix-ui/react-tabs'
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 
-import MoodTrendChart from '@/components/features/MoodTrendChart'
-import CognitiveLoadChart from '@/components/features/CognitiveLoadChart'
+// Heavy mock data for Recharts testing
+const timelineData = [
+  { time: 'Mon', text: 30, voice: 40, face: 45 },
+  { time: 'Tue', text: 40, voice: 35, face: 50 },
+  { time: 'Wed', text: 25, voice: 20, face: 30 },
+  { time: 'Thu', text: 60, voice: 55, face: 65 },
+  { time: 'Fri', text: 45, voice: 50, face: 40 },
+  { time: 'Sat', text: 20, voice: 15, face: 25 },
+  { time: 'Sun', text: 35, voice: 30, face: 35 },
+];
 
-const DashboardPage = () => {
+export default function EnterpriseDashboard() {
   const { user } = useAuthStore()
-  const router = useRouter()
-  const [mounted, setMounted] = React.useState(false)
+  const [activeTab, setActiveTab] = useState("overview")
+  const [mounted, setMounted] = useState(false)
 
-  // State for Dashboard Data
-  const [stats, setStats] = React.useState({
-    wellnessScore: 78,
-    streakDays: 12,
-    entriesThisWeek: 24,
-    moodStatus: 'Equanimity',
-    charts: {
-      trend: [],
-      cognitive: []
-    }
-  });
-  const [loading, setLoading] = React.useState(true);
-
-  React.useEffect(() => {
+  useEffect(() => {
     setMounted(true)
-
-    // HACK: Recharts sometimes fails to calculate width on first mount in complex flex layouts
-    // This triggers a global resize event to force ResponsiveContainer to re-calculate
-    setTimeout(() => {
-      window.dispatchEvent(new Event('resize'));
-    }, 500);
   }, [])
-
-  React.useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const { data } = await userAPI.getDashboardStats();
-        if (data) setStats(data);
-      } catch (error) {
-        console.error("Failed to load dashboard stats", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (mounted) fetchStats();
-  }, [mounted]);
-
-  // Real Navigation Actions
-  // Correction: We must import useRouter at top level. I will fix imports in a separate block if needed, but here I can use window.location as fallback or assume router is available if I added it.
-  // Actually, let's use window.location for simplicity in this replacement block or better, assume useRouter is meant to be used.
-
-  const fabActions = [
-    {
-      id: 'mood',
-      label: 'Log Mood',
-      icon: <Smile size={18} />,
-      onClick: () => router.push('/mood')
-    },
-    {
-      id: 'journal',
-      label: 'Write Journal',
-      icon: <Book size={18} />,
-      onClick: () => router.push('/journal')
-    },
-    {
-      id: 'breathing',
-      label: 'Breathing Exercise',
-      icon: <Wind size={18} />,
-      onClick: () => router.push('/meditation')
-    }
-  ]
 
   if (!mounted) return null;
 
   return (
-    <div className="space-y-10 pb-20 max-w-[1600px] mx-auto">
-      {/* Welcome Section */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="p-10 rounded-[3rem] bg-gradient-to-br from-indigo-500/15 via-purple-500/10 to-transparent border border-white/10 relative overflow-hidden shadow-2xl"
-      >
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between relative z-10 gap-8">
-          <div>
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[11px] font-black tracking-[0.2em] uppercase mb-4">
-              <Activity size={14} className="animate-pulse" />
-              Neural Interface: {loading ? 'Calibrating...' : 'Synchronized'}
-            </div>
-            <h1 className="text-5xl md:text-6xl font-display font-black text-white tracking-tighter leading-none mb-4">
-              Pooja, <span className="text-indigo-400">Welcome Home.</span>
+    <div className="p-8 max-w-[1600px] w-full mx-auto space-y-8">
+      
+      {/* Header Area */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+         <div>
+            <h1 className="text-3xl font-bold tracking-tight text-white flex items-center gap-2">
+               Enterprise Dashboard
             </h1>
-            <p className="text-slate-400 text-lg max-w-2xl font-medium leading-relaxed">
-              Your autonomous wellness engine has synthesized <span className="text-white">12 new insights</span> since your last session. All cognitive systems are performing within optimal parameters.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-4">
-            <button onClick={() => router.push('/analysis')} className="px-10 py-5 bg-white text-indigo-950 hover:bg-indigo-50 rounded-2xl font-black tracking-widest uppercase text-sm transition-all shadow-2xl shadow-white/10 flex items-center gap-3 group">
-              <Activity size={20} className="group-hover:rotate-12 transition-transform" />
-              Start Neural Scan
-            </button>
-            <button onClick={() => router.push('/chat')} className="px-10 py-5 bg-indigo-600/20 hover:bg-indigo-600/30 text-white border border-indigo-500/30 rounded-2xl font-black tracking-widest uppercase text-sm transition-all backdrop-blur-md flex items-center gap-3">
-              <Plus size={20} />
-              AI Assistant
-            </button>
-          </div>
-        </div>
-
-        {/* Abstract shapes for premium feel */}
-        <div className="absolute -right-20 -top-20 w-80 h-80 bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute -left-20 -bottom-20 w-80 h-80 bg-purple-500/10 rounded-full blur-[100px] pointer-events-none" />
-      </motion.div>
-
-      {/* Metrics Row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <DashboardCard
-          title="Neural Wellness"
-          value={loading ? "..." : `${stats.wellnessScore}%`}
-          description="Synthesized from multi-modal inputs"
-          icon={<Activity size={24} />}
-          trend={{ value: 4.2, isPositive: true }}
-          className="bg-indigo-500/5 border-indigo-500/10"
-        />
-
-        <DashboardCard
-          title="Cognitive Continuity"
-          value={loading ? "..." : `${stats.streakDays} Days`}
-          description="Consistent pattern maintenance"
-          icon={<Activity size={24} />}
-          trend={{ value: 2, isPositive: true }}
-        />
-
-        <DashboardCard
-          title="Data Points"
-          value={loading ? "..." : stats.entriesThisWeek}
-          description="Logged in active cycle"
-          icon={<Activity size={24} />}
-        />
-
-        <DashboardCard
-          title="Core Resonance"
-          value={loading ? "..." : stats.moodStatus}
-          description="Dominant emotional frequency"
-          icon={<Smile size={24} />}
-          className="bg-emerald-500/5 border-emerald-500/10"
-        />
+            <p className="text-slate-400 mt-1">Cross-modal cognitive metrics overview.</p>
+         </div>
+         <div className="flex items-center gap-3">
+             <button className="px-4 py-2 bg-slate-800 border border-white/10 rounded-lg text-sm text-slate-300 font-medium hover:bg-slate-700 transition">
+                 Export Report
+             </button>
+             <button className="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 rounded-lg text-sm font-medium text-white flex items-center gap-2 transition shadow-[0_0_15px_rgba(6,182,212,0.4)]">
+                 <Plus size={16} /> New Session
+             </button>
+         </div>
       </div>
 
-      {/* Primary Analytics Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-7 gap-8">
-        <div className="lg:col-span-4">
-          <MoodTrendChart data={stats.charts.trend} />
-        </div>
-        <div className="lg:col-span-3">
-          <CognitiveLoadChart data={stats.charts.cognitive} />
-        </div>
-      </div>
+      <Tabs.Root value={activeTab} onValueChange={setActiveTab}>
+         <Tabs.List className="flex gap-6 border-b border-white/10 mb-6">
+            <Tabs.Trigger value="overview" className={`pb-3 text-sm font-medium uppercase tracking-wider transition-all border-b-2 ${activeTab === 'overview' ? 'border-cyan-400 text-cyan-400' : 'border-transparent text-slate-500 hover:text-slate-300'}`}>
+                System Overview
+            </Tabs.Trigger>
+            <Tabs.Trigger value="modalities" className={`pb-3 text-sm font-medium uppercase tracking-wider transition-all border-b-2 ${activeTab === 'modalities' ? 'border-cyan-400 text-cyan-400' : 'border-transparent text-slate-500 hover:text-slate-300'}`}>
+                Modality Breakdown
+            </Tabs.Trigger>
+         </Tabs.List>
 
-      {/* Secondary Features */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="space-y-6">
-          <h3 className="text-sm font-black text-slate-500 uppercase tracking-[0.4em] pl-2">Neural Logging</h3>
-          <MoodTracker />
-        </div>
-        <div className="space-y-6">
-          <h3 className="text-sm font-black text-slate-500 uppercase tracking-[0.4em] pl-2">System Interventions</h3>
-          <RecommendationCarousel />
-        </div>
-      </div>
+         <Tabs.Content value="overview" className="space-y-6 animate-in fade-in duration-500">
+            {/* KPI Metrics */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {[
+                    { label: "Global Fusion Score", value: "0.24", diff: "-12%", bad: false, i: Target },
+                    { label: "Vocal Tension", value: "0.45", diff: "+4%", bad: true, i: Activity },
+                    { label: "Facial Affect", value: "0.19", diff: "-5%", bad: false, i: Smile },
+                    { label: "Cognitive Load", value: "0.33", diff: "-2%", bad: false, i: Brain },
+                ].map((stat, idx) => (
+                    <motion.div 
+                        key={idx}
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: idx * 0.1 }}
+                        className="bg-slate-900 border border-white/5 rounded-xl p-5 shadow-lg relative overflow-hidden"
+                    >
+                        <div className="flex items-center justify-between mb-4">
+                            <span className="text-slate-400 font-medium text-sm">{stat.label}</span>
+                            <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-slate-500">
+                                <stat.i size={16} />
+                            </div>
+                        </div>
+                        <div className="flex items-end gap-3">
+                            <span className="text-3xl font-bold text-white">{stat.value}</span>
+                            <span className={`text-xs font-bold px-1.5 py-0.5 rounded flex items-center gap-1 ${stat.bad ? 'bg-red-500/10 text-red-400' : 'bg-green-500/10 text-green-400'}`}>
+                                {stat.bad ? <TrendingUp size={12}/> : <ArrowUpRight size={12} className="rotate-90"/>}
+                                {stat.diff}
+                            </span>
+                        </div>
+                    </motion.div>
+                ))}
+            </div>
 
-      {/* Data Fusion Legend */}
-      <EmotionHeatmap />
+            {/* Dense Chart Row */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                {/* Main Area Chart */}
+                <div className="lg:col-span-2 bg-slate-900 border border-white/5 rounded-xl p-6 shadow-lg h-[400px] flex flex-col">
+                    <div className="mb-6 flex items-center justify-between">
+                        <h3 className="font-semibold text-white">Tri-Modal Stress Variance</h3>
+                        <DropdownMenu.Root>
+                           <DropdownMenu.Trigger className="text-xs font-medium text-slate-400 hover:text-white px-3 py-1.5 bg-white/5 rounded-md flex items-center gap-2">
+                              7 Days <TrendingUp size={12} />
+                           </DropdownMenu.Trigger>
+                        </DropdownMenu.Root>
+                    </div>
+                    <div className="flex-1 w-full min-h-0">
+                        <ResponsiveContainer width="100%" height="100%">
+                           <AreaChart data={timelineData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                             <defs>
+                                <linearGradient id="colorText" x1="0" y1="0" x2="0" y2="1">
+                                  <stop offset="5%" stopColor="#ec4899" stopOpacity={0.3}/>
+                                  <stop offset="95%" stopColor="#ec4899" stopOpacity={0}/>
+                                </linearGradient>
+                                <linearGradient id="colorFace" x1="0" y1="0" x2="0" y2="1">
+                                  <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.3}/>
+                                  <stop offset="95%" stopColor="#06b6d4" stopOpacity={0}/>
+                                </linearGradient>
+                             </defs>
+                             <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" vertical={false} />
+                             <XAxis dataKey="time" stroke="#ffffff40" fontSize={12} tickLine={false} axisLine={false} />
+                             <YAxis stroke="#ffffff40" fontSize={12} tickLine={false} axisLine={false} />
+                             <Tooltip 
+                                contentStyle={{ backgroundColor: '#0f172a', border: '1px solid #1e293b', borderRadius: '8px' }}
+                                itemStyle={{ color: '#e2e8f0' }}
+                             />
+                             <Legend iconType="circle" />
+                             <Area type="monotone" dataKey="text" stroke="#ec4899" fillOpacity={1} fill="url(#colorText)" strokeWidth={2} name="Text Analysis" />
+                             <Area type="monotone" dataKey="face" stroke="#06b6d4" fillOpacity={1} fill="url(#colorFace)" strokeWidth={2} name="Face Analysis" />
+                           </AreaChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
 
-      {/* Floating Action Button */}
-      <FloatingActionButton
-        actions={fabActions}
-        mainIcon={<Plus size={24} />}
-        mainLabel="Nexus Context menu"
-      />
+                {/* Right Panel Urgent Alerts */}
+                <div className="bg-slate-900 border border-white/5 rounded-xl p-6 shadow-lg flex flex-col h-[400px]">
+                    <div className="flex items-center gap-2 mb-6 text-amber-500">
+                        <AlertCircle size={18} />
+                        <h3 className="font-semibold text-white">Actionable Insights</h3>
+                    </div>
+
+                    <div className="flex-1 overflow-y-auto space-y-4 custom-scrollbar pr-2">
+                        {[
+                            { title: "Vocal Stress Spike", time: "2 hours ago", desc: "Your speech cadence indicated high tension during the latest chat.", type: "warning" },
+                            { title: "Cognitive Consistency", time: "1 day ago", desc: "Text analysis shows sustained improvement in positive sentiment mapping.", type: "success" },
+                            { title: "Sleep Deficit Pattern", time: "2 days ago", desc: "Facial exhaustion markers elevated by 14%.", type: "warning" },
+                        ].map((alert, i) => (
+                            <div key={i} className={`p-4 rounded-xl border ${alert.type === 'warning' ? 'bg-amber-500/5 border-amber-500/20' : 'bg-green-500/5 border-green-500/20'}`}>
+                                <div className="flex justify-between items-start mb-1">
+                                    <h4 className={`text-sm font-semibold ${alert.type === 'warning' ? 'text-amber-400' : 'text-green-400'}`}>{alert.title}</h4>
+                                    <span className="text-[10px] text-slate-500">{alert.time}</span>
+                                </div>
+                                <p className="text-xs text-slate-400 leading-relaxed">{alert.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+            </div>
+         </Tabs.Content>
+
+         <Tabs.Content value="modalities" className="animate-in fade-in duration-500 h-96 flex items-center justify-center border border-white/5 rounded-xl bg-slate-900 shadow-xl">
+             <div className="text-slate-500flex flex-col items-center">
+                 <BarChart3 size={32} className="mb-4 text-slate-700" />
+                 <p className="text-slate-500 text-sm font-medium">Detailed Modality Data Views Coming Soon.</p>
+             </div>
+         </Tabs.Content>
+      </Tabs.Root>
+
     </div>
   )
 }
-
-export default DashboardPage

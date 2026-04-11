@@ -1,12 +1,37 @@
 from pydantic import BaseModel, Field
 from typing import Optional, List
 from datetime import datetime
+from sqlalchemy import Column, String, DateTime, Boolean, JSON
+from database import Base
+import datetime as dt
 
-# ================= AUTH MODELS =================
+# ================= SQL MODELS (Identity) =================
+class DBUser(Base):
+    __tablename__ = "users"
+    
+    user_id = Column(String, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True)
+    email = Column(String, unique=True, index=True)
+    password_hash = Column(String)
+    full_name = Column(String, nullable=True)
+    phone = Column(String, nullable=True)
+    is_active = Column(Boolean, default=True)
+    last_login = Column(DateTime, default=dt.datetime.utcnow)
+    created_at = Column(DateTime, default=dt.datetime.utcnow)
+
+# ================= AUTH REQUESTS/RESPONSES =================
 class UserCreate(BaseModel):
     email: str
     username: str
     password: str
+    full_name: Optional[str] = None
+    phone: Optional[str] = None
+
+class UserUpdate(BaseModel):
+    username: Optional[str] = None
+    full_name: Optional[str] = None
+    phone: Optional[str] = None
+    email: Optional[str] = None
 
 class UserLogin(BaseModel):
     email: str

@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends
 from models import FusionRequest
 from database import sessions_collection
-from core.security import get_current_user
+from core.security import get_optional_user
 
 router = APIRouter(tags=["Fusion Engine"])
 
 @router.post("/fusion")
-async def fuse_modalities(req: FusionRequest, user_id: str = Depends(get_current_user)):
+async def fuse_modalities(req: FusionRequest, user_id: str = Depends(get_optional_user)):
     # Fallback missing modalities to 0.5
     t_score = req.text_score if req.text_score is not None else 0.5
     v_score = req.voice_score if req.voice_score is not None else 0.5

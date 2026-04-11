@@ -1,0 +1,14 @@
+names:
+- Anxiety
+- Depress
+- Normal
+nc: 3
+roboflow:
+  license: CC BY 4.0
+  project: mental-health-detection
+  url: https://universe.roboflow.com/azfar-is9rm/mental-health-detection/dataset/1
+  version: 1
+  workspace: azfar-is9rm
+test: /Users/aradhyjain/Desktop/project/Mental-Health-Detection--1/test/images
+train: /Users/aradhyjain/Desktop/project/Mental-Health-Detection--1/train/images
+val: /Users/aradhyjain/Desktop/project/Mental-Health-Detection--1/valid/images

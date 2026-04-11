@@ -4,6 +4,7 @@ os.environ["USE_TORCH"] = "1"
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from core.logging import log
 from routers import auth, analysis, fusion
 
 app = FastAPI(
@@ -11,6 +12,11 @@ app = FastAPI(
     description="Multimodal mental health analysis platform API",
     version="1.0.0"
 )
+
+@app.on_event("startup")
+async def startup_event():
+    log.info("MindfulAI Backend Starting Up...")
+    log.info("Connecting to databases and loading AI models...")
 
 # Robust CORS Setup for the Multi-Page React SaaS
 app.add_middleware(

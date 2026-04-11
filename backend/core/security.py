@@ -3,17 +3,21 @@ from jose import jwt, JWTError
 from passlib.context import CryptContext
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
+from fastapi.security.utils import get_authorization_scheme_param
+from fastapi import Request
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+env_path = os.path.join(os.path.dirname(__file__), "..", "..", ".env")
+load_dotenv(dotenv_path=env_path)
 
 SECRET_KEY = os.getenv("JWT_SECRET", "super-secret-mindfulai-key")
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7 # 7 days
+ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
+oauth2_scheme_optional = OAuth2PasswordBearer(tokenUrl="auth/login", auto_error=False)
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
@@ -28,6 +32,7 @@ def create_access_token(data: dict):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
+# ── Strict auth (used for auth routes only) ──────────────────────────────────
 async def get_current_user(token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -42,3 +47,16 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         return user_id
     except JWTError:
         raise credentials_exception
+
+# ── Optional auth (used for AI analysis/chat routes) ─────────────────────────
+# Returns the real user_id if token is valid, or "guest" if no/invalid token.
+# This allows unauthenticated users to still access AI features.
+async def get_optional_user(token: str = Depends(oauth2_scheme_optional)) -> str:
+    if not token:
+        return "guest"
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        user_id: str = payload.get("sub")
+        return user_id if user_id else "guest"
+    except JWTError:
+        return "guest"

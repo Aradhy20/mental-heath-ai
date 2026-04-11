@@ -8,7 +8,8 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { 
     Activity, LayoutDashboard, MessageCircle, PenTool, Wind, 
     Settings, LogOut, ChevronLeft, ChevronRight, Search,
-    Brain, Command, FlaskConical, Sparkles, Heart, BookOpen, Smile
+    Brain, Command, FlaskConical, Sparkles, Heart, BookOpen, Smile,
+    Briefcase, MapPin, Video
 } from 'lucide-react'
 import { useAuthStore } from '@/lib/store/auth-store'
 import { ThemeProvider } from 'next-themes'
@@ -21,6 +22,9 @@ const NAV_ITEMS = [
     { name: 'Talk to AI', href: '/chat', icon: MessageCircle },
     { name: 'Mind Check', href: '/analysis', icon: FlaskConical },
     { name: 'Breathe & Relax', href: '/meditation', icon: Wind },
+    { name: 'Career Guidance', href: '/career', icon: Briefcase },
+    { name: 'Find a Doctor', href: '/doctors', icon: MapPin },
+    { name: 'Virtual Consult', href: '/consult', icon: Video },
 ]
 
 export default function EnterpriseAppShell({ children }: { children: React.ReactNode }) {

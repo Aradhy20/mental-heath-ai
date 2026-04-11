@@ -192,7 +192,7 @@ export default function EnterpriseChat() {
                             <Icon size={16} className="text-white" />
                         </div>
                         <div>
-                            <h2 className="font-bold text-white text-sm leading-none">{activePersona.label}</h2>
+                            <h2 className="font-bold text-white text-sm leading-none">Your AI Guide ✨</h2>
                             <p className="text-[10px] text-slate-400 mt-0.5">{activePersona.sublabel}</p>
                         </div>
                     </div>

@@ -236,9 +236,9 @@ export default function AIAnalysisHub() {
                         <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center">
                             <Brain size={18} className="text-white" />
                         </div>
-                        AI Analysis Hub
+                        Mind Check 🧠
                     </h1>
-                    <p className="text-slate-400 text-sm mt-1 ml-12">Multimodal mental wellness analysis — Text · Voice · Face · Fusion</p>
+                    <p className="text-slate-400 text-sm mt-1 ml-12">Understand how your text, voice, and face reveal your true emotions</p>
                 </div>
                 {canFuse && (
                     <button
@@ -247,7 +247,7 @@ export default function AIAnalysisHub() {
                         className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-600 rounded-xl text-white font-bold text-sm shadow-lg hover:shadow-indigo-500/30 transition-all disabled:opacity-50"
                     >
                         {fusionState === 'analyzing' ? <Loader2 size={16} className="animate-spin" /> : <Zap size={16} />}
-                        Run Fusion Analysis
+                        Get My Full Report
                     </button>
                 )}
             </div>
@@ -282,7 +282,7 @@ export default function AIAnalysisHub() {
                         className="flex items-center justify-center gap-2 w-full py-2.5 bg-blue-600 hover:bg-blue-500 rounded-xl text-white font-bold text-sm transition disabled:opacity-40"
                     >
                         {textState === 'analyzing' ? <Loader2 size={15} className="animate-spin" /> : <Send size={15} />}
-                        Analyze Text
+                        Check My Vibe
                     </button>
                     <AnimatePresence>
                         {textResult && textState === 'done' && (
@@ -317,7 +317,7 @@ export default function AIAnalysisHub() {
                             </div>
                         )}
                         <p className="text-slate-400 text-sm text-center">
-                            {isRecording ? `Recording... ${recordingTime}s` : 'Record your voice for stress analysis via MFCC features'}
+                            {isRecording ? `Listening... ${recordingTime}s 🎤` : 'Press the mic and say how you feel — we\'ll read the energy in your voice'}
                         </p>
                         <button
                             onClick={isRecording ? stopRecording : startRecording}
@@ -397,8 +397,8 @@ export default function AIAnalysisHub() {
                                 <Zap size={17} className="text-white" />
                             </div>
                             <div>
-                                <h2 className="text-white font-bold">Multimodal Fusion Report</h2>
-                                <p className="text-slate-500 text-xs">Weighted synthesis across all active modalities</p>
+                                <h2 className="text-white font-bold">Your Full Mind Report 📊</h2>
+                                <p className="text-slate-500 text-xs">Combines all your results into one wellness score</p>
                             </div>
                         </div>
 

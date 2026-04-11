@@ -36,28 +36,28 @@ export default function EnterpriseDashboard() {
       {/* Header Area */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
          <div>
-            <h1 className="text-3xl font-bold tracking-tight text-white flex items-center gap-2">
-               Enterprise Dashboard
+            <h1 className="text-3xl font-bold tracking-tight text-white flex items-center gap-3">
+               <span>Hey {user?.username?.split(' ')[0] || 'there'} 👋</span>
             </h1>
-            <p className="text-slate-400 mt-1">Cross-modal cognitive metrics overview.</p>
+            <p className="text-slate-400 mt-1">Here's how your mind has been doing this week.</p>
          </div>
          <div className="flex items-center gap-3">
              <button className="px-4 py-2 bg-slate-800 border border-white/10 rounded-lg text-sm text-slate-300 font-medium hover:bg-slate-700 transition">
-                 Export Report
+                 Share My Progress
              </button>
-             <button className="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 rounded-lg text-sm font-medium text-white flex items-center gap-2 transition shadow-[0_0_15px_rgba(6,182,212,0.4)]">
-                 <Plus size={16} /> New Session
+             <button className="px-4 py-2 bg-violet-600 hover:bg-violet-500 rounded-lg text-sm font-medium text-white flex items-center gap-2 transition shadow-[0_0_15px_rgba(139,92,246,0.4)]">
+                 <Plus size={16} /> Log a Session
              </button>
          </div>
       </div>
 
       <Tabs.Root value={activeTab} onValueChange={setActiveTab}>
          <Tabs.List className="flex gap-6 border-b border-white/10 mb-6">
-            <Tabs.Trigger value="overview" className={`pb-3 text-sm font-medium uppercase tracking-wider transition-all border-b-2 ${activeTab === 'overview' ? 'border-cyan-400 text-cyan-400' : 'border-transparent text-slate-500 hover:text-slate-300'}`}>
-                System Overview
+            <Tabs.Trigger value="overview" className={`pb-3 text-sm font-medium uppercase tracking-wider transition-all border-b-2 ${activeTab === 'overview' ? 'border-violet-400 text-violet-400' : 'border-transparent text-slate-500 hover:text-slate-300'}`}>
+                My Week
             </Tabs.Trigger>
-            <Tabs.Trigger value="modalities" className={`pb-3 text-sm font-medium uppercase tracking-wider transition-all border-b-2 ${activeTab === 'modalities' ? 'border-cyan-400 text-cyan-400' : 'border-transparent text-slate-500 hover:text-slate-300'}`}>
-                Modality Breakdown
+            <Tabs.Trigger value="modalities" className={`pb-3 text-sm font-medium uppercase tracking-wider transition-all border-b-2 ${activeTab === 'modalities' ? 'border-violet-400 text-violet-400' : 'border-transparent text-slate-500 hover:text-slate-300'}`}>
+                Mind Breakdown
             </Tabs.Trigger>
          </Tabs.List>
 

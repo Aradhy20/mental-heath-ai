@@ -26,11 +26,10 @@ export default function EnterpriseJournal() {
     const [activeId, setActiveId] = useState<string | null>(null)
     const [viewMode, setViewMode] = useState<"write" | "review">("write")
 
-    // Component logic ... (Fetch mocked temporarily due to layout overhaul)
     useEffect(() => {
         setEntries([
-             { id: '1', title: 'Q3 Product Stress', content: 'Felt very overwhelmed today about the release pipeline.', createdAt: new Date(Date.now() - 86400000).toISOString() },
-             { id: '2', title: 'Therapy notes: Boundaries', content: 'We discussed implementing strict boundaries at 5 PM to reduce burnout metrics.', createdAt: new Date(Date.now() - 186400000).toISOString() }
+             { id: '1', title: 'Feeling overwhelmed today 😔', content: 'Had a really tough day. Everything felt too much at once. But I got through it.', createdAt: new Date(Date.now() - 86400000).toISOString() },
+             { id: '2', title: 'Setting better boundaries 💪', content: 'Decided to stop replying to messages after 9pm. My mental health comes first.', createdAt: new Date(Date.now() - 186400000).toISOString() }
         ])
     }, [])
 
@@ -40,7 +39,7 @@ export default function EnterpriseJournal() {
             {/* Left Pane - History & Lists */}
             <div className="w-[380px] bg-slate-900 border-r border-white/5 flex flex-col shrink-0">
                <div className="h-16 flex items-center justify-between px-6 border-b border-white/5 bg-slate-950">
-                   <h2 className="font-bold text-white flex items-center gap-2"><History size={18} className="text-purple-400" /> Archives</h2>
+                   <h2 className="font-bold text-white flex items-center gap-2"><History size={18} className="text-violet-400" /> My Past Entries</h2>
                    <button className="w-8 h-8 rounded-md bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-300">
                       <Plus size={16} />
                    </button>

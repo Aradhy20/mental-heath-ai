@@ -34,12 +34,12 @@ export default function MoodPage() {
                     className="flex flex-col md:flex-row md:items-center justify-between gap-6"
                 >
                     <div>
-                        <div className="flex items-center gap-2 px-3 py-1 bg-blue-500/10 border border-blue-500/20 w-fit rounded-full mb-4">
-                            <BrainCircuit className="text-blue-400" size={14} />
-                            <span className="text-xs uppercase font-bold tracking-widest text-blue-300">Biota Rhythms</span>
+                        <div className="flex items-center gap-2 px-3 py-1 bg-violet-500/10 border border-violet-500/20 w-fit rounded-full mb-4">
+                            <Sparkles className="text-violet-400" size={14} />
+                            <span className="text-xs uppercase font-bold tracking-widest text-violet-300">Your Vibe Check</span>
                         </div>
-                        <h1 className="text-4xl md:text-5xl font-bold font-sans tracking-tight text-white mb-2">Mood Telemetry</h1>
-                        <p className="text-slate-400 text-lg">Subconscious state mapping across time.</p>
+                        <h1 className="text-4xl md:text-5xl font-bold font-sans tracking-tight text-white mb-2">How Are You Feeling? 💭</h1>
+                        <p className="text-slate-400 text-lg">Track your mood and see how it changes over time.</p>
                     </div>
 
                     <div className="flex items-center bg-slate-900/50 border border-white/5 backdrop-blur-md rounded-2xl p-4 gap-4 pr-8">
@@ -47,8 +47,8 @@ export default function MoodPage() {
                             <Sparkles size={20} />
                         </div>
                         <div>
-                            <p className="text-xs text-slate-400 font-medium uppercase tracking-wider mb-1">Current State</p>
-                            <p className="text-lg font-bold text-white tracking-tight">Equanimous Flow</p>
+                            <p className="text-xs text-slate-400 font-medium uppercase tracking-wider mb-1">Right now you're feeling</p>
+                            <p className="text-lg font-bold text-white tracking-tight">Pretty Balanced ✨</p>
                         </div>
                     </div>
                 </motion.div>

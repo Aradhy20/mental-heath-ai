@@ -158,8 +158,8 @@ export default function LoginPage() {
             </div>
 
             <div className="mb-8">
-              <h2 className="text-3xl font-semibold text-white tracking-tight mb-2">Welcome back</h2>
-              <p className="text-slate-400 text-sm">Enter your credentials to access your dashboard.</p>
+              <h2 className="text-3xl font-semibold text-white tracking-tight mb-2">Welcome back 👋</h2>
+              <p className="text-slate-400 text-sm">Good to see you again. Your safe space is waiting.</p>
             </div>
 
             {/* Login Toggle */}

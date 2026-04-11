@@ -81,10 +81,10 @@ export default function MeditationPage() {
              <Fingerprint size={24} />
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-7xl font-sans tracking-tighter text-white mb-6 font-bold mix-blend-luminosity">
-            Return to Center
+            Take a Breath 🌬️
           </h1>
           <p className="text-slate-400 text-lg md:text-xl font-serif italic tracking-wide">
-             The mind is just a reflection. Calm the water to see the sky.
+             You deserve a moment of calm. Let's slow down together.
           </p>
         </motion.div>
 
@@ -100,7 +100,7 @@ export default function MeditationPage() {
             <div className="bg-slate-900/30 backdrop-blur-3xl border border-white/5 rounded-[3rem] p-12 relative overflow-hidden flex flex-col items-center justify-center min-h-[600px] shadow-[0_0_80px_rgba(0,0,0,0.5)]">
               <div className="absolute top-8 left-8 flex items-center gap-3">
                 <div className="flex items-center gap-2 px-4 py-2 bg-emerald-500/10 text-emerald-400 rounded-full text-xs font-bold uppercase tracking-widest border border-emerald-500/20">
-                  <Wind size={14} /> Somatic Guide
+                  <Wind size={14} /> Guided Breathing
                 </div>
               </div>
               

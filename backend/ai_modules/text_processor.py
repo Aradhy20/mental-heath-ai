@@ -107,14 +107,19 @@ class TextEmotionAnalyzer:
         
         try:
             from transformers import pipeline
-            print("Loading RoBERTa text emotion model (may download ~120MB)...")
+            local_model_path = os.path.join(os.path.dirname(__file__), "..", "ai_models", "text", "model")
+            
+            # Use local model if it exists, otherwise fall back to hub (hub fallback is for dev only)
+            model_to_load = local_model_path if os.path.exists(local_model_path) else "j-hartmann/emotion-english-distilroberta-base"
+            
+            print(f"Loading RoBERTa text emotion model from: {model_to_load}")
             self.classifier = pipeline(
                 "text-classification",
-                model="j-hartmann/emotion-english-distilroberta-base",
+                model=model_to_load,
                 top_k=1
             )
             self.active = True
-            print("✅ RoBERTa text emotion model loaded successfully.")
+            print(f"✅ Text emotion model loaded successfully ({'Local' if model_to_load == local_model_path else 'Hub'}).")
         except Exception as e:
             print(f"ℹ️  RoBERTa model not available: {e}")
             print("   Using keyword-based emotion classifier as fallback.")

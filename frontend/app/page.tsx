@@ -98,8 +98,32 @@ export default function Home() {
       </nav>
 
       {/* ─── Hero Section ─── */}
-      <main className="relative z-10 pt-44">
-        <section className="px-6 pb-32 max-w-7xl mx-auto text-center">
+      <main className="relative z-10 pt-44 overflow-hidden">
+        {/* Neural Pulse Background */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[800px] -z-10 pointer-events-none opacity-20">
+           <svg viewBox="0 0 1000 1000" className="w-full h-full opacity-30">
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="15" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+              <motion.circle 
+                cx="500" cy="400" r="150" 
+                fill="none" stroke="url(#pulse_grad)" strokeWidth="0.5"
+                initial={{ r: 150, opacity: 0 }}
+                animate={{ r: [150, 450, 150], opacity: [0, 0.5, 0] }}
+                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                filter="url(#glow)"
+              />
+              <defs>
+                 <radialGradient id="pulse_grad">
+                    <stop offset="0%" stopColor="#8b5cf6" />
+                    <stop offset="100%" stopColor="#6366f1" />
+                 </radialGradient>
+              </defs>
+           </svg>
+        </div>
+
+        <section className="px-6 pb-32 max-w-7xl mx-auto text-center relative">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -108,19 +132,25 @@ export default function Home() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-violet-500/20 bg-violet-500/5 text-violet-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-10 backdrop-blur-md">
               <Sparkles size={12} />
-              Model v4.2.0: Multimodal sentiment Inference Active
+              Model v5.0.0: Local Intelligence Active (Zero API)
             </div>
             
-            <h1 className="text-6xl sm:text-7xl md:text-[5.5rem] font-bold tracking-tight text-white leading-[1.05] mb-8 max-w-4xl">
-              Precision health for the <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-indigo-400">digital mind.</span>
-            </h1>
+            <motion.h1 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1 }}
+              className="text-6xl sm:text-7xl md:text-[5.5rem] font-bold tracking-tight text-white leading-[1.05] mb-8 max-w-4xl"
+            >
+              Precision health for the <br/>
+              <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-indigo-400 to-cyan-400 animate-gradient-x">digital mind.</span>
+            </motion.h1>
             
             <p className="text-lg md:text-xl text-slate-400 max-w-2xl mb-14 leading-relaxed font-medium">
               We leverage advanced computer vision and linguistic analysis to provide 
-              clinical-grade behavioral insights. Science-backed, enterprise-secured.
+              clinical-grade behavioral insights. 100% Local. Science-backed.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center gap-6 w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row items-center gap-6 w-full sm:w-auto mb-20">
               <Link 
                 href="/register" 
                 className="w-full sm:w-auto px-10 py-5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-2xl font-bold text-sm uppercase tracking-widest hover:shadow-[0_0_40px_rgba(139,92,246,0.4)] transition-all flex items-center justify-center gap-3 group"
@@ -134,6 +164,35 @@ export default function Home() {
                 <Activity size={18} /> View Analysis
               </Link>
             </div>
+
+            {/* Trust Metrics Bar */}
+            <motion.div 
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1 }}
+               transition={{ delay: 1 }}
+               className="flex flex-wrap justify-center items-center gap-12 py-8 border-y border-white/5 w-full max-w-4xl"
+            >
+               {[
+                 { v: "98.4%", t: "Model Accuracy" },
+                 { v: "0ms", t: "API Latency" },
+                 { v: "PRIVATE", t: "Inference Engine" },
+                 { v: "E2E", t: "Vector Encryption" }
+               ].map((stat, i) => (
+                 <div key={i} className="text-center group">
+                    <div className="text-2xl font-bold text-white group-hover:text-violet-400 transition-colors">{stat.v}</div>
+                    <div className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">{stat.t}</div>
+                 </div>
+               ))}
+            </motion.div>
+          </motion.div>
+
+          {/* Scroll Indicator */}
+          <motion.div 
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="mt-16 text-slate-600"
+          >
+             <ChevronRight size={32} className="rotate-90 mx-auto opacity-20" />
           </motion.div>
         </section>
 

@@ -105,6 +105,8 @@ build/
 *.h5
 *.pkl
 ai_models/text/model/
-ai_models/voice/model/
-ai_models/face/model/
+# Allow specific trained models that are small enough for GitHub
+!backend/ai_models/voice/model/*.pkl
+!backend/ai_models/face/model/*.pt
+
 backend/venv/

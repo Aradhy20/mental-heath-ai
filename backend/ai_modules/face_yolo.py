@@ -5,8 +5,11 @@ import base64
 from ultralytics import YOLO
 
 class FaceYoloAnalyzer:
-    def __init__(self, model_path="/Users/aradhyjain/Desktop/project/ai_models/face/model/face_yolo_v1.pt"):
-        self.model_path = model_path
+    def __init__(self, model_path=None):
+        if model_path is None:
+            self.model_path = os.path.join(os.path.dirname(__file__), "..", "ai_models", "face", "model", "face_yolo_v1.pt")
+        else:
+            self.model_path = model_path
         self.classes = ['Anxiety', 'Depress', 'Normal']
         self.model = None
         self._loaded = False
@@ -28,7 +31,7 @@ class FaceYoloAnalyzer:
         
         self._loaded = True
 
-    def analyze(self, image_base64: str) -> dict:
+    def analyze(self, image_input: any) -> dict:
         if not self._loaded:
             self._try_load_model()
             
@@ -36,12 +39,14 @@ class FaceYoloAnalyzer:
             return {"label": "Normal", "confidence": 0.0, "score": 0.5, "error": "Model not trained yet"}
 
         try:
-            if "," in image_base64:
-                image_base64 = image_base64.split(",")[1]
-
-            img_bytes = base64.b64decode(image_base64)
-            nparr = np.frombuffer(img_bytes, np.uint8)
-            img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+            if isinstance(image_input, str):
+                if "," in image_input:
+                    image_input = image_input.split(",")[1]
+                img_bytes = base64.b64decode(image_input)
+                nparr = np.frombuffer(img_bytes, np.uint8)
+                img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+            else:
+                img = image_input
 
             if img is None:
                 return {"label": "Normal", "confidence": 0.0, "score": 0.5, "error": "Decode failed"}

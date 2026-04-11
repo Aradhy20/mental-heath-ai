@@ -113,9 +113,11 @@ class FaceEmotionAnalyzer:
             print(f"OpenCV heuristic error: {e}")
             return {"score": 0.5, "label": "neutral", "confidence": 0.3}
 
-    def analyze(self, image_base64: str) -> dict:
-        if not image_base64:
+    def analyze(self, image_input: any) -> dict:
+        if image_input is None:
             return {"score": 0.5, "label": "neutral", "confidence": 1.0}
+        
+        image_base64 = image_input
 
         try:
             # ── 1. Try NEW YOLOv8 Mental Health Model (Primary) ──────────────

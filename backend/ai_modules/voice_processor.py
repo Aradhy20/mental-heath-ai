@@ -40,7 +40,7 @@ class VoiceStressAnalyzer:
             
         # Look in the expected model path
         model_paths = [
-            os.path.join(os.path.dirname(__file__), "..", "..", "ai_models", "voice", "model", "voice_model.pkl"),
+            os.path.join(os.path.dirname(__file__), "..", "ai_models", "voice", "model", "voice_model.pkl"),
             os.path.join(os.path.dirname(__file__), "voice_model.pkl"),
         ]
         for path in model_paths:
@@ -150,7 +150,7 @@ class VoiceStressAnalyzer:
         if not self._loaded:
             self._try_load_model()
             
-        if not audio_base64:
+        if audio_base64 is None:
             return {"score": 0.5, "label": "normal", "confidence": 0.8}
 
         try:

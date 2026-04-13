@@ -20,7 +20,7 @@ api.interceptors.request.use(
   (config) => {
     // Client-side only
     if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('calmspace_token');
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -37,7 +37,8 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       // Auto-logout on 401
       if (typeof window !== 'undefined') {
-        localStorage.removeItem('token');
+        localStorage.removeItem('calmspace_token');
+        localStorage.removeItem('calmspace_user');
       }
     }
     return Promise.reject(error);

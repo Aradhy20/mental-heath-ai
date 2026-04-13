@@ -1,298 +1,375 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { motion, useSpring, useTransform, animate } from 'framer-motion'
-import { Activity, Smile, Book, Wind, Target, Brain, TrendingUp, Sparkles, AlertCircle, ArrowUpRight, BarChart3, Plus, Zap } from 'lucide-react'
+import { motion, animate } from 'framer-motion'
+import {
+  TrendingUp, Smile, Brain, Wind, Sparkles, BookOpen,
+  MessageCircle, MapPin, ArrowUpRight, ArrowDownRight,
+  Activity, Calendar, ChevronRight, Zap
+} from 'lucide-react'
 import { useAuthStore } from '@/lib/store/auth-store'
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Legend } from 'recharts'
-import * as Tabs from '@radix-ui/react-tabs'
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
+import Link from 'next/link'
 
-// ─── Component: Animated Number ──────────────────────────────────────────────
-function AnimatedNumber({ value }: { value: string }) {
-  const [displayValue, setDisplayValue] = useState(0)
-  const isPercent = value.includes('%')
-  const numericValue = parseFloat(value.replace(/[^0-9.]/g, ''))
+const API_BASE = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:8001'
 
+// ─── Animated counter ────────────────────────────────────────────────────────
+function Counter({ to, suffix = '' }: { to: number; suffix?: string }) {
+  const [val, setVal] = useState(0)
   useEffect(() => {
-    const controls = animate(0, numericValue, {
-      duration: 2,
-      ease: [0.16, 1, 0.3, 1], // premium ease
-      onUpdate(value) {
-        setDisplayValue(value)
-      },
-    })
-    return () => controls.stop()
-  }, [numericValue])
+    const c = animate(0, to, { duration: 1.5, ease: [0.16, 1, 0.3, 1], onUpdate: v => setVal(Math.round(v)) })
+    return () => c.stop()
+  }, [to])
+  return <span>{val}{suffix}</span>
+}
 
+// ─── Mood Emoji ─────────────────────────────────────────────────────────────
+const moodEmoji = (score: number) => {
+  if (score >= 4.5) return '🤩'
+  if (score >= 3.5) return '😊'
+  if (score >= 2.5) return '😐'
+  if (score >= 1.5) return '😔'
+  return '😞'
+}
+
+// ─── Metric Card ────────────────────────────────────────────────────────────
+function MetricCard({ label, value, suffix, delta, icon: Icon, color, href }: {
+  label: string; value: number; suffix?: string; delta?: string;
+  icon: React.ElementType; color: string; href?: string;
+}) {
+  const isPositive = delta?.startsWith('+')
+  const card = (
+    <div className="bg-white dark:bg-[#0f1629] rounded-2xl border border-slate-200 dark:border-white/[0.06] p-5 hover:shadow-md transition-all group cursor-pointer">
+      <div className="flex items-start justify-between mb-4">
+        <div className={`w-9 h-9 rounded-xl ${color} flex items-center justify-center`}>
+          <Icon size={17} className="text-white" />
+        </div>
+        {delta && (
+          <span className={`flex items-center gap-0.5 text-xs font-semibold px-1.5 py-0.5 rounded-lg ${
+            isPositive ? 'text-emerald-700 bg-emerald-100 dark:text-emerald-400 dark:bg-emerald-500/15' : 'text-rose-700 bg-rose-100 dark:text-rose-400 dark:bg-rose-500/15'
+          }`}>
+            {isPositive ? <ArrowUpRight size={10} /> : <ArrowDownRight size={10} />}
+            {delta}
+          </span>
+        )}
+      </div>
+      <p className="text-2xl font-bold text-slate-900 dark:text-white mb-1">
+        <Counter to={value} suffix={suffix} />
+      </p>
+      <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{label}</p>
+    </div>
+  )
+  return href ? <Link href={href}>{card}</Link> : card
+}
+
+// ─── Quick Actions ───────────────────────────────────────────────────────────
+const QUICK_ACTIONS = [
+  { label: 'Log My Mood',       href: '/mood',       icon: Smile,         color: 'from-violet-500 to-purple-500', desc: 'How are you feeling?' },
+  { label: 'Talk to AI',        href: '/chat',       icon: MessageCircle, color: 'from-blue-500 to-cyan-500',    desc: 'Instant support' },
+  { label: 'Write in Journal',  href: '/journal',    icon: BookOpen,      color: 'from-indigo-500 to-violet-500', desc: 'Private thoughts' },
+  { label: 'Breathe & Relax',   href: '/meditation', icon: Wind,          color: 'from-teal-500 to-emerald-500',  desc: 'Guided breathing' },
+]
+
+// ─── Weekly Mood Data (demo) ─────────────────────────────────────────────────
+const WEEK_DATA = [
+  { day: 'Mon', mood: 3, sessions: 1 },
+  { day: 'Tue', mood: 4, sessions: 2 },
+  { day: 'Wed', mood: 2, sessions: 0 },
+  { day: 'Thu', mood: 4, sessions: 1 },
+  { day: 'Fri', mood: 5, sessions: 3 },
+  { day: 'Sat', mood: 4, sessions: 2 },
+  { day: 'Sun', mood: 4, sessions: 1 },
+]
+
+// ─── Custom Tooltip ──────────────────────────────────────────────────────────
+function ChartTooltip({ active, payload, label }: any) {
+  if (!active || !payload?.length) return null
+  const emojis = ['', '😞', '😔', '😐', '😊', '🤩']
   return (
-    <span>
-      {isPercent ? `${displayValue.toFixed(0)}%` : displayValue.toFixed(2)}
-    </span>
+    <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2 shadow-lg text-xs">
+      <p className="font-semibold text-slate-500 mb-1">{label}</p>
+      <p className="font-bold text-slate-900 dark:text-white">{emojis[payload[0].value]} Mood {payload[0].value}/5</p>
+    </div>
   )
 }
 
-// ─── Component: Wellness Score Ring ──────────────────────────────────────────
-function WellnessRing({ score }: { score: number }) {
-  const radius = 70
-  const stroke = 12
-  const normalizedRadius = radius - stroke * 2
-  const circumference = normalizedRadius * 2 * Math.PI
-  const strokeDashoffset = circumference - (score / 100) * circumference
-
+// ─── Insight Item ────────────────────────────────────────────────────────────
+function InsightItem({ emoji, title, desc, type }: { emoji: string; title: string; desc: string; type: 'good' | 'info' | 'warn' }) {
+  const colors = {
+    good: 'border-emerald-200 dark:border-emerald-500/20 bg-emerald-50 dark:bg-emerald-500/[0.06]',
+    info: 'border-blue-200 dark:border-blue-500/20 bg-blue-50 dark:bg-blue-500/[0.06]',
+    warn: 'border-amber-200 dark:border-amber-500/20 bg-amber-50 dark:bg-amber-500/[0.06]',
+  }
   return (
-    <div className="relative flex items-center justify-center">
-      <svg height={radius * 2} width={radius * 2} className="transform -rotate-90">
-        <circle
-          stroke="rgba(255,255,255,0.05)"
-          fill="transparent"
-          strokeWidth={stroke}
-          r={normalizedRadius}
-          cx={radius}
-          cy={radius}
-        />
-        <motion.circle
-          stroke="url(#gradient)"
-          fill="transparent"
-          strokeDasharray={circumference + ' ' + circumference}
-          initial={{ strokeDashoffset: circumference }}
-          animate={{ strokeDashoffset }}
-          transition={{ duration: 2, ease: "easeOut" }}
-          strokeWidth={stroke}
-          strokeLinecap="round"
-          r={normalizedRadius}
-          cx={radius}
-          cy={radius}
-        />
-        <defs>
-          <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#8b5cf6" />
-            <stop offset="100%" stopColor="#06b6d4" />
-          </linearGradient>
-        </defs>
-      </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <motion.span 
-          initial={{ opacity: 0 }} 
-          animate={{ opacity: 1 }} 
-          className="text-4xl font-black text-white"
-        >
-          {score}
-        </motion.span>
-        <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Stability</span>
+    <div className={`flex items-start gap-3 p-3.5 rounded-xl border ${colors[type]}`}>
+      <span className="text-xl mt-0.5">{emoji}</span>
+      <div>
+        <p className="text-sm font-semibold text-slate-900 dark:text-white">{title}</p>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">{desc}</p>
       </div>
     </div>
   )
 }
 
-// Heavy mock data for Recharts testing
-const timelineData = [
-  { time: 'Mon', text: 30, voice: 40, face: 45 },
-  { time: 'Tue', text: 40, voice: 35, face: 50 },
-  { time: 'Wed', text: 25, voice: 20, face: 30 },
-  { time: 'Thu', text: 60, voice: 55, face: 65 },
-  { time: 'Fri', text: 45, voice: 50, face: 40 },
-  { time: 'Sat', text: 20, voice: 15, face: 25 },
-  { time: 'Sun', text: 35, voice: 30, face: 35 },
-];
-
-export default function EnterpriseDashboard() {
+// ─── MAIN PAGE ──────────────────────────────────────────────────────────────
+export default function DashboardPage() {
   const { user } = useAuthStore()
-  const [activeTab, setActiveTab] = useState("overview")
-  const [mounted, setMounted] = useState(false)
+  const [stats, setStats] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const hour = new Date().getHours()
+  const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening'
 
   useEffect(() => {
-    setMounted(true)
+    const fetch_stats = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/api/v1/dashboard/stats`)
+        if (res.ok) setStats(await res.json())
+      } catch (_) {
+        // use defaults
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetch_stats()
   }, [])
 
-  if (!mounted) return null;
+  const data = stats || {
+    wellness_score: 82,
+    stress_index: 0.24,
+    sleep_quality: '72%',
+    active_sessions: 12,
+    timeline: WEEK_DATA.map(d => ({ time: d.day, mood: d.mood })),
+    insights: []
+  }
 
   return (
-    <div className="p-8 max-w-[1600px] w-full mx-auto space-y-8">
-      
-      {/* Header Area */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-         <div>
-            <h1 className="text-4xl font-black tracking-tight text-white flex items-center gap-3">
-               <span>Hey {user?.username?.split(' ')[0] || 'there'} 👋</span>
+    <div className="min-h-full bg-slate-50 dark:bg-[#0a0d1a] p-6 lg:p-8">
+      <div className="max-w-6xl mx-auto space-y-7">
+
+        {/* ── Header ── */}
+        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <p className="text-sm font-medium text-violet-600 dark:text-violet-400 mb-1">
+              {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+            </p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+              {greeting}, {user?.username?.split(' ')[0] || 'there'} 👋
             </h1>
-            <p className="text-slate-400 mt-1 font-medium">Your week in preview: <span className="text-violet-400">Deep clarity active.</span></p>
-         </div>
-         <div className="flex items-center gap-3">
-             <button className="px-5 py-2.5 bg-slate-900 border border-white/5 rounded-xl text-sm text-slate-300 font-bold hover:bg-slate-800 transition shadow-lg">
-                 Share Logs
-             </button>
-             <button className="px-5 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 rounded-xl text-sm font-black text-white flex items-center gap-2 transition shadow-xl shadow-violet-500/20 active:scale-95">
-                 <Zap size={16} fill="currentColor" /> Refresh Core Engine
-             </button>
-         </div>
-      </div>
+            <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
+              Here's your wellness snapshot for today.
+            </p>
+          </div>
 
-      <Tabs.Root value={activeTab} onValueChange={setActiveTab}>
-         <Tabs.List className="flex gap-8 border-b border-white/5 mb-8">
-            <Tabs.Trigger value="overview" className={`pb-4 text-xs font-black uppercase tracking-[0.2em] transition-all border-b-2 ${activeTab === 'overview' ? 'border-violet-400 text-violet-400' : 'border-transparent text-slate-500 hover:text-slate-300'}`}>
-                System Pulse
-            </Tabs.Trigger>
-            <Tabs.Trigger value="modalities" className={`pb-4 text-xs font-black uppercase tracking-[0.2em] transition-all border-b-2 ${activeTab === 'modalities' ? 'border-violet-400 text-violet-400' : 'border-transparent text-slate-500 hover:text-slate-300'}`}>
-                Neural Mapping
-            </Tabs.Trigger>
-         </Tabs.List>
+          <Link href="/mood" className="btn-primary self-start sm:self-center gap-2 shrink-0">
+            <Sparkles size={15} /> Daily Check-in
+          </Link>
+        </motion.div>
 
-         <Tabs.Content value="overview" className="space-y-6">
-            
-            <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
-                
-                {/* ─── Wellness Score Ring Card ─── */}
-                <motion.div 
-                   initial={{ opacity: 0, scale: 0.95 }}
-                   animate={{ opacity: 1, scale: 1 }}
-                   className="bg-slate-900/50 border border-white/5 rounded-[2rem] p-8 shadow-2xl backdrop-blur-xl flex flex-col items-center justify-center col-span-1"
-                >
-                    <WellnessRing score={82} />
-                    <div className="mt-6 text-center">
-                        <p className="text-slate-300 font-bold">Mind Fusion Level</p>
-                        <p className="text-xs text-slate-500 mt-1">Excellent stability across all inputs.</p>
+        {/* ── Metric Row ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05 }}
+          className="grid grid-cols-2 lg:grid-cols-4 gap-4"
+        >
+          <MetricCard label="Wellness Score"    value={data.wellness_score} suffix="/100" delta="+5"  icon={Activity}  color="bg-violet-500"  href="/insights" />
+          <MetricCard label="Stress Level"      value={Math.round(data.stress_index * 100)} suffix="%" delta="-12%" icon={Brain}    color="bg-rose-500"    href="/analysis" />
+          <MetricCard label="Sleep Quality"     value={72}                  suffix="%"     delta="+8"  icon={Wind}      color="bg-blue-500"   />
+          <MetricCard label="AI Conversations"  value={data.active_sessions}               delta="+3"  icon={MessageCircle} color="bg-emerald-500" href="/chat" />
+        </motion.div>
+
+        {/* ── Quick Actions ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+        >
+          <h2 className="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">Quick Actions</h2>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            {QUICK_ACTIONS.map(action => {
+              const Icon = action.icon
+              return (
+                <Link key={action.href} href={action.href}>
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="group p-4 rounded-2xl bg-white dark:bg-[#0f1629] border border-slate-200 dark:border-white/[0.06] hover:shadow-md transition-all cursor-pointer"
+                  >
+                    <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${action.color} flex items-center justify-center mb-3 shadow-sm group-hover:scale-105 transition-transform`}>
+                      <Icon size={18} className="text-white" />
                     </div>
-                </motion.div>
+                    <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">{action.label}</p>
+                    <p className="text-xs text-slate-400 mt-0.5">{action.desc}</p>
+                  </motion.div>
+                </Link>
+              )
+            })}
+          </div>
+        </motion.div>
 
-                {/* ─── Stats Grid ─── */}
-                <div className="xl:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {[
-                        { label: "Global Stress Index", value: "0.24", diff: "-12%", bad: false, i: Target, color: "text-rose-400" },
-                        { label: "Vocal Complexity", value: "0.45", diff: "+4%", bad: true, i: Activity, color: "text-cyan-400" },
-                        { label: "Affect Intensity", value: "0.19", diff: "-5%", bad: false, i: Smile, color: "text-amber-400" },
-                        { label: "Cognitive Load", value: "0.33", diff: "-2%", bad: false, i: Brain, color: "text-violet-400" },
-                        { label: "System Uptime", value: "99%", diff: "Stable", bad: false, i: Sparkles, color: "text-emerald-400" },
-                        { label: "Sleep Quality", value: "72%", diff: "+8%", bad: false, i: Wind, color: "text-blue-400" },
-                    ].map((stat, idx) => (
-                        <motion.div 
-                            key={idx}
-                            initial={{ opacity: 0, y: 15 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: idx * 0.05 }}
-                            className="bg-slate-900/30 border border-white/5 rounded-2xl p-6 shadow-xl hover:border-white/10 transition-colors group"
-                        >
-                            <div className="flex items-center justify-between mb-4">
-                                <span className="text-slate-500 font-bold text-[10px] uppercase tracking-widest">{stat.label}</span>
-                                <div className={`w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center ${stat.color} group-hover:scale-110 transition-transform`}>
-                                    <stat.i size={18} />
-                                </div>
-                            </div>
-                            <div className="flex items-end gap-3">
-                                <span className="text-4xl font-black text-white">
-                                    <AnimatedNumber value={stat.value} />
-                                </span>
-                                {stat.diff !== "Stable" && (
-                                    <span className={`text-[10px] font-black px-2 py-1 rounded-lg flex items-center gap-1 ${stat.bad ? 'bg-rose-500/10 text-rose-400' : 'bg-emerald-500/10 text-emerald-400'}`}>
-                                        {stat.bad ? <TrendingUp size={10}/> : <ArrowUpRight size={10} className="rotate-90"/>}
-                                        {stat.diff}
-                                    </span>
-                                )}
-                            </div>
-                        </motion.div>
-                    ))}
+        {/* ── Main Grid: Chart + Insights ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+          {/* Mood Chart */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="lg:col-span-2 bg-white dark:bg-[#0f1629] rounded-2xl border border-slate-200 dark:border-white/[0.06] shadow-sm p-6"
+          >
+            <div className="flex items-center justify-between mb-5">
+              <div>
+                <h2 className="font-semibold text-slate-900 dark:text-white">Mood This Week</h2>
+                <p className="text-xs text-slate-400 mt-0.5">7-day emotional trajectory</p>
+              </div>
+              <Link href="/mood" className="flex items-center gap-1 text-xs font-semibold text-violet-600 dark:text-violet-400 hover:underline">
+                View all <ChevronRight size={12} />
+              </Link>
+            </div>
+            <div className="h-52">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={WEEK_DATA} margin={{ top: 5, right: 5, left: -30, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="moodFill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%"  stopColor="#8b5cf6" stopOpacity={0.2} />
+                      <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.08)" vertical={false} />
+                  <XAxis dataKey="day" tick={{ fontSize: 11, fill: '#94a3b8', fontWeight: 500 }} axisLine={false} tickLine={false} />
+                  <YAxis domain={[1, 5]} tick={false} axisLine={false} tickLine={false} />
+                  <Tooltip content={<ChartTooltip />} />
+                  <Area
+                    type="monotone"
+                    dataKey="mood"
+                    stroke="#8b5cf6"
+                    fill="url(#moodFill)"
+                    strokeWidth={2.5}
+                    dot={{ fill: '#8b5cf6', strokeWidth: 0, r: 4 }}
+                    activeDot={{ r: 6, fill: '#8b5cf6', stroke: 'white', strokeWidth: 2 }}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Day summary */}
+            <div className="flex gap-2 mt-4 flex-wrap">
+              {WEEK_DATA.map(d => (
+                <div key={d.day} className="flex-1 min-w-[36px] text-center">
+                  <span className="text-base">{moodEmoji(d.mood)}</span>
+                  <p className="text-[9px] text-slate-400 mt-1 font-medium">{d.day}</p>
                 </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* AI Insights panel */}
+          <motion.div
+            initial={{ opacity: 0, x: 16 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+            className="bg-white dark:bg-[#0f1629] rounded-2xl border border-slate-200 dark:border-white/[0.06] shadow-sm p-6 flex flex-col"
+          >
+            <div className="flex items-center gap-2.5 mb-5">
+              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center">
+                <Sparkles size={13} className="text-white" />
+              </div>
+              <h2 className="font-semibold text-slate-900 dark:text-white text-sm">AI Insights</h2>
             </div>
 
-            {/* Charts Row */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                
-                {/* Main Area Chart */}
-                <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="lg:col-span-2 bg-slate-900/40 border border-white/5 rounded-[2rem] p-8 shadow-2xl h-[450px] flex flex-col"
-                >
-                    <div className="mb-8 flex items-center justify-between">
-                        <div>
-                           <h3 className="text-xl font-black text-white">Neural Synchrony</h3>
-                           <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest font-bold">Aggregated Stress Telemetry</p>
-                        </div>
-                        <div className="flex gap-2">
-                           <button className="px-4 py-1.5 bg-white/5 border border-white/5 rounded-full text-[10px] font-black uppercase text-slate-400 hover:text-white transition-colors">Daily</button>
-                           <button className="px-4 py-1.5 bg-violet-600 rounded-full text-[10px] font-black uppercase text-white shadow-lg shadow-violet-500/20">Weekly</button>
-                        </div>
-                    </div>
-                    <div className="flex-1 w-full min-h-0">
-                        <ResponsiveContainer width="100%" height="100%">
-                           <AreaChart data={timelineData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                             <defs>
-                                <linearGradient id="colorText" x1="0" y1="0" x2="0" y2="1">
-                                  <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.3}/>
-                                  <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0}/>
-                                </linearGradient>
-                                <linearGradient id="colorFace" x1="0" y1="0" x2="0" y2="1">
-                                  <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.3}/>
-                                  <stop offset="95%" stopColor="#06b6d4" stopOpacity={0}/>
-                                </linearGradient>
-                             </defs>
-                             <CartesianGrid strokeDasharray="3 3" stroke="#ffffff05" vertical={false} />
-                             <XAxis dataKey="time" stroke="#ffffff20" fontSize={10} fontWeight="bold" tickLine={false} axisLine={false} />
-                             <YAxis stroke="#ffffff20" fontSize={10} fontWeight="bold" tickLine={false} axisLine={false} />
-                             <Tooltip 
-                                contentStyle={{ backgroundColor: '#020617', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '16px', backdropFilter: 'blur(10px)' }}
-                                itemStyle={{ fontSize: '12px', fontWeight: 'bold' }}
-                             />
-                             <Legend iconType="circle" />
-                             <Area type="monotone" dataKey="text" stroke="#8b5cf6" fillOpacity={1} fill="url(#colorText)" strokeWidth={4} name="Linguistic Insight" />
-                             <Area type="monotone" dataKey="face" stroke="#06b6d4" fillOpacity={1} fill="url(#colorFace)" strokeWidth={4} name="Facial Geometry" />
-                           </AreaChart>
-                        </ResponsiveContainer>
-                    </div>
-                </motion.div>
-
-                {/* Right Panel Alert Board */}
-                <motion.div 
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="bg-slate-900 border border-white/5 rounded-[2rem] p-8 shadow-2xl flex flex-col h-[450px]"
-                >
-                    <div className="flex items-center justify-between mb-8">
-                        <div className="flex items-center gap-3">
-                            <div className="bg-amber-500/10 p-2 rounded-lg"><AlertCircle size={20} className="text-amber-500" /></div>
-                            <h3 className="text-xl font-black text-white">Insight Log</h3>
-                        </div>
-                    </div>
-
-                    <div className="flex-1 overflow-y-auto space-y-4 custom-scrollbar pr-2">
-                        {[
-                            { title: "Anomaly Detected", time: "12m ago", desc: "Slight tremor picked up in voice frequency. Rest is advised.", type: "warning", color: "bg-amber-500" },
-                            { title: "Peak Resilience", time: "2h ago", desc: "Your cognitive load capacity is at an all-time high today.", type: "success", color: "bg-emerald-500" },
-                            { title: "Routine Check", time: "1d ago", desc: "Morning meditation sequence completed perfectly.", type: "info", color: "bg-blue-500" },
-                        ].map((alert, i) => (
-                            <div key={i} className="p-4 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors cursor-pointer group">
-                                <div className="flex justify-between items-start mb-2">
-                                    <h4 className="font-bold text-sm text-white group-hover:text-violet-400 transition-colors">{alert.title}</h4>
-                                    <span className="text-[10px] font-bold text-slate-500">{alert.time}</span>
-                                </div>
-                                <p className="text-xs text-slate-400 leading-relaxed">{alert.desc}</p>
-                            </div>
-                        ))}
-                    </div>
-                    
-                    <button className="mt-8 w-full py-4 bg-white/5 border border-white/5 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:bg-white/10 hover:text-white transition-all">
-                        View Full History
-                    </button>
-                </motion.div>
+            <div className="space-y-3 flex-1">
+              <InsightItem emoji="🌟" title="Great streak!" desc="You've logged your mood 7 days in a row. Consistency builds self-awareness." type="good" />
+              <InsightItem emoji="😴" title="Sleep matters" desc="Your mood is 28% lower on days with poor sleep. Try a consistent sleep schedule." type="info" />
+              <InsightItem emoji="⚡" title="Stress spike" desc="Wednesday showed elevated stress. Consider a breathing session next time." type="warn" />
             </div>
-         </Tabs.Content>
 
-         <Tabs.Content value="modalities" className="h-[600px] flex items-center justify-center">
-             <div className="text-center">
-                 <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 border border-white/5">
-                    <FlaskConical size={32} className="text-slate-600" />
-                 </div>
-                 <h3 className="text-xl font-bold text-white mb-2">Neural Workspace Locked</h3>
-                 <p className="text-slate-500 max-w-sm mx-auto">We are currently calibrating your modal baseline. Detailed raw telemetry will appear here after 3 more sessions.</p>
-             </div>
-         </Tabs.Content>
-      </Tabs.Root>
+            <Link href="/chat" className="mt-5 flex items-center justify-center gap-2 p-3 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-sm font-semibold hover:brightness-110 transition-all shadow-md shadow-violet-500/25">
+              <MessageCircle size={15} /> Talk to MindfulAI
+            </Link>
+          </motion.div>
+        </div>
 
+        {/* ── Bottom Row: Recent Activity + Find Therapist ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+          {/* Recent Journal */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25 }}
+            className="bg-white dark:bg-[#0f1629] rounded-2xl border border-slate-200 dark:border-white/[0.06] shadow-sm p-6"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                <BookOpen size={16} className="text-violet-500" /> Recent Journal
+              </h2>
+              <Link href="/journal" className="text-xs text-violet-600 dark:text-violet-400 font-semibold hover:underline flex items-center gap-1">
+                View all <ChevronRight size={12} />
+              </Link>
+            </div>
+            <div className="space-y-3">
+              {[
+                { title: 'Feeling overwhelmed 😔', date: 'Yesterday', mood: 'Processing', color: 'text-rose-500' },
+                { title: 'Setting better boundaries 💪', date: '2 days ago', mood: 'Positive', color: 'text-emerald-500' },
+                { title: 'Gratitude list 🙏', date: '4 days ago', mood: 'Positive', color: 'text-emerald-500' },
+              ].map((e, i) => (
+                <Link key={i} href="/journal">
+                  <div className="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-white/[0.03] transition-all group">
+                    <div className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-500/15 flex items-center justify-center shrink-0">
+                      <BookOpen size={13} className="text-violet-500" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-slate-800 dark:text-slate-200 group-hover:text-violet-600 transition-colors truncate">{e.title}</p>
+                      <p className="text-xs text-slate-400">{e.date} · <span className={e.color}>{e.mood}</span></p>
+                    </div>
+                    <ChevronRight size={14} className="text-slate-300 dark:text-slate-600 group-hover:text-violet-400 transition-colors shrink-0" />
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Find Support */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="bg-white dark:bg-[#0f1629] rounded-2xl border border-slate-200 dark:border-white/[0.06] shadow-sm p-6"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+                <MapPin size={16} className="text-rose-500" /> Find Nearby Support
+              </h2>
+              <Link href="/therapists" className="text-xs text-violet-600 dark:text-violet-400 font-semibold hover:underline flex items-center gap-1">
+                Open Map <ChevronRight size={12} />
+              </Link>
+            </div>
+
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Therapists, psychiatrists, yoga centers and crisis support lines near you.</p>
+
+            <div className="space-y-2 mb-4">
+              {[
+                { name: 'iCall by TISS', type: 'Counseling', rating: 4.8, free: true },
+                { name: 'Vandrevala Foundation', type: 'Crisis Helpline', rating: 4.9, free: true },
+                { name: 'NIMHANS Bangalore', type: 'Psychiatry', rating: 4.9, free: false },
+              ].map((r, i) => (
+                <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-100 dark:border-white/[0.04]">
+                  <div>
+                    <p className="text-sm font-medium text-slate-800 dark:text-slate-200">{r.name}</p>
+                    <p className="text-xs text-slate-400">{r.type} · ⭐ {r.rating}</p>
+                  </div>
+                  {r.free && <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400">FREE</span>}
+                </div>
+              ))}
+            </div>
+
+            <Link href="/therapists" className="flex items-center justify-center gap-2 p-2.5 rounded-xl border border-violet-200 dark:border-violet-500/30 text-violet-600 dark:text-violet-400 text-sm font-semibold hover:bg-violet-50 dark:hover:bg-violet-500/10 transition-all">
+              <MapPin size={14} /> Find More Near Me
+            </Link>
+          </motion.div>
+        </div>
+
+      </div>
     </div>
   )
-}
-
-function FlaskConical({ size, className }: { size: number, className: string }) {
-  return <Sparkles size={size} className={className} />
 }

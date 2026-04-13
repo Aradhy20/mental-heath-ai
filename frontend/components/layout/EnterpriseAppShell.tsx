@@ -4,228 +4,364 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import * as Dialog from '@radix-ui/react-dialog'
-import { 
-    Activity, LayoutDashboard, MessageCircle, PenTool, Wind, 
-    Settings, LogOut, ChevronLeft, ChevronRight, Search,
-    Brain, Command, FlaskConical, Sparkles, Heart, BookOpen, Smile,
-    Briefcase, MapPin, Video
+import {
+  LayoutDashboard, MessageCircle, BookOpen, Wind,
+  Settings, LogOut, ChevronLeft, ChevronRight, Search,
+  Brain, Smile, MapPin, Video, HeartPulse, Sparkles,
+  Bell, ChevronDown, Menu, X, User
 } from 'lucide-react'
 import { useAuthStore } from '@/lib/store/auth-store'
-import { ThemeProvider } from 'next-themes'
 
-// Navigation Config
-const NAV_ITEMS = [
-    { name: 'My Dashboard', href: '/dashboard', icon: LayoutDashboard },
-    { name: 'How I Feel', href: '/mood', icon: Smile },
-    { name: 'My Journal', href: '/journal', icon: BookOpen },
-    { name: 'Talk to AI', href: '/chat', icon: MessageCircle },
-    { name: 'Mind Check', href: '/analysis', icon: FlaskConical },
-    { name: 'Breathe & Relax', href: '/meditation', icon: Wind },
-    { name: 'Career Guidance', href: '/career', icon: Briefcase },
-    { name: 'Find a Doctor', href: '/doctors', icon: MapPin },
-    { name: 'Virtual Consult', href: '/consult', icon: Video },
+// ── Navigation Config ──────────────────────────────────────────────────────
+const NAV_GROUPS = [
+  {
+    label: 'Core',
+    items: [
+      { name: 'Dashboard',     href: '/dashboard',  icon: LayoutDashboard, desc: 'Your wellness overview' },
+      { name: 'Mood Check-in', href: '/mood',       icon: Smile,           desc: 'Track how you feel' },
+      { name: 'AI Therapist',  href: '/chat',       icon: MessageCircle,   desc: 'Talk to MindfulAI' },
+      { name: 'My Journal',    href: '/journal',    icon: BookOpen,        desc: 'Private thoughts vault' },
+    ]
+  },
+  {
+    label: 'Wellness',
+    items: [
+      { name: 'Breathe & Relax', href: '/meditation', icon: Wind,       desc: 'Guided breathing' },
+      { name: 'Insights',        href: '/insights',   icon: Brain,       desc: 'Your mental patterns' },
+      { name: 'Face Analysis',   href: '/analysis',   icon: HeartPulse,  desc: 'Real-time emotion tracking' },
+    ]
+  },
+  {
+    label: 'Discover',
+    items: [
+      { name: 'Find Therapists', href: '/therapists', icon: MapPin,  desc: 'Nearby mental health support' },
+      { name: 'Virtual Consult', href: '/consult',    icon: Video,   desc: 'Book a session' },
+    ]
+  }
 ]
 
+const ALL_NAV_ITEMS = NAV_GROUPS.flatMap(g => g.items)
+
+// ── User Avatar ────────────────────────────────────────────────────────────
+function Avatar({ username, size = 'md' }: { username?: string; size?: 'sm' | 'md' | 'lg' }) {
+  const sizeMap = { sm: 'w-7 h-7 text-xs', md: 'w-9 h-9 text-sm', lg: 'w-12 h-12 text-base' }
+  const letter = username?.charAt(0)?.toUpperCase() || 'U'
+  return (
+    <div className={`${sizeMap[size]} rounded-full bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center text-white font-bold shadow-md shrink-0`}>
+      {letter}
+    </div>
+  )
+}
+
+// ── Sidebar Nav Item ───────────────────────────────────────────────────────
+function NavItem({ item, isCollapsed, isActive }: { item: typeof ALL_NAV_ITEMS[0]; isCollapsed: boolean; isActive: boolean }) {
+  const Icon = item.icon
+  return (
+    <Link
+      href={item.href}
+      title={isCollapsed ? item.name : undefined}
+      className={`relative flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group ${
+        isActive
+          ? 'bg-violet-50 text-violet-700 dark:bg-violet-500/10 dark:text-violet-300'
+          : 'text-slate-500 hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-white/5 dark:hover:text-slate-100'
+      }`}
+    >
+      {/* Active indicator */}
+      {isActive && (
+        <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-violet-600 rounded-r-full" />
+      )}
+      <Icon size={18} className="shrink-0" strokeWidth={isActive ? 2.5 : 1.75} />
+      <AnimatePresence>
+        {!isCollapsed && (
+          <motion.span
+            initial={{ opacity: 0, width: 0 }}
+            animate={{ opacity: 1, width: 'auto' }}
+            exit={{ opacity: 0, width: 0 }}
+            className="font-medium text-sm whitespace-nowrap overflow-hidden"
+          >
+            {item.name}
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </Link>
+  )
+}
+
+// ── Main Shell ─────────────────────────────────────────────────────────────
 export default function EnterpriseAppShell({ children }: { children: React.ReactNode }) {
-    const pathname = usePathname()
-    const router = useRouter()
-    const { user, logout } = useAuthStore()
-    
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true)
-    const [isCommandOpen, setIsCommandOpen] = useState(false)
-    const [searchQuery, setSearchQuery] = useState('')
+  const pathname = usePathname()
+  const router = useRouter()
+  const { user, logout } = useAuthStore()
 
-    // Only apply layout to authenticated routes
-    const isPublicRoute = pathname === '/' || pathname === '/login' || pathname === '/register'
+  const [isCollapsed, setIsCollapsed] = useState(false)
+  const [isMobileOpen, setIsMobileOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [showSearch, setShowSearch] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
-    // Command palette global shortcut
-    useEffect(() => {
-        const down = (e: KeyboardEvent) => {
-            if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
-                e.preventDefault()
-                setIsCommandOpen((open) => !open)
-            }
-        }
-        document.addEventListener('keydown', down)
-        return () => document.removeEventListener('keydown', down)
-    }, [])
+  useEffect(() => { setMounted(true) }, [])
+  useEffect(() => { setIsMobileOpen(false) }, [pathname])
 
-    if (isPublicRoute) return <ThemeProvider attribute="class" defaultTheme="dark">{children}</ThemeProvider>
+  // Global ⌘K shortcut
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault()
+        setShowSearch(v => !v)
+      }
+      if (e.key === 'Escape') setShowSearch(false)
+    }
+    document.addEventListener('keydown', handler)
+    return () => document.removeEventListener('keydown', handler)
+  }, [])
 
-    return (
-        <ThemeProvider attribute="class" defaultTheme="dark">
-            <div className="flex h-screen bg-[#030014] text-slate-200 overflow-hidden font-sans">
-                
-                {/* 1. COLLAPSIBLE SIDEBAR */}
-                <motion.div 
-                    animate={{ width: isSidebarOpen ? 260 : 80 }}
-                    className="h-full bg-slate-950/80 border-r border-white/10 backdrop-blur-2xl flex flex-col relative z-30 shrink-0 transition-all duration-300 ease-in-out"
-                >
-                    {/* Header */}
-                    <div className="h-20 flex items-center px-6 border-b border-white/5 shrink-0">
-                        <div className="flex items-center gap-3 overflow-hidden whitespace-nowrap">
-                            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-violet-500 to-pink-500 flex items-center justify-center shrink-0 shadow-lg shadow-violet-500/30">
-                               <Sparkles size={16} className="text-white" />
-                            </div>
-                            <div className={`transition-opacity duration-300 ${isSidebarOpen ? 'opacity-100' : 'opacity-0'}`}>
-                                <span className="font-bold text-lg text-white">Calm<span className="text-violet-400">Space</span></span>
-                                <p className="text-[10px] text-slate-500 leading-none mt-0.5">Your mental wellness companion</p>
-                            </div>
-                        </div>
-                    </div>
+  const isPublicRoute = ['/', '/login', '/register'].includes(pathname)
+  if (isPublicRoute) return <>{children}</>
+  if (!mounted) return null
 
-                    {/* Nav Links */}
-                    <div className="flex-1 overflow-y-auto custom-scrollbar py-6 px-4 space-y-2">
-                        {NAV_ITEMS.map((item) => {
-                            const isActive = pathname.startsWith(item.href)
-                            return (
-                                <Link 
-                                    href={item.href} 
-                                    key={item.href}
-                                    title={item.name}
-                                    className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all relative overflow-hidden group ${
-                                        isActive 
-                                        ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20' 
-                                        : 'text-slate-400 hover:bg-white/5 hover:text-white border border-transparent'
-                                    }`}
-                                >
-                                    <item.icon size={20} className="shrink-0" />
-                                    <span className={`font-medium text-sm whitespace-nowrap transition-opacity duration-300 ${isSidebarOpen ? 'opacity-100' : 'opacity-0 w-0'}`}>
-                                        {item.name}
-                                    </span>
-                                </Link>
-                            )
-                        })}
-                    </div>
+  const filteredItems = ALL_NAV_ITEMS.filter(i =>
+    i.name.toLowerCase().includes(searchQuery.toLowerCase())
+  )
 
-                    {/* Footer Settings */}
-                    <div className="p-4 border-t border-white/5 space-y-2 shrink-0">
-                        <button 
-                          className="flex items-center gap-3 w-full px-3 py-3 rounded-xl text-slate-400 hover:bg-white/5 hover:text-white border border-transparent transition-all"
-                          title="Settings"
-                        >
-                            <Settings size={20} className="shrink-0" />
-                            <span className={`font-medium text-sm whitespace-nowrap transition-opacity duration-300 ${isSidebarOpen ? 'opacity-100' : 'opacity-0 w-0'}`}>
-                                Preferences
-                            </span>
-                        </button>
-                        <button 
-                          onClick={() => { logout(); router.push('/login'); }}
-                          className="flex items-center gap-3 w-full px-3 py-3 rounded-xl text-rose-400/80 hover:bg-rose-500/10 hover:text-rose-400 border border-transparent transition-all"
-                          title="Sign Out"
-                        >
-                            <LogOut size={20} className="shrink-0" />
-                            <span className={`font-medium text-sm whitespace-nowrap transition-opacity duration-300 ${isSidebarOpen ? 'opacity-100' : 'opacity-0 w-0'}`}>
-                                Sign Out
-                            </span>
-                        </button>
-                    </div>
+  const currentPage = ALL_NAV_ITEMS.find(i => pathname.startsWith(i.href))
 
-                    {/* Collapse Toggle */}
-                    <button 
-                        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                        className="absolute -right-4 top-10 w-8 h-8 bg-slate-800 border border-white/10 rounded-full flex items-center justify-center text-slate-400 hover:bg-cyan-500/20 hover:text-cyan-400 hover:border-cyan-500/30 transition-all z-40 shadow-xl"
-                    >
-                        {isSidebarOpen ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
-                    </button>
-                </motion.div>
+  return (
+    <div className="flex h-screen bg-[var(--bg-base)] overflow-hidden">
 
-                {/* 2. MAIN CONTENT AREA */}
-                <div className="flex-1 flex flex-col relative min-w-0 overflow-hidden bg-[radial-gradient(ellipse_at_top_right,rgba(6,182,212,0.05),transparent_50%)]">
-                    
-                    {/* Topbar Command Shell */}
-                    <header className="h-20 border-b border-white/5 bg-slate-900/40 backdrop-blur-md flex items-center justify-between px-8 shrink-0 relative z-20">
-                        <div className="flex items-center gap-4 cursor-pointer" onClick={() => setIsCommandOpen(true)}>
-                            <div className="flex items-center gap-2 bg-slate-950 border border-white/10 rounded-full px-4 py-2 hover:border-violet-500/50 hover:bg-slate-900 transition-all shadow-inner shadow-black/50">
-                                <Search size={16} className="text-slate-500" />
-                                <span className="text-sm text-slate-500 font-medium">Search or jump anywhere...</span>
-                                <kbd className="ml-4 px-2 py-0.5 bg-slate-800 rounded text-xs text-slate-400 border border-white/5 font-mono flex items-center gap-1">
-                                  <Command size={10} /> K
-                                </kbd>
-                            </div>
-                        </div>
+      {/* ── Mobile Overlay ── */}
+      <AnimatePresence>
+        {isMobileOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsMobileOpen(false)}
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden"
+          />
+        )}
+      </AnimatePresence>
 
-                        <div className="flex items-center gap-4">
-                            <div className="text-right hidden sm:block">
-                               <p className="text-sm font-bold text-white">{user?.username || 'You'} ✨</p>
-                               <div className="flex items-center gap-1.5 justify-end">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse"></span>
-                                  <span className="text-[10px] font-medium text-slate-500">Feeling good today 💜</span>
-                               </div>
-                            </div>
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center border-2 border-slate-900 shadow-xl">
-                               <span className="text-sm font-bold text-white uppercase">{user?.username?.charAt(0) || 'A'}</span>
-                            </div>
-                        </div>
-                    </header>
-
-                    {/* Page Content Viewport */}
-                    <main className="flex-1 overflow-y-auto custom-scrollbar relative z-10 w-full h-full">
-                        {children}
-                    </main>
-                </div>
-
-                {/* 3. RADIX UI COMMAND MENU DIALOG */}
-                <Dialog.Root open={isCommandOpen} onOpenChange={setIsCommandOpen}>
-                    <AnimatePresence>
-                        {isCommandOpen && (
-                            <Dialog.Portal forceMount>
-                                <Dialog.Overlay asChild>
-                                    <motion.div 
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }}
-                                        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-start justify-center pt-[15vh]"
-                                    >
-                                        <Dialog.Content asChild>
-                                            <motion.div 
-                                                initial={{ opacity: 0, scale: 0.95, y: -20 }}
-                                                animate={{ opacity: 1, scale: 1, y: 0 }}
-                                                exit={{ opacity: 0, scale: 0.95, y: -20 }}
-                                                className="w-[90vw] max-w-2xl bg-slate-900 border border-white/10 rounded-2xl shadow-[0_50px_100px_rgba(0,0,0,0.8)] overflow-hidden"
-                                            >
-                                                <div className="flex items-center gap-3 p-4 border-b border-white/10 bg-slate-950">
-                                                    <Search size={20} className="text-cyan-400" />
-                                                    <input 
-                                                        autoFocus
-                                                        value={searchQuery}
-                                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                                        placeholder="Type a command or jump to feature..."
-                                                        className="flex-1 bg-transparent border-none outline-none text-lg text-white placeholder-slate-500"
-                                                    />
-                                                    <kbd className="px-2 py-1 bg-slate-800 rounded text-xs text-slate-400 border border-white/5 font-mono">ESC</kbd>
-                                                </div>
-                                                
-                                                <div className="max-h-[60vh] overflow-y-auto p-2">
-                                                    {/* Filtered Results Logic */}
-                                                    <div className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-slate-500">Fast Navigation</div>
-                                                    {NAV_ITEMS.map((item, i) => (
-                                                        <div 
-                                                            key={i}
-                                                            onClick={() => { router.push(item.href); setIsCommandOpen(false); }}
-                                                            className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-cyan-500/10 hover:text-cyan-400 text-slate-300 cursor-pointer group transition-colors"
-                                                        >
-                                                            <item.icon size={18} className="text-slate-500 group-hover:text-cyan-400" />
-                                                            <span className="font-medium">{item.name}</span>
-                                                        </div>
-                                                    ))}
-                                                    <div className="px-4 py-2 mt-4 text-xs font-bold uppercase tracking-widest text-slate-500">Quick Actions</div>
-                                                    <div className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-purple-500/10 hover:text-purple-400 text-slate-300 cursor-pointer group transition-colors">
-                                                        <PenTool size={18} className="text-slate-500 group-hover:text-purple-400" />
-                                                        <span className="font-medium">Force Mood Entry</span>
-                                                    </div>
-                                                </div>
-                                            </motion.div>
-                                        </Dialog.Content>
-                                    </motion.div>
-                                </Dialog.Overlay>
-                            </Dialog.Portal>
-                        )}
-                    </AnimatePresence>
-                </Dialog.Root>
-
+      {/* ── SIDEBAR ── */}
+      <motion.aside
+        animate={{ width: isCollapsed ? 72 : 260 }}
+        transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+        className={`relative z-50 h-full flex flex-col shrink-0 overflow-hidden
+          bg-white dark:bg-[#0f1629]
+          border-r border-slate-200 dark:border-white/[0.06]
+          shadow-sm
+          ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}
+          lg:translate-x-0 fixed lg:relative transition-transform lg:transition-none`}
+        style={{ width: isMobileOpen ? 260 : undefined }}
+      >
+        {/* Logo */}
+        <div className="h-16 flex items-center px-4 border-b border-slate-100 dark:border-white/[0.05] shrink-0">
+          <div className="flex items-center gap-3 overflow-hidden">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-indigo-500 flex items-center justify-center shrink-0 shadow-md">
+              <Sparkles size={15} className="text-white" />
             </div>
-        </ThemeProvider>
-    )
+            <AnimatePresence>
+              {!isCollapsed && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="overflow-hidden"
+                >
+                  <p className="text-[15px] font-bold text-slate-900 dark:text-white leading-none">
+                    Mindful<span className="text-violet-600">AI</span>
+                  </p>
+                  <p className="text-[10px] text-slate-400 mt-0.5 leading-none">Your wellness companion</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* Nav */}
+        <nav className="flex-1 overflow-y-auto sidebar-scroll py-4 px-3 space-y-5">
+          {NAV_GROUPS.map((group) => (
+            <div key={group.label}>
+              {!isCollapsed && (
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-600 px-3 mb-2">
+                  {group.label}
+                </p>
+              )}
+              <div className="space-y-0.5">
+                {group.items.map(item => (
+                  <NavItem
+                    key={item.href}
+                    item={item}
+                    isCollapsed={isCollapsed}
+                    isActive={pathname.startsWith(item.href)}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+        </nav>
+
+        {/* Footer */}
+        <div className="p-3 border-t border-slate-100 dark:border-white/[0.05] space-y-1 shrink-0">
+          <Link
+            href="/settings"
+            className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-500 hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-white/5 dark:hover:text-slate-100 transition-all ${pathname.startsWith('/settings') ? 'bg-violet-50 text-violet-700 dark:bg-violet-500/10 dark:text-violet-300' : ''}`}
+          >
+            <Settings size={18} strokeWidth={1.75} className="shrink-0" />
+            {!isCollapsed && <span className="text-sm font-medium">Settings</span>}
+          </Link>
+
+          {!isCollapsed && (
+            <div className="px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.05] flex items-center gap-3">
+              <Avatar username={user?.username} size="sm" />
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">{user?.username || 'User'}</p>
+                <p className="text-[11px] text-slate-400 truncate">{user?.email || 'user@mindfulai.app'}</p>
+              </div>
+              <button
+                onClick={() => { logout(); router.push('/login') }}
+                className="text-slate-400 hover:text-rose-500 transition-colors"
+                title="Sign out"
+              >
+                <LogOut size={15} />
+              </button>
+            </div>
+          )}
+
+          {isCollapsed && (
+            <button
+              onClick={() => { logout(); router.push('/login') }}
+              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-all w-full"
+              title="Sign out"
+            >
+              <LogOut size={18} className="shrink-0" />
+            </button>
+          )}
+        </div>
+
+        {/* Collapse toggle */}
+        <button
+          onClick={() => setIsCollapsed(v => !v)}
+          className="absolute -right-3 top-20 w-6 h-6 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-400 hover:text-violet-600 shadow-sm transition-all z-50 hidden lg:flex"
+        >
+          {isCollapsed ? <ChevronRight size={12} /> : <ChevronLeft size={12} />}
+        </button>
+      </motion.aside>
+
+      {/* ── MAIN CONTENT ── */}
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+
+        {/* Topbar */}
+        <header className="h-16 flex items-center justify-between px-6 bg-white dark:bg-[#0f1629] border-b border-slate-100 dark:border-white/[0.05] shrink-0 z-30">
+          <div className="flex items-center gap-4">
+            {/* Mobile menu */}
+            <button
+              onClick={() => setIsMobileOpen(v => !v)}
+              className="lg:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-white/5 transition-all"
+            >
+              <Menu size={20} />
+            </button>
+
+            {/* Breadcrumb */}
+            <div className="hidden sm:flex items-center gap-2">
+              <span className="text-sm font-semibold text-slate-900 dark:text-white">
+                {currentPage?.name || 'Dashboard'}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            {/* Search trigger */}
+            <button
+              onClick={() => setShowSearch(true)}
+              className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/[0.08] text-slate-400 text-sm hover:border-violet-300 dark:hover:border-violet-500/30 transition-all"
+            >
+              <Search size={14} />
+              <span className="text-xs">Quick jump</span>
+              <kbd className="px-1.5 py-0.5 bg-white dark:bg-slate-800 rounded text-[10px] font-mono border border-slate-200 dark:border-white/10">⌘K</kbd>
+            </button>
+
+            {/* Notifications */}
+            <button className="relative w-9 h-9 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/[0.08] text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-white/10 transition-all">
+              <Bell size={16} />
+              <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-violet-500 rounded-full" />
+            </button>
+
+            {/* Profile */}
+            <button className="flex items-center gap-2 px-2 py-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition-all">
+              <Avatar username={user?.username} size="sm" />
+              <ChevronDown size={14} className="text-slate-400 hidden sm:block" />
+            </button>
+          </div>
+        </header>
+
+        {/* Page content */}
+        <main className="flex-1 overflow-y-auto custom-scrollbar">
+          <div className="h-full">
+            {children}
+          </div>
+        </main>
+      </div>
+
+      {/* ── SEARCH PALETTE ── */}
+      <AnimatePresence>
+        {showSearch && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-start justify-center pt-[15vh] px-4"
+            onClick={() => setShowSearch(false)}
+          >
+            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.97, y: -12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.97, y: -12 }}
+              transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+              onClick={e => e.stopPropagation()}
+              className="relative w-full max-w-lg bg-white dark:bg-[#141b2d] rounded-2xl shadow-[0_24px_80px_rgba(0,0,0,0.2)] border border-slate-200 dark:border-white/10 overflow-hidden"
+            >
+              <div className="flex items-center gap-3 px-4 py-3.5 border-b border-slate-100 dark:border-white/[0.06]">
+                <Search size={18} className="text-slate-400 shrink-0" />
+                <input
+                  autoFocus
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  placeholder="Jump to any feature..."
+                  className="flex-1 text-sm text-slate-900 dark:text-white bg-transparent outline-none placeholder:text-slate-400"
+                />
+                <button onClick={() => setShowSearch(false)}>
+                  <X size={16} className="text-slate-400" />
+                </button>
+              </div>
+              <div className="max-h-80 overflow-y-auto p-2">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 px-3 py-2">Navigation</p>
+                {filteredItems.map(item => {
+                  const Icon = item.icon
+                  return (
+                    <button
+                      key={item.href}
+                      onClick={() => { router.push(item.href); setShowSearch(false); setSearchQuery('') }}
+                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-violet-50 dark:hover:bg-violet-500/10 text-left group transition-all"
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-500 dark:text-slate-400 group-hover:bg-violet-100 dark:group-hover:bg-violet-500/20 group-hover:text-violet-600 dark:group-hover:text-violet-300 transition-all">
+                        <Icon size={15} />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-slate-800 dark:text-slate-200 group-hover:text-violet-700 dark:group-hover:text-violet-300">{item.name}</p>
+                        <p className="text-xs text-slate-400">{item.desc}</p>
+                      </div>
+                    </button>
+                  )
+                })}
+                {filteredItems.length === 0 && (
+                  <p className="text-center text-sm text-slate-400 py-8">No results for "{searchQuery}"</p>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  )
 }

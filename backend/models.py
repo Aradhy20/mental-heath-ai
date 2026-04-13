@@ -9,15 +9,37 @@ import datetime as dt
 class DBUser(Base):
     __tablename__ = "users"
     
-    user_id = Column(String, primary_key=True, index=True)
-    username = Column(String, unique=True, index=True)
-    email = Column(String, unique=True, index=True)
-    password_hash = Column(String)
-    full_name = Column(String, nullable=True)
-    phone = Column(String, nullable=True)
+    user_id = Column(String(50), primary_key=True, index=True)
+    username = Column(String(50), unique=True, index=True)
+    email = Column(String(100), unique=True, index=True)
+    password_hash = Column(String(255))
+    full_name = Column(String(100), nullable=True)
+    phone = Column(String(20), nullable=True)
     is_active = Column(Boolean, default=True)
     last_login = Column(DateTime, default=dt.datetime.utcnow)
     created_at = Column(DateTime, default=dt.datetime.utcnow)
+
+class MoodLog(Base):
+    __tablename__ = "mood_logs"
+    id = Column(String(50), primary_key=True, index=True)
+    user_id = Column(String(50), index=True)
+    score = Column(String(50)) # Using string for flexibility, or Integer
+    feelings = Column(String(255))
+    activities = Column(String(255))
+    note = Column(String(500))
+    created_at = Column(DateTime, default=dt.datetime.utcnow)
+
+class DBJournal(Base):
+    __tablename__ = "journal_entries"
+    id = Column(String(50), primary_key=True, index=True)
+    user_id = Column(String(50), index=True)
+    title = Column(String(255))
+    content = Column(String(5000))
+    tags = Column(String(255))
+    sentiment = Column(String(50), default="neutral")
+    word_count = Column(String(10), default="0")
+    created_at = Column(DateTime, default=dt.datetime.utcnow)
+    updated_at = Column(DateTime, default=dt.datetime.utcnow)
 
 # ================= AUTH REQUESTS/RESPONSES =================
 class UserCreate(BaseModel):
@@ -48,8 +70,10 @@ class OTPVerify(BaseModel):
 
 class Token(BaseModel):
     access_token: str
+    token: Optional[str] = None
     token_type: str
     user_id: str
+    user: Optional[dict] = None
 
 # ================= AI MODULE REQUESTS =================
 class TextAnalysisRequest(BaseModel):
@@ -65,6 +89,22 @@ class FusionRequest(BaseModel):
     text_score: Optional[float] = None
     voice_score: Optional[float] = None
     face_score: Optional[float] = None
+
+class MoodEntry(BaseModel):
+    score: int  # 1-5
+    feelings: Optional[List[str]] = []
+    activities: Optional[List[str]] = []
+    note: Optional[str] = ""
+    user_id: Optional[str] = "guest"
+
+class JournalEntry(BaseModel):
+    id: Optional[str] = None
+    title: str
+    content: str
+    tags: Optional[List[str]] = []
+    sentiment: Optional[str] = "neutral"
+    word_count: Optional[int] = 0
+    user_id: Optional[str] = "guest"
     
 # ================= CHAT (RAG) MODELS =================
 class ChatRequest(BaseModel):

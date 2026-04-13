@@ -24,10 +24,11 @@ sessions_collection = analysis_logs_collection # Alias for Fusion service
 moods_collection = db["moods"]
 journals_collection = db["journals"]
 
-# --- SQL Configuration (SQLite via SQLAlchemy) ---
+# --- SQL Configuration (MySQL via SQLAlchemy) ---
 # Primary storage for: Auth, Identity, Tokens
-SQLITE_URL = "sqlite+aiosqlite:///./mindful_auth.db"
-engine = create_async_engine(SQLITE_URL, echo=False)
+# User: root, Pass: 12345678, DB: mindful_ai
+MYSQL_URL = "mysql+aiomysql://root:12345678@localhost/mindful_ai"
+engine = create_async_engine(MYSQL_URL, echo=False)
 AsyncSessionLocal = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 Base = declarative_base()
 

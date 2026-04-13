@@ -1,23 +1,24 @@
-# Mental Health App
+# MindfulAI Mental Health Platform
 
-A Git-first mental health and wellness platform with AI-enhanced mood tracking, journaling, personalized support, and analytics.
+MindfulAI is a full-stack mental health and wellness platform with a Next.js frontend, a FastAPI backend, and multiple AI-assisted services for mood tracking, journaling, conversational support, and emotion analysis across text, voice, and face inputs.
 
-This repository is designed to work without Docker. All setup and development is managed using Git, Node, Python, and local environment tools.
+This repository is organized for local development without Docker. The app can be run with standard Node.js and Python tooling, and it also includes supporting scripts, archived project documentation, and ML training/inference modules.
 
-## 🌈 What This App Offers
+## Overview
 
-- **Intelligent mental health assistant** with conversational support
-- **Mood tracking dashboard** with progress insights
-- **Personal journal** for thoughts, reflections, and growth
-- **AI-powered coping tools** for stress and anxiety
-- **Emotion detection** using text, voice, and face analysis
-- **Professional resources** and therapist directory
-- **Responsive interface** for mobile and desktop
+- AI-assisted mental health companion and wellness guidance
+- Mood tracking, journaling, insights, and dashboard views
+- Text, voice, face, and fusion analysis services
+- Therapist and specialist discovery interfaces
+- Mobile-friendly Next.js application
+- FastAPI backend with API routes, auth, and wellness endpoints
 
-## 🧩 Tech Stack
+## Tech Stack
 
 ### Frontend
-- Next.js + App Router
+
+- Next.js 15
+- React 18
 - TypeScript
 - Tailwind CSS
 - Framer Motion
@@ -25,106 +26,149 @@ This repository is designed to work without Docker. All setup and development is
 - Zustand
 
 ### Backend
-- FastAPI Python microservices
-- SQLite for local persistence
-- SQLAlchemy ORM
-- Axios / REST API integration
 
-### AI Models
-- Transformers-based text emotion model
-- Voice emotion analysis model
-- Face emotion model with TensorFlow/Keras
-- Multi-modal fusion and inference utilities
+- FastAPI
+- Uvicorn
+- SQLAlchemy
+- SQLite and Mongo-related integrations in different modules
+- Python microservice-style AI service layout
 
-## 📁 Project Structure
+### AI and ML
 
-```
-project/
-├── ai_models/           # AI training, inference, and model code
-├── backend/             # Python backend services and APIs
-├── docs/                # Documentation and architectural notes
-├── frontend/            # Next.js application and UI
-├── scripts/             # Auxiliary scripts and helpers
-└── README.md            # Project overview and setup guide
-```
+- Transformers
+- Sentence Transformers
+- TensorFlow / Keras
+- MediaPipe
+- OpenCV
+- Librosa
 
-## 🚀 Local Setup (Git-only)
+## Repository Structure
 
-### Prerequisites
-
-- Git
-- Node.js 18+
-- Python 3.10+ (recommended)
-- npm or pnpm
-
-### Clone the repository
-
-```bash
-git clone https://github.com/Aradhy20/mental-heath-.git
-cd mental-heath-
+```text
+.
+├── backend/      # FastAPI app, APIs, AI services, ML engines, scripts
+├── frontend/     # Next.js application and UI components
+├── docs/         # SRS and archived project documentation
+├── scripts/      # Utility scripts for setup, diagnostics, and startup
+├── logs/         # Runtime logs
+├── render.yaml   # Deployment configuration
+└── README.md
 ```
 
-### Install frontend dependencies
+## Key Areas
+
+### Frontend
+
+The frontend lives in `frontend/` and uses the Next.js App Router. It includes pages for:
+
+- dashboard
+- mood tracking
+- journal
+- meditation
+- chat
+- analysis
+- settings
+- doctors and specialists
+
+Useful command:
 
 ```bash
 cd frontend
 npm install
-```
-
-### Install backend dependencies
-
-```bash
-cd ../backend
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
-
-### Configure environment
-
-Copy the example environment file and update any secrets:
-
-```bash
-cp .env.example .env
-```
-
-Then open `.env` and configure at minimum:
-
-- `MONGO_DETAILS`
-- `JWT_SECRET_KEY`
-- `CORS_ORIGINS`
-
-### Run the app
-
-Start backend services and frontend in separate terminals.
-
-```bash
-# Terminal 1
-cd backend
-source .venv/bin/activate
-python start_services.py
-
-# Terminal 2
-cd frontend
 npm run dev
 ```
 
-Open the app at `http://localhost:3000`.
+### Backend
 
-## 💡 AI Model Training
+The main backend entrypoint is `backend/main.py`. API routers are grouped under `backend/api/`, and shared backend concerns are split across `backend/core/`, `backend/db/`, and service-specific modules.
 
-This project includes AI model training scripts under `ai_models/`.
-
-Use the local Python environment and the optional `.venv-ai` virtual environment if needed.
+Useful commands:
 
 ```bash
-cd ai_models
-python train_all.py
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-> This repository is configured to run without Docker. No Docker commands are required.
+The backend docs are available locally at:
 
-## 🧪 Available Scripts
+- `http://localhost:8000/api/docs`
+- `http://localhost:8000/api/redoc`
+
+### AI Services and ML
+
+This repository includes multiple AI-related modules under `backend/ai/` and `backend/ml/`, including:
+
+- text analysis
+- voice analysis
+- face analysis
+- fusion analysis
+- model training helpers
+
+Some advanced ML dependencies are intentionally separated or commented in requirements so local setup can stay flexible depending on the environment.
+
+## Local Development
+
+## Prerequisites
+
+- Node.js 18 or newer
+- npm
+- Python 3.10 or newer
+- pip
+- Git
+
+## 1. Clone the Repository
+
+```bash
+git clone https://github.com/Aradhy20/mental-heath-ai.git
+cd mental-heath-ai
+```
+
+## 2. Start the Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The frontend runs on `http://localhost:3000`.
+
+## 3. Start the Backend
+
+Open a second terminal:
+
+```bash
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+
+The backend runs on `http://localhost:8000`.
+
+## Optional Backend Script
+
+The repository also contains `backend/start_services.py`, which is intended to launch multiple service processes for a larger microservice-style setup.
+
+```bash
+cd backend
+source .venv/bin/activate
+python start_services.py
+```
+
+Depending on your environment, some optional service targets may require extra dependencies or additional service folders to be present.
+
+## Environment Notes
+
+- Keep secrets in local `.env` files and do not commit them
+- `.gitignore` is already configured for common Python, Next.js, database, and model-artifact exclusions
+- Some ML model files are intentionally ignored because they are too large for normal Git workflows
+
+## Common Commands
 
 ### Frontend
 
@@ -139,31 +183,27 @@ npm run start
 
 ```bash
 cd backend
-source .venv/bin/activate
-python start_services.py
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-### AI Models
+### Python Dependencies
 
 ```bash
-cd ai_models
-python train_all.py
+cd backend
+pip install -r requirements.txt
 ```
 
-## ✅ Contribution Guidelines
+## Documentation
 
-1. Fork the repository
-2. Create a branch: `git checkout -b feature/your-feature`
-3. Commit your changes: `git commit -m "Add feature description"`
-4. Push to GitHub: `git push origin feature/your-feature`
-5. Open a Pull Request
+- `docs/srs/` contains product and system requirement documentation
+- `docs/archive/` contains archived planning, architecture, and implementation notes
 
-## 📌 Notes
+## Deployment
 
-- This project is purposely Docker-free.
-- Use Git and local tools for development.
-- Keep secrets out of version control by using `.env`.
+The repository includes `render.yaml` and various helper scripts in `scripts/` that can be used as a starting point for deployment or service orchestration workflows.
 
-## 📞 Contact
+## Notes
 
-If you need help or want to collaborate, create a GitHub issue or message the repository owner.
+- This is an actively evolving project with both application code and experimental AI/ML pieces
+- Some scripts and modules represent alternative implementations or enhanced service variants
+- If you are setting this up for the first time, start with the frontend and core backend before enabling heavier ML dependencies

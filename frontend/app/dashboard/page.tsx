@@ -7,8 +7,8 @@ import {
   MessageCircle, MapPin, ArrowUpRight, ArrowDownRight,
   Activity, Calendar, ChevronRight, Zap
 } from 'lucide-react'
-import { useAuthStore } from '@/lib/store/auth-store'
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
+import { useAuthStore, getStoredToken } from '@/lib/store/auth-store'
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, PieChart, Pie, Cell } from 'recharts'
 import Link from 'next/link'
 
 const API_BASE = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:8001'
@@ -115,6 +115,7 @@ function InsightItem({ emoji, title, desc, type }: { emoji: string; title: strin
 export default function DashboardPage() {
   const { user } = useAuthStore()
   const [stats, setStats] = useState<any>(null)
+  const [twin, setTwin] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const hour = new Date().getHours()
   const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening'
@@ -122,8 +123,14 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetch_stats = async () => {
       try {
-        const res = await fetch(`${API_BASE}/api/v1/dashboard/stats`)
-        if (res.ok) setStats(await res.json())
+        const [statsRes, twinRes] = await Promise.all([
+            fetch(`${API_BASE}/api/v1/dashboard/stats`),
+            fetch(`${API_BASE}/api/v1/profile/twin`, {
+                headers: { ...(getStoredToken() ? { Authorization: `Bearer ${getStoredToken()}` } : {}) }
+            })
+        ])
+        if (statsRes.ok) setStats(await statsRes.json())
+        if (twinRes.ok) setTwin(await twinRes.json())
       } catch (_) {
         // use defaults
       } finally {
@@ -139,6 +146,12 @@ export default function DashboardPage() {
     sleep_quality: '72%',
     active_sessions: 12,
     timeline: WEEK_DATA.map(d => ({ time: d.day, mood: d.mood })),
+    emotion_distribution: [
+      { name: 'Happy', value: 35, color: '#10b981' },
+      { name: 'Anxious', value: 25, color: '#8b5cf6' },
+      { name: 'Sad', value: 20, color: '#3b82f6' },
+      { name: 'Neutral', value: 20, color: '#94a3b8' },
+    ],
     insights: []
   }
 
@@ -164,6 +177,54 @@ export default function DashboardPage() {
             <Sparkles size={15} /> Daily Check-in
           </Link>
         </motion.div>
+
+        {/* ── Digital Twin Profile (New) ── */}
+        {twin && twin.status !== 'guest_mode' && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.98 }} 
+            animate={{ opacity: 1, scale: 1 }}
+            className="p-6 rounded-3xl bg-gradient-to-br from-indigo-600 via-violet-600 to-purple-700 text-white shadow-xl shadow-indigo-500/20 overflow-hidden relative"
+          >
+            {/* Decorative background elements */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-indigo-400/20 rounded-full -ml-10 -mb-10 blur-2xl pointer-events-none" />
+
+            <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="md:col-span-1 border-r border-white/10 pr-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <Brain size={18} className="text-indigo-200" />
+                  <h3 className="text-xs font-bold uppercase tracking-widest text-indigo-100">Digital Twin Profile</h3>
+                </div>
+                <p className="text-3xl font-extrabold mb-1">Resilience: {Math.round(twin.resilience_index)}%</p>
+                <p className="text-xs text-indigo-100/70">Based on your activity patterns and emotional recovery rate.</p>
+              </div>
+
+              <div className="md:col-span-1 border-r border-white/10 pr-4">
+                <h4 className="text-[10px] font-bold uppercase tracking-widest text-indigo-200 mb-3">Top Emotional Triggers</h4>
+                <div className="flex flex-wrap gap-2">
+                  {twin.top_triggers?.map(([t]: any) => (
+                    <span key={t} className="px-2.5 py-1 rounded-full bg-white/15 text-[10px] font-bold border border-white/10 capitalize">
+                      {t}
+                    </span>
+                  )) || <span className="text-xs italic text-white/50">Collecting data...</span>}
+                </div>
+              </div>
+
+              <div className="md:col-span-1">
+                <h4 className="text-[10px] font-bold uppercase tracking-widest text-indigo-200 mb-2">Vulnerability Window</h4>
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-xl bg-white/15 border border-white/10">
+                    <Calendar size={16} />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold">{twin.vulnerability_window}</p>
+                    <p className="text-[10px] text-indigo-200">Daily peak stress window identified.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
 
         {/* ── Metric Row ── */}
         <motion.div
@@ -287,6 +348,46 @@ export default function DashboardPage() {
               <MessageCircle size={15} /> Talk to MindfulAI
             </Link>
           </motion.div>
+
+          {/* New: Emotion Distribution */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.25 }}
+            className="bg-white dark:bg-[#0f1629] rounded-2xl border border-slate-200 dark:border-white/[0.06] shadow-sm p-6"
+          >
+            <h2 className="font-semibold text-slate-900 dark:text-white mb-6">Emotion Distribution</h2>
+            <div className="h-64 relative">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={data.emotion_distribution}
+                    innerRadius={60}
+                    outerRadius={80}
+                    paddingAngle={5}
+                    dataKey="value"
+                  >
+                    {data.emotion_distribution.map((entry: any, index: number) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+              <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                <span className="text-2xl font-bold text-slate-900 dark:text-white">74%</span>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Balanced</span>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2 mt-4">
+               {data.emotion_distribution.map((entry: any) => (
+                 <div key={entry.name} className="flex items-center gap-2">
+                   <div className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
+                   <span className="text-[10px] font-semibold text-slate-500">{entry.name}</span>
+                 </div>
+               ))}
+            </div>
+          </motion.div>
         </div>
 
         {/* ── Bottom Row: Recent Activity + Find Therapist ── */}
@@ -367,6 +468,14 @@ export default function DashboardPage() {
               <MapPin size={14} /> Find More Near Me
             </Link>
           </motion.div>
+        </div>
+
+        {/* Safety Disclaimer */}
+        <div className="mt-12 py-8 border-t border-slate-200 dark:border-white/[0.05] text-center">
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-relaxed max-w-2xl mx-auto italic">
+              "MindfulAI provides mental wellness support and is not a substitute for licensed professionals. 
+              If you are in a crisis, please seek immediate help from emergency services or listed helplines."
+            </p>
         </div>
 
       </div>

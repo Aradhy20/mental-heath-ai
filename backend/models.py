@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 from datetime import datetime
 from sqlalchemy import Column, String, DateTime, Boolean, JSON
 from database import Base
@@ -125,3 +125,113 @@ class SessionDocument(BaseModel):
     final_score: float
     risk_level: str
     timestamp: datetime = Field(default_factory=datetime.utcnow)
+
+
+# ================= AI EMOTIONAL COPILOT MODELS =================
+class CopilotContext(BaseModel):
+    time_of_day: Optional[str] = None
+    sleep_hours: Optional[float] = None
+    recent_trigger: Optional[str] = None
+    available_minutes: Optional[int] = 5
+
+
+class EmotionalSignal(BaseModel):
+    emotion: str
+    score: float
+    confidence: float
+    valence: float
+    arousal: float
+    stress: float
+    source: str
+
+
+class RecommendedAction(BaseModel):
+    type: str
+    title: str
+    reason: str
+    duration_minutes: int
+    follow_up_prompt: str
+
+
+class EmotionalState(BaseModel):
+    primary_emotion: str
+    secondary_emotions: List[str] = []
+    valence: float
+    arousal: float
+    stress_score: float
+    confidence: float
+    risk_level: str
+    emotion_score: float
+    emotional_fatigue_score: float
+    burnout_risk: float
+    contributors: Dict[str, float]
+    explanation: List[str] = []
+
+
+class AnalyzeEmotionRequest(BaseModel):
+    text: Optional[str] = None
+    voice_score: Optional[float] = None
+    voice_confidence: Optional[float] = None
+    face_score: Optional[float] = None
+    face_confidence: Optional[float] = None
+    context: Optional[CopilotContext] = None
+
+
+class AnalyzeEmotionResponse(BaseModel):
+    emotion: str
+    confidence: float
+    risk_level: str
+    emotional_fatigue_score: float
+    burnout_risk: float
+    recommended_action: RecommendedAction
+    state: EmotionalState
+
+
+class ChatTherapyRequest(BaseModel):
+    message: str
+    mode: str = "auto"
+    include_context: bool = True
+    context: Optional[CopilotContext] = None
+
+
+class ChatTherapyResponse(BaseModel):
+    reply: str
+    mode: str
+    detected_distortions: List[str] = []
+    risk_level: str
+    next_action: RecommendedAction
+    state: EmotionalState
+    memory_summary: Optional[str] = None
+
+
+class PredictMoodRequest(BaseModel):
+    horizon_days: int = 7
+
+
+class PredictMoodResponse(BaseModel):
+    trend: str
+    forecast_confidence: float
+    burnout_risk: float
+    circadian_low_windows: List[str]
+    explanation: List[str]
+
+
+class RecommendActionsRequest(BaseModel):
+    emotion: str
+    stress_score: float
+    energy_score: Optional[float] = 0.5
+    available_minutes: Optional[int] = 5
+
+
+class RecommendActionsResponse(BaseModel):
+    recommended_actions: List[RecommendedAction]
+    rationale: str
+
+
+class MemorySnapshot(BaseModel):
+    history_score: float = 0.5
+    recent_mood_average: float = 0.5
+    recent_emotions: List[str] = []
+    common_distortions: List[str] = []
+    summary: str = "No recent emotional memory available."
+    helpful_actions: List[str] = []

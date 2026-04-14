@@ -9,7 +9,7 @@ os.environ["USE_TORCH"] = "1"
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from core.logging import log
-from api import auth, analysis, fusion, wellness
+from api import auth, analysis, copilot, fusion, wellness, chat, alerts, voice
 
 app = FastAPI(
     title="MindfulAI SaaS Platform — API",
@@ -69,11 +69,16 @@ async def websocket_analysis(websocket: WebSocket):
 # Connect Routers
 app.include_router(auth.router, prefix="/api/v1")
 app.include_router(analysis.router, prefix="/api/v1")
+app.include_router(copilot.router, prefix="/api/v1")
 app.include_router(wellness.router, prefix="/api/v1")
 try:
     app.include_router(fusion.router, prefix="/api/v1")
 except Exception:
     pass  # fusion router is optional
+
+app.include_router(chat.router, prefix="/api/v1")
+app.include_router(alerts.router, prefix="/api/v1")
+app.include_router(voice.router, prefix="/api/v1")
 
 @app.get("/")
 def health_check():

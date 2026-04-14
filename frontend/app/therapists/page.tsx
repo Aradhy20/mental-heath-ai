@@ -145,6 +145,8 @@ const STATIC_RESOURCES: Resource[] = [
   }
 ]
 
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001'
+
 // ─── Type Config ───────────────────────────────────────────────────────────
 const TYPE_CONFIG: Record<ResourceType, { icon: React.ElementType; color: string; bg: string }> = {
   'Therapist':         { icon: Brain,    color: 'text-violet-600', bg: 'bg-violet-100 dark:bg-violet-500/15' },
@@ -158,7 +160,7 @@ const TYPE_CONFIG: Record<ResourceType, { icon: React.ElementType; color: string
 
 // ─── Resource Card ─────────────────────────────────────────────────────────
 function ResourceCard({ r, isSelected, onSelect }: { r: Resource; isSelected: boolean; onSelect: () => void }) {
-  const config = TYPE_CONFIG[r.type]
+  const config = TYPE_CONFIG[r.type] || TYPE_CONFIG['Therapist']
   const Icon = config.icon
 
   return (
@@ -255,10 +257,42 @@ export default function TherapistsPage() {
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [mapQuery, setMapQuery] = useState('mental health clinics India')
   const [showFilters, setShowFilters] = useState(false)
+  const [resources, setResources] = useState<Resource[]>(STATIC_RESOURCES)
+  const [isLoading, setIsLoading] = useState(false)
+
+  const fetchResources = useCallback(async () => {
+    setIsLoading(true)
+    try {
+        const typeMap: any = { 'Therapist': 'mental_health', 'Psychiatrist': 'hospital', 'Psychologist': 'mental_health', 'Yoga Studio': 'yoga', 'Gym': 'gym' }
+        const queryType = typeMap[activeType] || 'mental_health'
+        
+        // Use Indian coordinates (Bangalore) as default base for finding resources
+        const res = await fetch(`${API_BASE}/api/v1/nearby-resources?type=${queryType}&lat=12.9716&lon=77.5946&radius=10000`)
+        if (res.ok) {
+            const data = await res.json()
+            const mapped = data.results.map((r: any) => ({
+                ...r,
+                lng: r.lon, // map backend 'lon' to frontend 'lng'
+                rating: r.rating || 4.5,
+                tags: r.tags || ['Verified'],
+                type: r.type || activeType
+            }))
+            setResources(mapped)
+        }
+    } catch (e) {
+        console.error("Failed to fetch resources", e)
+    } finally {
+        setIsLoading(false)
+    }
+  }, [activeType])
+
+  useEffect(() => {
+    fetchResources()
+  }, [fetchResources])
 
   const types = ['All', 'Therapist', 'Psychiatrist', 'Psychologist', 'Yoga Studio', 'Gym', 'Crisis Center']
 
-  const filtered = STATIC_RESOURCES.filter(r => {
+  const filtered = resources.filter(r => {
     const matchSearch = r.name.toLowerCase().includes(search.toLowerCase()) ||
       r.address.toLowerCase().includes(search.toLowerCase()) ||
       r.tags.some(t => t.toLowerCase().includes(search.toLowerCase()))
@@ -277,7 +311,7 @@ export default function TherapistsPage() {
     return () => clearTimeout(t)
   }, [handleSearchMap])
 
-  const selectedResource = STATIC_RESOURCES.find(r => r.id === selectedId)
+  const selectedResource = resources.find(r => r.id === selectedId)
 
   return (
     <div className="h-[calc(100vh-4rem)] flex flex-col bg-slate-50 dark:bg-[#0a0d1a]">

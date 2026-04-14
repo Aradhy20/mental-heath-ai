@@ -1,0 +1,6002 @@
+[
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I am proud of what I accomplished this week.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Everything would be better without me",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've planned how to end it",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I want to end my life",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm thinking of hurting myself",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've planned how to end it",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I want to end my life",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I want to end my life",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I am proud of what I accomplished this week.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've planned how to end it",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I am proud of what I accomplished this week.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Everything would be better without me",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've planned how to end it",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm thinking of hurting myself",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm thinking of hurting myself",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've planned how to end it",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm thinking of hurting myself",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Everything would be better without me",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Everything would be better without me",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I want to end my life",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've planned how to end it",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm thinking of hurting myself",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I am proud of what I accomplished this week.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Everything would be better without me",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I want to end my life",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I want to end my life",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've planned how to end it",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I am proud of what I accomplished this week.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I want to end my life",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I want to end my life",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I am proud of what I accomplished this week.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "I'm thinking of hurting myself",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I am proud of what I accomplished this week.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "Everything would be better without me",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I want to end my life",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I am proud of what I accomplished this week.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've planned how to end it",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I am proud of what I accomplished this week.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Everything would be better without me",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm thinking of hurting myself",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Everything would be better without me",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I am proud of what I accomplished this week.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm thinking of hurting myself",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "I want to end my life",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Everything would be better without me",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Everything would be better without me",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm thinking of hurting myself",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I want to end my life",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I am proud of what I accomplished this week.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I want to end my life",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I'm thinking of hurting myself",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I am proud of what I accomplished this week.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I am proud of what I accomplished this week.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm thinking of hurting myself",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've planned how to end it",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've planned how to end it",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I am proud of what I accomplished this week.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I want to end my life",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I want to end my life",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm thinking of hurting myself",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Everything would be better without me",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm thinking of hurting myself",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've planned how to end it",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Everything would be better without me",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Everything would be better without me",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Everything would be better without me",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm thinking of hurting myself",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm thinking of hurting myself",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm thinking of hurting myself",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I am proud of what I accomplished this week.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I am proud of what I accomplished this week.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've planned how to end it",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I am proud of what I accomplished this week.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I'm thinking of hurting myself",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I am proud of what I accomplished this week.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I am proud of what I accomplished this week.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've planned how to end it",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I want to end my life",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Everything would be better without me",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm thinking of hurting myself",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I am proud of what I accomplished this week.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've planned how to end it",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've planned how to end it",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm thinking of hurting myself",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "Everything would be better without me",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm thinking of hurting myself",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm thinking of hurting myself",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's hard to see the light at the end of the tunnel right now.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm thinking of hurting myself",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've planned how to end it",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I am proud of what I accomplished this week.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Everything would be better without me",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've planned how to end it",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I can't go on like this anymore",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so frustrated with how things are being handled.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Why does everything have to be so difficult?",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've planned how to end it",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "Spending time outside really cheered me up.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I want to end my life",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just want to scream, nobody is listening to me.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I want to end my life",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm so overwhelmed with work, I can't breathe sometimes.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel really good today, like everything is finally clicking.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I am proud of what I accomplished this week.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Nothing feels right lately, I just want to stay in bed.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I just feel so heavy and drained, I can't find the motivation.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've planned how to end it",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I'm tired of being treated this way, it's not fair.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel like something bad is about to happen but I don't know what.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've been pacing around all morning, I just can't settle down.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "My heart is racing and I can't stop thinking about what if it goes wrong.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "catastrophizing"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Had a productive morning and I feel energized.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Everything would be better without me",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Every small noise makes me jump, I'm just so on edge.",
+    "label_emotion": "anxious",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I feel so much tension in my chest, I'm just furious.",
+    "label_emotion": "angry",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "I've planned how to end it",
+    "label_emotion": "sad",
+    "label_risk": "HIGH",
+    "label_pattern": "none"
+  },
+  {
+    "text": "It's a normal day, just going through the routine.",
+    "label_emotion": "neutral",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "So grateful for the support I have. Life is beautiful.",
+    "label_emotion": "happy",
+    "label_risk": "LOW",
+    "label_pattern": "none"
+  },
+  {
+    "text": "Thinking about the past always makes me feel so lonely.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  },
+  {
+    "text": "I feel like I'm failing everyone around me.",
+    "label_emotion": "sad",
+    "label_risk": "LOW",
+    "label_pattern": "overthinking"
+  }
+]

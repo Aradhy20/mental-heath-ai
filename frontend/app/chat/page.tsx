@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Send, Mic, Video, VideoOff, Brain,
-  Sparkles, AlertTriangle, Phone, Activity,
+  Sparkles, AlertTriangle, Phone, Activity, Zap,
   X, RotateCcw, Loader2, ChevronDown, Copy, Check
 } from 'lucide-react'
 import { useAuthStore, getStoredToken } from '@/lib/store/auth-store'
@@ -19,6 +19,9 @@ interface Message {
   content: string
   time: string
   emotion?: string
+  mode?: string
+  risk?: string
+  action?: string
 }
 
 // ─── Quick prompts ───────────────────────────────────────────────────────────
@@ -183,24 +186,85 @@ export default function ChatPage() {
   const [isTyping, setIsTyping] = useState(false)
   const [isVideoActive, setIsVideoActive] = useState(false)
   const [showCrisis, setShowCrisis] = useState(false)
-  const [detectedEmotion, setDetectedEmotion] = useState<string | null>(null)
   const [sessionCount, setSessionCount] = useState(0)
   const [showQuickPrompts, setShowQuickPrompts] = useState(true)
+  const [mentalState, setMentalState] = useState<any>(null)
+  const [lastAction, setLastAction] = useState<string | null>(null)
+  const [detectedEmotion, setDetectedEmotion] = useState<string | null>(null)
+  const [isRecording, setIsRecording] = useState(false)
+  const [isVoiceEnabled, setIsVoiceEnabled] = useState(true)
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const chatContainerRef = useRef<HTMLDivElement>(null)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null)
+  const audioChunksRef = useRef<Blob[]>([])
+
+  // Auto-play voice audio when received
+  const playVoice = useCallback((base64Audio: string) => {
+    if (!isVoiceEnabled || !base64Audio) return
+    if (audioRef.current) {
+      audioRef.current.src = base64Audio
+      audioRef.current.play().catch(e => console.log("Audio play blocked/failed:", e))
+    }
+  }, [isVoiceEnabled])
+
+  // Voice Interaction Logic
+  const toggleRecording = async () => {
+    if (isRecording) {
+      mediaRecorderRef.current?.stop()
+      setIsRecording(false)
+    } else {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+        const mediaRecorder = new MediaRecorder(stream)
+        mediaRecorderRef.current = mediaRecorder
+        audioChunksRef.current = []
+
+        mediaRecorder.ondataavailable = (e) => audioChunksRef.current.push(e.data)
+        mediaRecorder.onstop = async () => {
+          const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' })
+          const formData = new FormData()
+          formData.append('audio', audioBlob)
+
+          setIsTyping(true)
+          try {
+            const res = await fetch(`${API_BASE}/api/v1/voice`, {
+              method: 'POST',
+              headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+              body: formData
+            })
+            const data = await res.json()
+            if (data.transcript) {
+               handleSend(data.transcript, true)
+            }
+          } catch (e) {
+            console.error("Voice upload failed:", e)
+            setIsTyping(false)
+          }
+        }
+
+        mediaRecorder.start()
+        setIsRecording(true)
+      } catch (err) {
+        console.error("Mic access denied:", err)
+        alert("Please allow microphone access to use voice features.")
+      }
+    }
+  }
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isTyping])
 
-  const handleSend = useCallback(async (text?: string) => {
+  const handleSend = useCallback(async (text?: string, isVoice = false) => {
     const userText = (text || input).trim()
-    if (!userText || isTyping) return
+    if (!userText && !isVoice) return
+    if (isTyping) return
 
     const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    const userMsg: Message = { id: Date.now().toString(), role: 'user', content: userText, time: now }
+    const userMsg: Message = { id: Date.now().toString(), role: 'user', content: userText || "🎤 [Voice Message]", time: now }
 
     setMessages(prev => [...prev, userMsg])
     setInput('')
@@ -215,18 +279,36 @@ export default function ChatPage() {
           'Content-Type': 'application/json',
           ...(token ? { Authorization: `Bearer ${token}` } : {})
         },
-        body: JSON.stringify({ prompt: userText, user_id: 'default_user' })
+        body: JSON.stringify({ 
+          message: userText, 
+          use_voice_features: true,
+          history: messages.slice(-4).map(m => ({ role: m.role, content: m.content }))
+        })
       })
 
       const data = res.ok ? await res.json() : null
-      const replyContent = data?.response || "I'm here with you. Could you tell me a bit more about how you're feeling?"
+      
+      if (data) {
+        setMentalState({
+            emotion: data.emotion,
+            risk: data.risk_level,
+            state: data.mental_state,
+            contribution: data.modality_contribution
+        })
+        setLastAction(data.recommended_action)
+        if (data.voice_audio) playVoice(data.voice_audio)
+      }
+
+      const replyContent = data?.message || "I'm here with you. Could you tell me a bit more about how you're feeling?"
 
       setMessages(prev => [...prev, {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
         content: replyContent,
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        emotion: detectedEmotion || undefined
+        emotion: data?.emotion || undefined,
+        mode: data?.mode || undefined,
+        action: data?.recommended_action || undefined
       }])
     } catch {
       setMessages(prev => [...prev, {
@@ -238,7 +320,7 @@ export default function ChatPage() {
     } finally {
       setIsTyping(false)
     }
-  }, [input, isTyping, token, detectedEmotion])
+  }, [input, isTyping, token, playVoice, messages])
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -290,10 +372,48 @@ export default function ChatPage() {
             <p className="text-[9px] text-slate-400 uppercase tracking-wider font-medium">Messages</p>
           </div>
           <div className="p-3 rounded-xl bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-center">
-            <p className="text-sm font-bold text-slate-900 dark:text-white capitalize">{detectedEmotion || 'N/A'}</p>
-            <p className="text-[9px] text-slate-400 uppercase tracking-wider font-medium">Mood Detect</p>
+            <p className="text-sm font-bold text-emerald-600 dark:text-emerald-400 capitalize">{mentalState?.emotion || 'Neutral'}</p>
+            <p className="text-[9px] text-slate-400 uppercase tracking-wider font-medium">Emotion</p>
           </div>
         </div>
+
+        {/* AI Insight Card */}
+        {mentalState && (
+          <motion.div 
+            initial={{ opacity: 0, y: 5 }} 
+            animate={{ opacity: 1, y: 0 }}
+            className="p-4 rounded-xl bg-violet-600 text-white shadow-lg"
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <Activity size={14} />
+              <p className="text-[10px] font-bold uppercase tracking-widest">Mental State</p>
+            </div>
+            <p className="text-sm font-bold capitalize mb-1">{mentalState.state}</p>
+            <div className="w-full bg-white/20 h-1.5 rounded-full overflow-hidden">
+                <div 
+                  className="bg-white h-full transition-all duration-1000" 
+                  style={{ width: `${(mentalState.contribution?.text || 0.5) * 100}%` }} 
+                />
+            </div>
+          </motion.div>
+        )}
+
+        {/* Recommended Action */}
+        {lastAction && (
+          <motion.div 
+            initial={{ opacity: 0, x: -5 }} 
+            animate={{ opacity: 1, x: 0 }}
+            className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20"
+          >
+            <div className="flex items-center gap-2 mb-2 text-emerald-700 dark:text-emerald-400">
+                <Zap size={14} />
+                <p className="text-[10px] font-bold uppercase tracking-widest">Suggested Action</p>
+            </div>
+            <p className="text-xs font-medium text-slate-700 dark:text-slate-300 italic">
+                "{lastAction}"
+            </p>
+          </motion.div>
+        )}
 
         {/* Face Detector */}
         <div className="flex-1 flex flex-col gap-3">
@@ -414,6 +534,16 @@ export default function ChatPage() {
         {/* Input bar */}
         <div className="px-5 pb-5 shrink-0">
           <div className="flex items-end gap-3 bg-white dark:bg-[#0f1629] border border-slate-200 dark:border-white/[0.08] rounded-2xl shadow-sm px-4 py-3 focus-within:border-violet-400 focus-within:ring-2 focus-within:ring-violet-400/15 transition-all">
+            <button
+               onClick={toggleRecording}
+               className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all shrink-0 ${
+                 isRecording 
+                   ? 'bg-red-500 text-white animate-pulse' 
+                   : 'text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5'
+               }`}
+            >
+               <Mic size={18} />
+            </button>
             <textarea
               ref={inputRef}
               rows={1}
@@ -424,13 +554,22 @@ export default function ChatPage() {
                 e.target.style.height = Math.min(e.target.scrollHeight, 120) + 'px'
               }}
               onKeyDown={handleKeyDown}
-              placeholder="Share how you're feeling..."
+              placeholder={isRecording ? "Listening..." : "Share how you're feeling..."}
               className="flex-1 bg-transparent text-sm text-slate-900 dark:text-white placeholder:text-slate-400 resize-none outline-none max-h-[120px] leading-relaxed"
-              disabled={isTyping}
+              disabled={isTyping || isRecording}
             />
             <button
+               onClick={() => setIsVoiceEnabled(!isVoiceEnabled)}
+               className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all shrink-0 ${
+                  isVoiceEnabled ? 'text-violet-500' : 'text-slate-300'
+               }`}
+               title={isVoiceEnabled ? "Mute AI Voice" : "Unmute AI Voice"}
+            >
+               <Activity size={16} />
+            </button>
+            <button
               onClick={() => handleSend()}
-              disabled={!input.trim() || isTyping}
+              disabled={!input.trim() || isTyping || isRecording}
               className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center text-white shrink-0 disabled:opacity-40 hover:brightness-110 active:scale-95 transition-all shadow-md shadow-violet-500/25"
             >
               {isTyping ? <Loader2 size={15} className="animate-spin" /> : <Send size={15} />}

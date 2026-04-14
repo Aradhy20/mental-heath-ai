@@ -104,16 +104,7 @@ async def analyze_face(req: FaceAnalysisRequest, user_id: str = Depends(get_opti
     
     return result
 
-# ── Chat (LLM Powered) ──────────────────────────────────────────────────────
-class PersonaChatRequest(BaseModel):
-    prompt: str
-    user_id: Optional[str] = "guest"
-
-@router.post("/chat")
-async def therapy_chat(req: PersonaChatRequest, user_id: str = Depends(get_optional_user)):
-    final_user_id = user_id or req.user_id
-    response = chatbot.chat(req.prompt, user_id=final_user_id)
-    return {"response": response, "user_id": final_user_id}
+# Legacy chat removed. Use the new v3.0 Intelligent Chat API at /api/v1/chat
 
 # ── Dashboard Stats (Synthetic Data Integration) ──────────────────────────
 @router.get("/dashboard/stats")
@@ -126,13 +117,19 @@ async def get_dashboard_stats(user_id: str = Depends(get_optional_user)):
         "sleep_quality": "72%",
         "active_sessions": 12,
         "timeline": [
-            { "time": 'Mon', "text": 30, "face": 45 },
-            { "time": 'Tue', "text": 40, "face": 50 },
-            { "time": 'Wed', "text": 25, "face": 30 },
-            { "time": 'Thu', "text": 60, "face": 65 },
-            { "time": 'Fri', "text": 45, "face": 40 },
-            { "time": 'Sat', "text": 20, "face": 25 },
-            { "time": 'Sun', "text": 35, "face": 35 },
+            { "time": 'Mon', "mood": 4 },
+            { "time": 'Tue', "mood": 3 },
+            { "time": 'Wed', "mood": 2 },
+            { "time": 'Thu', "mood": 5 },
+            { "time": 'Fri', "mood": 4 },
+            { "time": 'Sat', "mood": 4 },
+            { "time": 'Sun', "mood": 5 },
+        ],
+        "emotion_distribution": [
+            { "name": 'Happy', "value": 35, "color": '#10b981' },
+            { "name": 'Anxious', "value": 25, "color": '#8b5cf6' },
+            { "name": 'Sad', "value": 20, "color": '#3b82f6' },
+            { "name": 'Neutral', "value": 20, "color": '#94a3b8' },
         ],
         "insights": [
             { "title": "Anomaly Detected", "time": "12m ago", "desc": "Slight tremor picked up in voice frequency. Rest is advised." },

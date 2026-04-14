@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 // API Configuration
-// API Configuration
 const API_URL = process.env.NEXT_PUBLIC_AUTH_URL
   ? `${process.env.NEXT_PUBLIC_AUTH_URL}/api/v1`
   : 'http://localhost:8001/api/v1';
@@ -77,6 +76,15 @@ export const doctorsAPI = {
 export const userAPI = {
   getDashboardStats: () => api.get('/users/dashboard-stats'),
   getMoodHistory: () => api.get('/mood'),
+};
+
+export const intelligentChatAPI = {
+  chat: (data: { message: string, voice_score?: number, face_score?: number }) => api.post('/chat/', data),
+};
+
+export const alertsAPI = {
+  getAlerts: () => api.get('/alerts/'),
+  logCrisis: () => api.post('/alerts/crisis-log/'),
 };
 
 export default api;

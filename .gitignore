@@ -110,3 +110,6 @@ ai_models/text/model/
 !backend/ai_models/face/model/*.pt
 
 backend/venv/
+
+# AI Datasets
+Mental-Health-Detection--1/

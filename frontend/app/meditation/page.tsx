@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
-  Play, Clock, Wind, Zap, Brain, Shield, Heart, 
+  Play, Clock, Wind, Zap, Brain, Shield, Heart, Activity,
   Sparkles, RotateCcw, ChevronRight, Volume2, VolumeX, Pause
 } from 'lucide-react'
 import { useAuthStore } from '@/lib/store/auth-store'
@@ -74,11 +74,11 @@ export default function MeditationPage() {
       const res = await fetch(`http://localhost:8001/api/v1/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: `Give me 1 short, soothing mental wellness tip for ${cat}. Max 20 words.` })
+        body: JSON.stringify({ message: `Give me 1 short, soothing mental wellness tip for ${cat}. Max 20 words.` })
       })
       if (res.ok) {
         const data = await res.json()
-        setStrategy(data.response)
+        setStrategy(data.message)
       }
     } catch {
       setStrategy("Take a deep breath and find stillness in this moment. You are doing well.")

@@ -11,9 +11,9 @@ load_dotenv(dotenv_path=env_path)
 
 # --- NoSQL Configuration (MongoDB Atlas) ---
 # Primary storage for: Journals, Moods, AI Analysis logs
-MONGO_URL = os.getenv("MONGO_DETAILS", "mongodb://localhost:27017")
-DB_NAME = os.getenv("MONGO_DB_NAME", "mindfulai_db")
-client = AsyncIOMotorClient(MONGO_URL, tlsCAFile=certifi.where())
+MONGO_URL = os.getenv("MONGO_URL", os.getenv("MONGO_DETAILS", "mongodb://localhost:27017"))
+DB_NAME = os.getenv("MONGO_DB_NAME", "mental_health_db")
+client = AsyncIOMotorClient(MONGO_URL, tlsCAFile=certifi.where(), serverSelectionTimeoutMS=5000)
 db = client[DB_NAME]
 
 # Collections
@@ -27,8 +27,18 @@ journals_collection = db["journals"]
 # --- SQL Configuration (MySQL via SQLAlchemy) ---
 # Primary storage for: Auth, Identity, Tokens
 # User: root, Pass: 12345678, DB: mindful_ai
-MYSQL_URL = "mysql+aiomysql://root:12345678@localhost/mindful_ai"
-engine = create_async_engine(MYSQL_URL, echo=False)
+# Use MySQL in production; fall back to SQLite for local development
+MYSQL_URL = os.getenv(
+    "MYSQL_URL",
+    "mysql+aiomysql://root:12345678@localhost/mindful_ai"
+)
+# SQLite async fallback (zero-config local dev)
+SQLITE_URL = "sqlite+aiosqlite:///./mindfulai_local.db"
+
+try:
+    engine = create_async_engine(MYSQL_URL, echo=False, pool_pre_ping=True)
+except Exception:
+    engine = create_async_engine(SQLITE_URL, echo=False)
 AsyncSessionLocal = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 Base = declarative_base()
 

@@ -10,8 +10,10 @@ import {
 import { useAuthStore, getStoredToken } from '@/lib/store/auth-store'
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, PieChart, Pie, Cell } from 'recharts'
 import Link from 'next/link'
+import AICompanion from '@/components/dashboard/AICompanion'
 
-const API_BASE = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:8001'
+
+const API_BASE = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:8000'
 
 // ─── Animated counter ────────────────────────────────────────────────────────
 function Counter({ to, suffix = '' }: { to: number; suffix?: string }) {
@@ -159,23 +161,27 @@ export default function DashboardPage() {
     <div className="min-h-full bg-slate-50 dark:bg-[#0a0d1a] p-6 lg:p-8">
       <div className="max-w-6xl mx-auto space-y-7">
 
-        {/* ── Header ── */}
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
+        {/* ── Header with AI Companion ── */}
+        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+          <div className="flex-1">
             <p className="text-sm font-medium text-violet-600 dark:text-violet-400 mb-1">
               {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
             </p>
             <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
               {greeting}, {user?.username?.split(' ')[0] || 'there'} 👋
             </h1>
-            <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
+            <p className="text-slate-500 dark:text-slate-400 text-sm mt-1 mb-6">
               Here's your wellness snapshot for today.
             </p>
+            <Link href="/mood" className="btn-primary inline-flex gap-2">
+              <Sparkles size={15} /> Daily Check-in
+            </Link>
           </div>
 
-          <Link href="/mood" className="btn-primary self-start sm:self-center gap-2 shrink-0">
-            <Sparkles size={15} /> Daily Check-in
-          </Link>
+          {/* Animated Companion */}
+          <div className="flex justify-center lg:justify-end">
+            <AICompanion userName={user?.username?.split(' ')[0] || 'there'} />
+          </div>
         </motion.div>
 
         {/* ── Digital Twin Profile (New) ── */}

@@ -145,7 +145,7 @@ const STATIC_RESOURCES: Resource[] = [
   }
 ]
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001'
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
 
 // ─── Type Config ───────────────────────────────────────────────────────────
 const TYPE_CONFIG: Record<ResourceType, { icon: React.ElementType; color: string; bg: string }> = {

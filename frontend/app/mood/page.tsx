@@ -10,7 +10,7 @@ import {
 import { useAuthStore } from '@/lib/store/auth-store'
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
 
-const API_BASE = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:8001'
+const API_BASE = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:8000'
 
 // ─── Mood Config ────────────────────────────────────────────────────────────
 const MOODS = [

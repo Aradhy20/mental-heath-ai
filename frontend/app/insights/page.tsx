@@ -14,7 +14,7 @@ import {
 } from 'lucide-react'
 import { useAuthStore } from '@/lib/store/auth-store'
 
-const API_BASE = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:8001'
+const API_BASE = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:8000'
 
 // ─── Dummy Data ─────────────────────────────────────────────────────────────
 const moodData = [

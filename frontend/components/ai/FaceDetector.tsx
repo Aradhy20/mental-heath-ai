@@ -29,7 +29,7 @@ const FaceDetector: React.FC<FaceDetectorProps> = ({ onEmotionDetected, isActive
         if (!imageSrc) return
 
         try {
-          const response = await fetch('http://localhost:8001/api/v1/face-analysis', {
+          const response = await fetch('http://localhost:8000/api/v1/face-analysis', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ image_base64: imageSrc })

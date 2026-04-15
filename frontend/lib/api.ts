@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-// API Configuration
+// API Configuration — unified FastAPI backend on port 8000
 const API_URL = process.env.NEXT_PUBLIC_AUTH_URL
   ? `${process.env.NEXT_PUBLIC_AUTH_URL}/api/v1`
-  : 'http://localhost:8001/api/v1';
+  : 'http://localhost:8000/api/v1';
 
 // Create Axios Instance
 const api = axios.create({

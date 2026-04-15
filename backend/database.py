@@ -17,8 +17,6 @@ client = AsyncIOMotorClient(MONGO_URL, tlsCAFile=certifi.where(), serverSelectio
 db = client[DB_NAME]
 
 # Collections
-users_profile_collection = db["user_profiles"] # Extra profile metadata
-otps_collection = db["otps"]
 analysis_logs_collection = db["analysis_logs"]
 sessions_collection = analysis_logs_collection # Alias for Fusion service
 moods_collection = db["moods"]
@@ -31,7 +29,13 @@ MYSQL_URL = os.getenv(
     "mysql+aiomysql://root:12345678@127.0.0.1:3306/mindful_ai"
 )
 
-engine = create_async_engine(MYSQL_URL, echo=False, pool_pre_ping=True)
+engine = create_async_engine(
+    MYSQL_URL, 
+    echo=False, 
+    pool_pre_ping=True,
+    pool_size=5,
+    max_overflow=10
+)
 AsyncSessionLocal = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 Base = declarative_base()
 

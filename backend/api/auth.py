@@ -1,6 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends, status
 from pydantic import BaseModel
-from motor.motor_asyncio import AsyncIOMotorCollection
 from database import get_db
 from models import UserCreate, UserLogin, Token, OTPRequest, OTPVerify, UserUpdate, DBUser, DBOTP
 from sqlalchemy.ext.asyncio import AsyncSession

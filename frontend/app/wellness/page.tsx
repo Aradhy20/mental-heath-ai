@@ -59,6 +59,24 @@ const features = [
         benefits: ['Peer support', 'Shared experiences', 'Group challenges']
     },
     {
+        title: 'Anakskit (Anxiety Hub)',
+        description: 'Crisis support and cognitive reframing tools for high-anxiety moments.',
+        icon: ShieldAlert,
+        href: '/anakskit',
+        color: 'bg-gradient-to-br from-rose-500/20 to-orange-500/20 text-rose-600 border-rose-500/30',
+        stats: 'Emergency ready',
+        benefits: ['Thought reframing', 'Grounding 5-4-3-2-1', 'Crisis contact']
+    },
+    {
+        title: 'Serenity Breathing',
+        description: 'Interactive breathing guides to rapidly stabilize your physiological state.',
+        icon: Wind,
+        href: '/anakskit', // Also accessible here
+        color: 'bg-gradient-to-br from-emerald-500/20 to-teal-500/20 text-emerald-600 border-emerald-500/30',
+        stats: 'Instant calm',
+        benefits: ['Box breathing', '4-7-8 pattern', 'Visual guidance']
+    },
+    {
         title: 'Professional Insights',
         description: 'Advanced analytics and professional-grade wellness assessments.',
         icon: Brain,

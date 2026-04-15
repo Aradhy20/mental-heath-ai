@@ -25,6 +25,7 @@ class ChatRequest(BaseModel):
     message: str
     history: Optional[List[Dict[str, str]]] = []
     use_voice_features: Optional[bool] = False
+    biometrics: Optional[Dict[str, Any]] = None # HRV, Heart Rate, etc.
 
 @router.post("/chat", summary="Process chat through the AI Mental Health OS")
 async def intelligent_chat(
@@ -38,10 +39,14 @@ async def intelligent_chat(
         # 1 & 2. Feature Pipeline + Mental Engine (Analysis)
         mental_state = await mental_engine.analyze_state(
             text=req.message, 
+            wearable_data=req.biometrics,
             user_id=user_id, 
             db=db
         )
         log.info(f"Stage 1: Mental State Analyzed (Emotion: {mental_state.get('emotion')})")
+        
+        # Memory Context (Phase 3.0)
+        memory_context = mental_state.get("historical_context", {}).get("digital_twin_memory")
 
         # 3. Risk Detection (Handled inside mental_engine but verified here)
         risk_level = mental_state.get("risk_level", "LOW")
@@ -56,7 +61,8 @@ async def intelligent_chat(
             user_input=req.message,
             mental_state=mental_state,
             mode=decision['selected_mode'],
-            history=req.history
+            history=req.history,
+            memory_context=memory_context
         )
         log.info("Stage 4: Conversation Engine (Response Generated)")
 

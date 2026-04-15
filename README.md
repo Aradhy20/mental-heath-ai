@@ -1,209 +1,188 @@
-# MindfulAI Mental Health Platform
+# MindfulAI: The Emotional Operating System (v2.5) 🧠✨
 
-MindfulAI is a full-stack mental health and wellness platform with a Next.js frontend, a FastAPI backend, and multiple AI-assisted services for mood tracking, journaling, conversational support, and emotion analysis across text, voice, and face inputs.
+[![CI/CD Pipeline](https://github.com/Aradhy20/mental-heath-ai/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/Aradhy20/mental-heath-ai/actions)
+[![Latest Tech](https://img.shields.io/badge/Stack-FastAPI%20|%20Next.js%2015%20|%20React%2019-blueviolet)](https://github.com/Aradhy20/mental-heath-ai)
 
-This repository is organized for local development without Docker. The app can be run with standard Node.js and Python tooling, and it also includes supporting scripts, archived project documentation, and ML training/inference modules.
+**MindfulAI** is a state-of-the-art mental health platform designed to act as a continuous emotional support layer. By fusing real-time biometrics (Face & Voice) with deep linguistic analysis (Text), MindfulAI provides personalized, clinically-informed interventions for anxiety, stress, and burnout.
 
-## Overview
+---
 
-- AI-assisted mental health companion and wellness guidance
-- Mood tracking, journaling, insights, and dashboard views
-- Text, voice, face, and fusion analysis services
-- Therapist and specialist discovery interfaces
-- Mobile-friendly Next.js application
-- FastAPI backend with API routes, auth, and wellness endpoints
+## 🏗️ System Architecture
 
-## Tech Stack
+MindfulAI follows a **Multimodal Intelligence** architecture, where disparate emotional signals are unified into a single "Resilience Score."
 
-### Frontend
+```mermaid
+graph TD
+    subgraph Client_Layer [Frontend: Next.js 15 / React 19]
+        UI[User Interface]
+        SB[Serenity Breather]
+        AH[Anakskit Hub]
+    end
 
-- Next.js 15
-- React 18
-- TypeScript
-- Tailwind CSS
-- Framer Motion
-- Recharts
-- Zustand
+    subgraph Intelligence_Layer [Backend: FastAPI]
+        ME[Mental Engine]
+        FE[Fusion Engine]
+        CE[Conversation Engine]
+        AE[Action Engine]
+    end
 
-### Backend
+    subgraph ML_Registry [Model Registry]
+        TR[SmolLM2-135M NLP]
+        MP[MediaPipe Vision]
+        LB[Librosa Audio]
+    end
 
-- FastAPI
-- Uvicorn
-- SQLAlchemy
-- SQLite and Mongo-related integrations in different modules
-- Python microservice-style AI service layout
-
-### AI and ML
-
-- Transformers
-- Sentence Transformers
-- TensorFlow / Keras
-- MediaPipe
-- OpenCV
-- Librosa
-
-## Repository Structure
-
-```text
-.
-├── backend/      # FastAPI app, APIs, AI services, ML engines, scripts
-├── frontend/     # Next.js application and UI components
-├── docs/         # SRS and archived project documentation
-├── scripts/      # Utility scripts for setup, diagnostics, and startup
-├── logs/         # Runtime logs
-├── render.yaml   # Deployment configuration
-└── README.md
+    UI -->|Text/Audio/Face| Intelligence_Layer
+    Intelligence_Layer --> ML_Registry
+    ML_Registry -->|Predictions| FE
+    FE -->|Unified State| CE
+    CE -->|CBT Response| UI
+    FE -->|Next Best Action| SB
 ```
 
-## Key Areas
+---
 
-### Frontend
+## 🚀 Key Features
 
-The frontend lives in `frontend/` and uses the Next.js App Router. It includes pages for:
+### 🛡️ Anakskit (Anxiety Resilience Hub)
+A high-priority module for acute anxiety management.
+- **Thought Reframer**: Interactive CBT tool to identify "Thinking Traps" (Catastrophizing, Mind Reading).
+- **5-4-3-2-1 Grounding**: Guided sensory sequence to halt panic attacks and dissociation.
+- **Crisis Guard**: Immediate redirection to human professional care (988 integration) for high-risk detected states.
 
-- dashboard
-- mood tracking
-- journal
-- meditation
-- chat
-- analysis
-- settings
-- doctors and specialists
+### 🌬️ Serenity Interactive Breather
+A premium relaxation component with real-time visual guidance.
+- **Modes**: Box Breathing (4x4), 4-7-8 Relax, and Equal Breathing.
+- **Feedback**: Dynamic SVG animations built with Framer Motion to provide a calming visual anchor.
 
-Useful command:
+### 💬 Clinically-Informed AI Companion
+A therapeutic agent powered by **SmolLM2** that switches between four specialized modes based on detected state:
+- **SUPPORT**: Reflective listening and OARS validation.
+- **CBT**: Cognitive restructuring and distortion detection.
+- **COACHING**: Solution-focused brief therapy sessions.
+- **CRISIS**: Emergency stabilization and psychological first aid.
 
+---
+
+## 💻 Technology Stack
+
+### Frontend (Next.js 15 + React 19)
+- **State Management**: [Zustand](https://github.com/pmndrs/zustand) (Atomic, high-performance state).
+- **Animations**: [Framer Motion](https://www.framer.com/motion/) (Premium micro-interactions).
+- **UI System**: Tailwind CSS with Radix UI and custom glassmorphism design.
+- **Data Fetching**: Axios & React Query (Optimized caching).
+
+### Backend (Python 3.9+ / FastAPI)
+- **Main Framework**: [FastAPI](https://fastapi.tiangolo.com/) (Asynchronous micro-orchestration).
+- **Database**: 
+    - **MongoDB (Atlas)**: Unstructured emotional session logs.
+    - **MySQL (Identity)**: Structured user profiles and authentication.
+    - **Async Drivers**: `aiomysql` and `motor`.
+- **AI/ML Model Registry**: 
+    - **Transformers**: `SmolLM2-135M-Instruct` for local inference.
+    - **Vision**: MediaPipe & OpenCV for facial landmark/emotion detection.
+    - **Audio**: Librosa for prosody and stress feature extraction.
+
+---
+
+## 🛠️ Installation & Local Setup
+
+MindfulAI is optimized for local execution using a unified orchestration script.
+
+### 1. Prerequisites
+- Node.js 18+ & npm
+- Python 3.9+
+- Local MySQL or MongoDB (Optional if using default .env)
+
+### 2. Setup
 ```bash
-cd frontend
-npm install
-npm run dev
-```
-
-### Backend
-
-The main backend entrypoint is `backend/main.py`. API routers are grouped under `backend/api/`, and shared backend concerns are split across `backend/core/`, `backend/db/`, and service-specific modules.
-
-Useful commands:
-
-```bash
-cd backend
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
-```
-
-The backend docs are available locally at:
-
-- `http://localhost:8000/api/docs`
-- `http://localhost:8000/api/redoc`
-
-### AI Services and ML
-
-This repository includes multiple AI-related modules under `backend/ai/` and `backend/ml/`, including:
-
-- text analysis
-- voice analysis
-- face analysis
-- fusion analysis
-- model training helpers
-
-Some advanced ML dependencies are intentionally separated or commented in requirements so local setup can stay flexible depending on the environment.
-
-## Local Development
-
-## Prerequisites
-
-- Node.js 18 or newer
-- npm
-- Python 3.10 or newer
-- pip
-- Git
-
-## 1. Clone the Repository
-
-```bash
+# Clone the repository
 git clone https://github.com/Aradhy20/mental-heath-ai.git
 cd mental-heath-ai
-```
 
-## 2. Start the Frontend
+# Install Backend Dependencies
+cd backend
+pip install -r requirements.txt
 
-```bash
-cd frontend
+# Install Frontend Dependencies
+cd ../frontend
 npm install
-npm run dev
 ```
 
-The frontend runs on `http://localhost:3000`.
-
-## 3. Start the Backend
-
-Open a second terminal:
-
+### 3. Run Locally
+We provide a master script to launch the full ecosystem in one command:
 ```bash
-cd backend
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
+python3 run_all.py
+```
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:8001
+- **API Docs**: http://localhost:8001/api/docs
+
+---
+
+## 📁 Repository Structure
+
+| Directory | Purpose |
+| :--- | :--- |
+| `frontend/` | Next.js 15 Application, Resilience Hub, and UI Components. |
+| `backend/main.py` | Unified FastAPI entry point and router orchestration. |
+| `backend/ai/` | Core intelligence engines (Mental, Fusion, Action, Conversation). |
+| `backend/ml/` | Training scripts and individual inference pipelines. |
+| `backend/api/` | Sub-routers for Auth, Wellness, Chat, and Biometrics. |
+| `ai_models/` | Storage for pre-trained weights (Transformers, MediaPipe). |
+| `data/` | Roboflow dataset for facial emotion training (v8-format). |
+| `docs/` | System Requirements Specification (SRS) and Architecture logs. |
+
+---
+
+## 🔬 Technical Deep-Dive
+
+### 1. Modular Intelligence Services
+MindfulAI is built on a modular logic system, originally designed as microservices and now Orchestrated into a unified FastAPI plane:
+- **Text Service**: NLP-driven emotion analysis using `SmolLM2` and `DistilRoBERTa`.
+- **Voice Service**: Acoustic stress detection via Librosa feature extraction.
+- **Face Service**: Computer Vision powered by OpenCV and MediaPipe.
+- **Fusion Service**: Weights all modality scores to detect "Masked Emotion" (e.g., smiling face but high-stress voice).
+- **Report & Insight**: Automated generation of mental wellness trends and PDF reports.
+
+### 2. Digital Twin & RAG Implementation
+Our Retrieval-Augmented Generation (RAG) system provides context-aware support.
+- **Vector Database**: **ChromaDB** stores emotional snapshots as embeddings.
+- **Embedding Model**: `Sentence Transformers` (MiniLM) convert text into semantic vectors.
+- **Context Window**: The Conversation Engine retrieves the top-3 relevant past memories to personalize responses.
+
+```python
+# The MentalHealthRAG Engine logic
+result = rag_system.analyze_with_rag(text="Feeling overwhelmed", user_id="123")
+# Returns: { "response": "I remember you felt similarly...", "risk": "low" }
 ```
 
-The backend runs on `http://localhost:8000`.
+### 3. Database Schema (MongoDB Atlas)
+The platform uses **10 core collections** for deep emotional tracking:
+1.  **users**: Profile and authentication logic.
+2.  **text_analysis**: Historical NLP sentiment records.
+3.  **voice_analysis**: Prosody and stress feature history.
+4.  **face_analysis**: Landmark and expression tracking.
+5.  **mood_tracking**: Daily user check-ins.
+6.  **journal_entries**: Long-form reflections for the Digital Twin.
+7.  **chat_logs**: Full conversational history.
+8.  **meditation_sessions**: Resilience training records.
+9.  **emotion_history**: Aggregated trend analysis.
+10. **reports**: Professional clinical assessments.
 
-## Optional Backend Script
+---
 
-The repository also contains `backend/start_services.py`, which is intended to launch multiple service processes for a larger microservice-style setup.
-
-```bash
-cd backend
-source .venv/bin/activate
-python start_services.py
+## 📈 Clinical Biometrics & Fusion
+Our **Fusion Score** formula ensures high-fidelity detection:
+```text
+Resilience Score = (Text * 0.4) + (Audio * 0.25) + (Face * 0.2) + (HRV * 0.15)
 ```
+*Confidence weights are applied dynamically; if a modality is poor (e.g., low light for Face), its weight is redistributed to the primary sensors.*
 
-Depending on your environment, some optional service targets may require extra dependencies or additional service folders to be present.
+---
 
-## Environment Notes
+## 📝 Disclaimer
+MindfulAI is an AI-assisted support platform and **not a licensed medical service**. In case of a medical emergency or immediate self-harm risk, please contact professional emergency services immediately (e.g., dial 988 in the US/Canada).
 
-- Keep secrets in local `.env` files and do not commit them
-- `.gitignore` is already configured for common Python, Next.js, database, and model-artifact exclusions
-- Some ML model files are intentionally ignored because they are too large for normal Git workflows
-
-## Common Commands
-
-### Frontend
-
-```bash
-cd frontend
-npm run dev
-npm run build
-npm run start
-```
-
-### Backend
-
-```bash
-cd backend
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
-```
-
-### Python Dependencies
-
-```bash
-cd backend
-pip install -r requirements.txt
-```
-
-## Documentation
-
-- `docs/srs/` contains product and system requirement documentation
-- `docs/archive/` contains archived planning, architecture, and implementation notes
-
-## Deployment
-
-The repository includes `render.yaml` and various helper scripts in `scripts/` that can be used as a starting point for deployment or service orchestration workflows.
-
-## Notes
-
-- This is an actively evolving project with both application code and experimental AI/ML pieces
-- Some scripts and modules represent alternative implementations or enhanced service variants
-- If you are setting this up for the first time, start with the frontend and core backend before enabling heavier ML dependencies
+---
+*Developed with empathy by the MindfulAI Team.*

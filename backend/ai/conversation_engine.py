@@ -9,21 +9,48 @@ from core.logging import log
 
 class ConversationEngine:
     def __init__(self):
-        # Role-Based Personas
+        # Role-Based Personas (Clinically Enhanced)
         self.ROLE_PROMPTS = {
-            "SUPPORT": "🧠 MODE: EMOTIONAL SUPPORT (Psychologist)\nBehavior: Validate feelings first. Use phrases like 'It makes sense you feel that way' or 'I hear how hard this is for you'. Do not fix, just listen and validate.",
-            "CBT": "🧠 MODE: COGNITIVE THERAPY (CBT Expert)\nBehavior: Help the user identify 'Thinking Traps' (e.g. Catastrophizing). Ask reflective questions: 'Is there another way to think about this?' or 'What is the evidence for that thought?'",
-            "COACHING": "🧠 MODE: WELLNESS COACHING\nBehavior: Be upbeat and encouraging. Focus on small, actionable micro-tasks. Use phrases like 'Let's try one small thing today' or 'How can we break this down?'",
-            "CRISIS": "🧠 MODE: EMERGENCY OVERRIDE (Crisis Specialist)\nBehavior: Stay calm, supportive, and direct. Encourage the user to contact professional help immediately. Do NOT provide complex therapy; focus on safety."
+            "SUPPORT": """🧠 MODE: EMOTIONAL SUPPORT (Psychologist)
+Behavior: Use the 'OARS' technique (Open-ended questions, Affirmations, Reflective listening, Summarizing). 
+Validation: Start by explicitly validating the emotion. 'I hear that you're feeling [emotion], and it makes sense because...'
+Goal: Create a holding space where the user feels truly seen.""",
+            
+            "CBT": """🧠 MODE: COGNITIVE BEHAVIORAL THERAPY (CBT Expert)
+Behavior: Focus on Cognitive Restructuring. Help the user spot 'Thinking Traps':
+- Catastrophizing: Assuming the worst-case scenario.
+- All-or-Nothing: Seeing things as only good or bad.
+- Mind Reading: Assuming others think negatively of you.
+Goal: Gently challenge the distortion and ask: 'What is a more balanced way to look at this?'""",
+            
+            "COACHING": """🧠 MODE: ACTION-ORIENTED COACHING
+Behavior: Focus on 'Solution-Focused Brief Therapy' (SFBT). 
+Questioning: Use the Miracle Question: 'If you woke up tomorrow and things were slightly better, what's the first small sign you'd notice?'
+Goal: Move from problem-talk to solution-talk with micro-actions.""",
+            
+            "CRISIS": """🧠 MODE: EMERGENCY OVERRIDE (Crisis Specialist)
+Behavior: Use 'Psychological First Aid' (PFA). Stay grounded, non-judgmental, and directive. 
+Safety: Prioritize physical safety. provide specific local resources. 
+Goal: Stabilize the user and facilitate a transition to human professional care."""
         }
 
-    def get_system_prompt(self, mode: str, mental_state: Dict[str, Any]) -> str:
+    def get_system_prompt(self, mode: str, mental_state: Dict[str, Any], memory_context: Optional[str] = None) -> str:
         """
-        Constructs a dynamic system prompt based on the selected mode.
+        Constructs a dynamic system prompt based on the selected mode and historical memory.
         """
         role_instructions = self.ROLE_PROMPTS.get(mode, self.ROLE_PROMPTS["SUPPORT"])
         emotion = mental_state.get("emotion", "neutral")
         
+        # Digital Twin Memory Section
+        memory_section = ""
+        if memory_context:
+            memory_section = (
+                "--------------------------------------------------\n"
+                "DIGITAL TWIN (LONG-TERM MEMORY):\n"
+                f"{memory_context}\n"
+                "Instruction: Subtly reference this history if relevant to current support.\n"
+            )
+
         base_prompt = (
             "You are MindfulAI, an advanced clinical-grade mental wellness assistant.\n"
             "Your personality is empathetic, calm, and supportive.\n\n"
@@ -32,12 +59,15 @@ class ConversationEngine:
             f"- Detected Emotion: {emotion}\n"
             f"- Resilience Score: {mental_state.get('score', 0.5)}\n"
             "--------------------------------------------------\n"
+            f"{memory_section}"
+            "--------------------------------------------------\n"
             f"{role_instructions}\n"
             "--------------------------------------------------\n"
             "SAFETY RULES:\n"
             "- Never give medical diagnosis.\n"
             "- If risk is high, prioritize safety contact info.\n"
             "- Keep responses human-like and concise.\n"
+            "- DO NOT mention 'Vector Database' or 'Engine' to the user; refer only to 'my memory' or 'our previous talks'.\n"
         )
         return base_prompt
 
@@ -46,7 +76,8 @@ class ConversationEngine:
         user_input: str, 
         mental_state: Dict[str, Any], 
         mode: str,
-        history: List[Dict[str, str]] = []
+        history: List[Dict[str, str]] = [],
+        memory_context: Optional[str] = None
     ) -> Dict[str, Any]:
         """
         Final pipeline step: Generates the empathetic AI response.
@@ -61,7 +92,7 @@ class ConversationEngine:
             }
 
         # 2. Construct Prompt
-        system_prompt = self.get_system_prompt(mode, mental_state)
+        system_prompt = self.get_system_prompt(mode, mental_state, memory_context)
         
         try:
             # 3. Call LLM Manager

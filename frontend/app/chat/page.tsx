@@ -398,20 +398,38 @@ export default function ChatPage() {
           </motion.div>
         )}
 
-        {/* Recommended Action */}
+        {/* Recommended Action (Clinically Meaningful) */}
         {lastAction && (
           <motion.div 
             initial={{ opacity: 0, x: -5 }} 
             animate={{ opacity: 1, x: 0 }}
-            className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20"
+            className="p-4 rounded-2xl bg-gradient-to-br from-white to-emerald-50 dark:from-slate-800 dark:to-emerald-900/10 border border-emerald-200 dark:border-emerald-500/20 shadow-md"
           >
-            <div className="flex items-center gap-2 mb-2 text-emerald-700 dark:text-emerald-400">
-                <Zap size={14} />
-                <p className="text-[10px] font-bold uppercase tracking-widest">Suggested Action</p>
+            <div className="flex items-center gap-2 mb-3 text-emerald-700 dark:text-emerald-400">
+                <Shield size={14} className="animate-pulse" />
+                <p className="text-[10px] font-bold uppercase tracking-widest">Meaningful Intervention</p>
             </div>
-            <p className="text-xs font-medium text-slate-700 dark:text-slate-300 italic">
-                "{lastAction}"
+            
+            <p className="text-xs font-bold text-slate-900 dark:text-white mb-1">
+                {typeof lastAction === 'string' ? 'Recommendation' : lastAction.title}
             </p>
+            <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed mb-3 italic">
+                "{typeof lastAction === 'string' ? lastAction : lastAction.action}"
+            </p>
+            
+            {typeof lastAction !== 'string' && lastAction.benefit && (
+              <div className="py-2 px-3 rounded-lg bg-emerald-500/5 border border-emerald-500/10 mb-3">
+                <p className="text-[9px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-tighter mb-1">Why this helps:</p>
+                <p className="text-[10px] text-slate-500 dark:text-emerald-200/50 leading-tight">{lastAction.benefit}</p>
+              </div>
+            )}
+
+            <button
+                onClick={() => router.push('/anakskit')}
+                className="w-full py-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 rounded-lg text-[10px] font-bold transition-all flex items-center justify-center gap-1.5"
+            >
+                Search Anxiety Hub <ArrowRight size={10} strokeWidth={3} />
+            </button>
           </motion.div>
         )}
 

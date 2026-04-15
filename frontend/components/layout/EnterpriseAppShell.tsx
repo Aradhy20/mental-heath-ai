@@ -8,7 +8,7 @@ import {
   LayoutDashboard, MessageCircle, BookOpen, Wind,
   Settings, LogOut, ChevronLeft, ChevronRight, Search,
   Brain, Smile, MapPin, Video, HeartPulse, Sparkles,
-  Bell, ChevronDown, Menu, X, User
+  Bell, ChevronDown, Menu, X, User, ShieldAlert
 } from 'lucide-react'
 import { useAuthStore } from '@/lib/store/auth-store'
 
@@ -26,9 +26,10 @@ const NAV_GROUPS = [
   {
     label: 'Wellness',
     items: [
-      { name: 'Breathe & Relax', href: '/meditation', icon: Wind,       desc: 'Guided breathing' },
-      { name: 'Insights',        href: '/insights',   icon: Brain,       desc: 'Your mental patterns' },
-      { name: 'Face Analysis',   href: '/analysis',   icon: HeartPulse,  desc: 'Real-time emotion tracking' },
+      { name: 'Breathe & Relax', href: '/meditation', icon: Wind,        desc: 'Guided breathing' },
+      { name: 'Anakskit Hub',    href: '/anakskit',   icon: ShieldAlert,  desc: 'Crisis & Anxiety support' },
+      { name: 'Insights',        href: '/insights',   icon: Brain,        desc: 'Your mental patterns' },
+      { name: 'Face Analysis',   href: '/analysis',   icon: HeartPulse,   desc: 'Biometric emotion tracking' },
     ]
   },
   {

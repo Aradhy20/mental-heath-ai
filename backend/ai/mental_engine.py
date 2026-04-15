@@ -12,6 +12,7 @@ from ai.fusion_engine import fusion_engine
 from ai.temporal_engine import temporal_engine
 from ai.risk_detector import risk_detector
 from ai.inference_utils import inference_engine
+from ai.memory_engine import memory_engine
 import torch
 
 class MentalEngine:
@@ -23,12 +24,13 @@ class MentalEngine:
         text: str = None,
         audio_data: bytes = None,
         face_frame: Any = None,
+        wearable_data: Dict[str, Any] = None, # New biometric input
         user_id: str = "guest",
         db: AsyncSession = None
     ) -> Dict[str, Any]:
         """
         Processes multi-modal input through the full intelligence pipeline.
-        Now powered by TRAINED neural models.
+        Now supports Digital Twin memory and Wearable Biometrics.
         """
         # 1. RISK DETECTION (Priority Override)
         risk_result = {"risk_level": "LOW", "bypass_required": False}
@@ -45,10 +47,19 @@ class MentalEngine:
                 "risk_details": risk_result
             }
 
-        # 2. FEATURE EXTRACTION
-        features = feature_pipeline.process_all(text, audio_data, face_frame)
+        # 2. DIGITAL TWIN (MEMORY RETRIEVAL)
+        memory_context = None
+        if text and user_id != "guest":
+            memory_context = await memory_engine.get_digital_twin_context(user_id, text)
 
-        # 3. NEURAL INFERENCE
+        # 3. FEATURE EXTRACTION
+        features = feature_pipeline.process_all(text, audio_data, face_frame)
+        
+        # Inject wearables if available
+        if wearable_data:
+            features["wearable"] = wearable_data
+
+        # 4. NEURAL INFERENCE
         neural_preds = {}
         if text and features.get("text") and features["text"].get("embedding"):
             emb = torch.tensor(features["text"]["embedding"], dtype=torch.float32)
@@ -65,10 +76,10 @@ class MentalEngine:
             stress_score = inference_engine.predict_stress(audio_feat)
             features["audio"]["stress_score"] = stress_score
 
-        # 4. MULTI-MODAL FUSION
+        # 5. MULTI-MODAL FUSION
         fused_results = fusion_engine.fuse_features(features)
 
-        # 5. TEMPORAL ANALYSIS
+        # 6. TEMPORAL ANALYSIS
         final_state_data = {"final_state": fused_results["final_score"]}
         if db:
             final_state_data = await temporal_engine.calculate_weighted_state(
@@ -77,7 +88,7 @@ class MentalEngine:
                 db
             )
 
-        # 6. CONSOLIDATED OUTPUT
+        # 7. CONSOLIDATED OUTPUT
         # Prefer Neural Emotion if available, fallback to fused score mapping
         emotion = neural_preds.get("emotion")
         if not emotion:
@@ -86,7 +97,7 @@ class MentalEngine:
             elif mental_score > 0.4: emotion = "neutral"
             else: emotion = "calm"
 
-        return {
+        result = {
             "emotion": emotion,
             "confidence": neural_preds.get("confidence", fused_results["confidence"]),
             "risk_level": risk_result["risk_level"],
@@ -95,10 +106,18 @@ class MentalEngine:
             "score": float(fused_results["final_score"]),
             "historical_context": {
                 "past_trend": final_state_data.get("past_trend"),
-                "current_signal": final_state_data.get("current_signal")
+                "current_signal": final_state_data.get("current_signal"),
+                "digital_twin_memory": memory_context
             },
+            "biometrics": wearable_data,
             "neural_insights": neural_preds
         }
+
+        # 8. DIGITAL TWIN (MEMORY STORAGE) - Background/Async
+        if text and user_id != "guest":
+            await memory_engine.store_snapshot(user_id, text, result)
+
+        return result
 
 # Singleton instance
 mental_engine = MentalEngine()

@@ -9,7 +9,7 @@ os.environ["USE_TORCH"] = "1"
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from core.logging import log
-from api import auth, analysis, copilot, fusion, wellness, chat, alerts, voice, biometrics
+from api import auth, analysis, copilot, fusion, wellness, chat, alerts, voice, biometrics, clinical_assessments
 
 app = FastAPI(
     title="MindfulAI SaaS Platform — API",
@@ -80,6 +80,7 @@ app.include_router(chat.router, prefix="/api/v1")
 app.include_router(alerts.router, prefix="/api/v1")
 app.include_router(voice.router, prefix="/api/v1")
 app.include_router(biometrics.router, prefix="/api/v1")
+app.include_router(clinical_assessments.router, prefix="/api/v1")
 
 @app.get("/")
 def health_check():

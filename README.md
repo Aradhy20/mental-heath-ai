@@ -126,56 +126,48 @@ python3 run_all.py
 | :--- | :--- |
 | `frontend/` | Next.js 15 Application, Resilience Hub, and UI Components. |
 | `backend/main.py` | Unified FastAPI entry point and router orchestration. |
-| `backend/ai/` | Core intelligence engines (Mental, Fusion, Action, Conversation). |
+| `backend/ai/` | Core intelligence engines (Orchestrator, Safety, CBT, Memory). |
 | `backend/ml/` | Training scripts and individual inference pipelines. |
-| `backend/api/` | Sub-routers for Auth, Wellness, Chat, and Biometrics. |
+| `backend/api/` | Sub-routers for Auth, Wellness, Chat, and Clinical Assessments. |
 | `ai_models/` | Storage for pre-trained weights (Transformers, MediaPipe). |
 | `data/` | Roboflow dataset for facial emotion training (v8-format). |
 | `docs/` | System Requirements Specification (SRS) and Architecture logs. |
 
 ---
 
-## 🔬 Technical Deep-Dive
+## 🔬 Technical Deep-Dive (v3.0)
 
-### 1. Modular Intelligence Services
-MindfulAI is built on a modular logic system, originally designed as microservices and now Orchestrated into a unified FastAPI plane:
-- **Text Service**: NLP-driven emotion analysis using `SmolLM2` and `DistilRoBERTa`.
-- **Voice Service**: Acoustic stress detection via Librosa feature extraction.
-- **Face Service**: Computer Vision powered by OpenCV and MediaPipe.
-- **Fusion Service**: Weights all modality scores to detect "Masked Emotion" (e.g., smiling face but high-stress voice).
-- **Report & Insight**: Automated generation of mental wellness trends and PDF reports.
+### 1. The Intelligence Orchestrator (The Brain)
+At the core of MindfulAI is a production-grade **Intelligence Orchestrator**. It manages the state across all sensors to ensure clinical safety and therapeutic effectiveness:
+1.  **Sensor Fusion**: Aggregates Text, Voice, Face, and HRV biometrics.
+2.  **Safety Triage (P0)**: Mandatory check against safety guardrails before any AI response.
+3.  **Digital Twin Retrieval**: Fetches relevant long-term memories from ChromaDB.
+4.  **Clinical Matching**: Identifies **Cognitive Distortions** (e.g., Catastrophizing).
+5.  **Response Synthesis**: Generates empathetic, culturally-nuanced support.
 
-### 2. Digital Twin & RAG Implementation
-Our Retrieval-Augmented Generation (RAG) system provides context-aware support.
-- **Vector Database**: **ChromaDB** stores emotional snapshots as embeddings.
-- **Embedding Model**: `Sentence Transformers` (MiniLM) convert text into semantic vectors.
-- **Context Window**: The Conversation Engine retrieves the top-3 relevant past memories to personalize responses.
+### 2. Clinical Safety & Emergency Escalation
+- **Safety Guardrails**: Filters AI advice to prevent unsafe or non-clinical guidance.
+- **Crisis Escalator**: Real-time mapping of crisis signals to regional resources (988 US, 112 IND, 999 GBR).
+- **UI Override**: The Chat interface automatically locks and renders an Emergency Overlay if a `CRITICAL` risk is detected.
 
-```python
-# The MentalHealthRAG Engine logic
-result = rag_system.analyze_with_rag(text="Feeling overwhelmed", user_id="123")
-# Returns: { "response": "I remember you felt similarly...", "risk": "low" }
-```
+### 3. Standardized Clinical Screening
+MindfulAI now supports evidence-based measurement through integrated assessment tools:
+- **PHQ-9**: Standardized screen for depression severity.
+- **GAD-7**: Validated scale for generalized anxiety.
+- **Automatic Scoring**: Real-time probability mapping and clinical categorization.
 
-### 3. Database Schema (MongoDB Atlas)
-The platform uses **10 core collections** for deep emotional tracking:
-1.  **users**: Profile and authentication logic.
-2.  **text_analysis**: Historical NLP sentiment records.
-3.  **voice_analysis**: Prosody and stress feature history.
-4.  **face_analysis**: Landmark and expression tracking.
-5.  **mood_tracking**: Daily user check-ins.
-6.  **journal_entries**: Long-form reflections for the Digital Twin.
-7.  **chat_logs**: Full conversational history.
-8.  **meditation_sessions**: Resilience training records.
-9.  **emotion_history**: Aggregated trend analysis.
-10. **reports**: Professional clinical assessments.
+### 4. Multilingual Therapy Adaptation
+The platform supports real-time language detection and cultural adaptation for:
+- **Hindi** (Respectful, community-focused context)
+- **Spanish** (Warm, social-connection focus)
+- **Mandarin** (Balanced, harmony-focused context)
 
 ---
 
-## 📈 Clinical Biometrics & Fusion
-Our **Fusion Score** formula ensures high-fidelity detection:
+## 📈 Clinical Data Model
+Our **Fusion Score** formula (v3.0):
 ```text
-Resilience Score = (Text * 0.4) + (Audio * 0.25) + (Face * 0.2) + (HRV * 0.15)
+Resilience Score = (Text * 0.4) + (Audio * 0.2) + (Face * 0.15) + (HRV * 0.15) + (History * 0.1)
 ```
 *Confidence weights are applied dynamically; if a modality is poor (e.g., low light for Face), its weight is redistributed to the primary sensors.*
 

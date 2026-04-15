@@ -603,6 +603,50 @@ export default function ChatPage() {
       <AnimatePresence>
         {showCrisis && <CrisisModal onClose={() => setShowCrisis(false)} />}
       </AnimatePresence>
+
+      {/* Safety Critical Overlay (Phase 5.3) */}
+      <AnimatePresence>
+        {mentalState?.risk === 'CRITICAL' && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="fixed inset-0 z-[110] bg-[#0a0d1a]/95 backdrop-blur-xl flex items-center justify-center p-6 text-center"
+          >
+            <div className="max-w-md space-y-8">
+              <div className="mx-auto w-24 h-24 rounded-full bg-red-500/10 flex items-center justify-center border-2 border-red-500 animate-pulse">
+                <AlertTriangle size={48} className="text-red-500" />
+              </div>
+              <div className="space-y-4">
+                <h2 className="text-3xl font-black text-white">Emergency Support Required</h2>
+                <p className="text-gray-400 text-lg leading-relaxed">
+                  MindfulAI has detected a critical distress signal. To ensure your safety, conversational features have been suspended.
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-1 gap-4 pt-8">
+                 <button 
+                  onClick={() => window.location.href = 'tel:988'}
+                  className="w-full py-5 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-black text-xl flex items-center justify-center gap-3 shadow-2xl shadow-red-600/20"
+                 >
+                   <Phone size={24} /> Call Crisis Line (988)
+                 </button>
+                 <button 
+                  onClick={() => setShowCrisis(true)}
+                  className="w-full py-4 bg-gray-800 hover:bg-gray-700 text-white rounded-2xl font-bold flex items-center justify-center gap-2"
+                 >
+                   View Other Resources
+                 </button>
+                 <button 
+                  onClick={() => setMentalState({...mentalState, risk: 'LOW'})}
+                  className="text-gray-600 hover:text-gray-400 text-sm font-medium pt-4"
+                 >
+                   I am safe now, dismiss this alert
+                 </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

@@ -34,14 +34,25 @@ Safety: Prioritize physical safety. provide specific local resources.
 Goal: Stabilize the user and facilitate a transition to human professional care."""
         }
 
-    def get_system_prompt(self, mode: str, mental_state: Dict[str, Any], memory_context: Optional[str] = None) -> str:
+    def get_system_prompt(self, mode: str, mental_state: Dict[str, Any], memory_context: Optional[str] = None, user_input: Optional[str] = None) -> str:
         """
-        Constructs a dynamic system prompt based on the selected mode and historical memory.
+        Constructs a dynamic system prompt based on mode, memory, and linguistic context.
         """
         role_instructions = self.ROLE_PROMPTS.get(mode, self.ROLE_PROMPTS["SUPPORT"])
         emotion = mental_state.get("emotion", "neutral")
         
-        # Digital Twin Memory Section
+        # 1. Multilingual & Cultural Layer (Phase 5.1)
+        lang_instruction = "IMPORTANT: Respond in the language used by the user. "
+        if user_input:
+            # Simple heuristic detection for demo (in production use 'langdetect')
+            if any(char for char in user_input if '\u0900' <= char <= '\u097F'): # Hindi Unicode
+                lang_instruction += "Cultural Context: Use empathetic, respectful Hindi (Aap). Focus on family/community support if relevant."
+            elif any(word in user_input.lower() for word in ["hola", "bueno", "gracias"]):
+                lang_instruction += "Cultural Context: Use warm, expressive Spanish. Emphasize social connection."
+            elif any(char for char in user_input if '\u4e00' <= char <= '\u9fff'): # Chinese
+                lang_instruction += "Cultural Context: Use polite, balanced Mandarin. Focus on harmony and inner calm."
+
+        # 2. Digital Twin Memory Section
         memory_section = ""
         if memory_context:
             memory_section = (
@@ -54,6 +65,7 @@ Goal: Stabilize the user and facilitate a transition to human professional care.
         base_prompt = (
             "You are MindfulAI, an advanced clinical-grade mental wellness assistant.\n"
             "Your personality is empathetic, calm, and supportive.\n\n"
+            f"{lang_instruction}\n"
             "--------------------------------------------------\n"
             f"CURRENT USER CONTEXT:\n"
             f"- Detected Emotion: {emotion}\n"
@@ -92,7 +104,7 @@ Goal: Stabilize the user and facilitate a transition to human professional care.
             }
 
         # 2. Construct Prompt
-        system_prompt = self.get_system_prompt(mode, mental_state, memory_context)
+        system_prompt = self.get_system_prompt(mode, mental_state, memory_context, user_input)
         
         try:
             # 3. Call LLM Manager

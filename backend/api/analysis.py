@@ -20,7 +20,7 @@ face_engine = FaceEngine()
 voice_analyzer = VoiceAnalyzer()
 
 # ── Voice Emotion (ML + Heuristics) ───────────────────────────────────────────
-@router.post("/voice-analysis", response_model=AnalysisResult)
+@router.post("/voice", response_model=AnalysisResult)
 async def analyze_voice(req: VoiceAnalysisRequest, user_id: str = Depends(get_optional_user)):
     try:
         # Decode base64 audio
@@ -49,15 +49,15 @@ async def analyze_voice(req: VoiceAnalysisRequest, user_id: str = Depends(get_op
     return result
 
 # ── Text Emotion (LLM Powered) ──────────────────────────────────────────────
-@router.post("/text-analysis", response_model=AnalysisResult)
+@router.post("/text", response_model=AnalysisResult)
 async def analyze_text(req: TextAnalysisRequest, user_id: str = Depends(get_optional_user)):
     # Use SmolLM2 for zero-shot mood analysis
     analysis = chatbot.get_mood_analysis(req.text)
     
     result = AnalysisResult(
         label=analysis.get("mood", "neutral"),
-        confidence=analysis.get("confidence", 0.5),
-        analysis=f"LLM-derived sentiment for: {req.text[:30]}..."
+        confidence=analysis.get("confidence", 0.85),
+        analysis=str(analysis)
     )
     
     # Persist to NoSQL (MongoDB)
@@ -73,7 +73,7 @@ async def analyze_text(req: TextAnalysisRequest, user_id: str = Depends(get_opti
     return result
 
 # ── Facial Emotion (MediaPipe Powered) ────────────────────────────────────────
-@router.post("/face-analysis", response_model=AnalysisResult)
+@router.post("/face", response_model=AnalysisResult)
 async def analyze_face(req: FaceAnalysisRequest, user_id: str = Depends(get_optional_user)):
     try:
         # Decode base64 image

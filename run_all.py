@@ -8,7 +8,7 @@ def run_backend():
     print("🚀 Starting MindfulAI Backend...")
     os.chdir("backend")
     # Using the unified main.py instead of multiple service scripts for simpler local run
-    subprocess.run([sys.executable, "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001", "--reload"])
+    subprocess.run([sys.executable, "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"])
 
 def run_frontend():
     print("🎨 Starting MindfulAI Frontend...")

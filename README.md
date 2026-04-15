@@ -115,8 +115,8 @@ We provide a master script to launch the full ecosystem in one command:
 python3 run_all.py
 ```
 - **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:8001
-- **API Docs**: http://localhost:8001/api/docs
+- **Backend API**: http://localhost:8000
+- **API Docs**: http://localhost:8000/api/docs
 
 ---
 

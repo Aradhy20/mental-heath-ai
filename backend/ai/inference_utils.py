@@ -5,7 +5,7 @@ from typing import Dict, Any, Tuple
 
 # Add training folder to path to load model classes
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'ml', 'training'))
-from models import TextClassifier, AudioStressModel, RiskSentinel
+from ml.training.models import TextClassifier, AudioStressModel, RiskSentinel
 
 class InferenceEngine:
     def __init__(self):

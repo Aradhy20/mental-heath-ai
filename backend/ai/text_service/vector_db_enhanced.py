@@ -14,10 +14,7 @@ class EnhancedVectorDatabase:
         """
         Initialize ChromaDB with user-specific collections
         """
-        self.client = chromadb.Client(Settings(
-            chroma_db_impl="duckdb+parquet",
-            persist_directory=persist_directory
-        ))
+        self.client = chromadb.PersistentClient(path=persist_directory)
         
         # Main knowledge collection
         try:

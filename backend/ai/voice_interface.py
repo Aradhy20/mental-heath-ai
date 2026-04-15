@@ -18,14 +18,24 @@ except ImportError:
 
 try:
     import speech_recognition as sr
+    HAS_SR = True
+except ImportError:
+    HAS_SR = False
+
+import tempfile
+
 class VoiceInterface:
     def __init__(self):
-        self.recognizer = sr.Recognizer()
-        # Adjusted for browser-audio/low-quality mics
-        self.recognizer.energy_threshold = 300
-        self.recognizer.dynamic_energy_threshold = True
+        self.recognizer = None
+        if HAS_SR:
+            self.recognizer = sr.Recognizer()
+            # Adjusted for browser-audio/low-quality mics
+            self.recognizer.energy_threshold = 300
+            self.recognizer.dynamic_energy_threshold = True
 
     async def transcribe_audio(self, audio_bytes: bytes) -> str:
+        if not HAS_SR or not self.recognizer:
+            return "Audio signal received (Transcriber offline - missing dependencies)."
         """
         Converts clinical audio bytes to text using Google Speech Recognition.
         Handles multi-format conversion via temporary file buffering.

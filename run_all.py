@@ -13,8 +13,18 @@ def run_backend():
         pass
     
     os.chdir("backend")
+    
+    # Set required environment variable for protobuf compatibility
+    env = os.environ.copy()
+    env["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
+    
+    # Use explicitly the venv python if it exists
+    python_exe = os.path.join("venv", "bin", "python3")
+    if not os.path.exists(python_exe):
+        python_exe = sys.executable
+
     # Using the unified main.py instead of multiple service scripts for simpler local run
-    subprocess.run([sys.executable, "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"])
+    subprocess.run([python_exe, "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"], env=env)
 
 def run_frontend():
     print("🎨 Starting MindfulAI Frontend...")

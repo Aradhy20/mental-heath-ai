@@ -12,20 +12,22 @@ import { useAuthStore } from '@/lib/store/auth-store'
 
 function BreathingOrb() {
   const [state, setState] = useState<'inhale' | 'hold' | 'exhale'>('inhale')
-  
   useEffect(() => {
-    let timer: NodeJS.Timeout
+    let isActive = true
     const sequence = async () => {
+      if (!isActive) return
       setState('inhale')
       await new Promise(r => setTimeout(r, 4000))
+      if (!isActive) return
       setState('hold')
       await new Promise(r => setTimeout(r, 7000))
+      if (!isActive) return
       setState('exhale')
       await new Promise(r => setTimeout(r, 8000))
-      sequence()
+      if (isActive) sequence()
     }
     sequence()
-    return () => clearTimeout(timer)
+    return () => { isActive = false }
   }, [])
 
   return (

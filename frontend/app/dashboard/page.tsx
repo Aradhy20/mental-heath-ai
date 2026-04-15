@@ -5,10 +5,10 @@ import { motion, animate } from 'framer-motion'
 import {
   TrendingUp, Smile, Brain, Wind, Sparkles, BookOpen,
   MessageCircle, MapPin, ArrowUpRight, ArrowDownRight,
-  Activity, Calendar, ChevronRight, Zap
+  Activity, Calendar, ChevronRight, Zap, Star
 } from 'lucide-react'
 import { useAuthStore, getStoredToken } from '@/lib/store/auth-store'
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, PieChart, Pie, Cell } from 'recharts'
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, PieChart, Pie, Cell, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts'
 import Link from 'next/link'
 import AICompanion from '@/components/dashboard/AICompanion'
 
@@ -81,6 +81,14 @@ const WEEK_DATA = [
   { day: 'Fri', mood: 5, sessions: 3 },
   { day: 'Sat', mood: 4, sessions: 2 },
   { day: 'Sun', mood: 4, sessions: 1 },
+]
+
+const wellnessFactors = [
+  { factor: 'Sleep', score: 75 },
+  { factor: 'Focus', score: 60 },
+  { factor: 'Social', score: 70 },
+  { factor: 'Stress', score: 55 },
+  { factor: 'Energy', score: 65 },
 ]
 
 // ─── Custom Tooltip ──────────────────────────────────────────────────────────
@@ -231,6 +239,36 @@ export default function DashboardPage() {
             </div>
           </motion.div>
         )}
+
+        {/* ── Main Wellness Score Banner (from Insights) ── */}
+        <motion.div 
+            initial={{ opacity: 0, y: 15 }} 
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-gradient-to-br from-violet-600 to-indigo-700 text-white rounded-3xl relative overflow-hidden shadow-sm p-8 lg:p-10"
+        >
+            <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-[100px] -mr-48 -mt-48" />
+            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                 <div className="max-w-md space-y-4">
+                     <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-xs font-bold uppercase tracking-widest border border-white/20">
+                        <Activity size={12} /> Live Index
+                     </div>
+                     <h2 className="text-4xl font-bold">Your Wellness Score is {data.wellness_score}</h2>
+                     <p className="text-violet-100/80 leading-relaxed text-sm">
+                        Based on your mood history, AI chat tone, and facial markers over the last week, your overall mental health index has dynamically adjusted.
+                     </p>
+                     <button className="flex items-center gap-2 px-5 py-2.5 bg-white text-violet-700 rounded-xl text-sm font-bold hover:bg-violet-50 transition-all">
+                        <Sparkles size={16} /> Run Deeper AI Scan
+                     </button>
+                 </div>
+                 <div className="relative flex-shrink-0">
+                     <svg width="160" height="160" viewBox="0 0 160 160">
+                        <circle cx="80" cy="80" r="70" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="12" />
+                        <circle cx="80" cy="80" r="70" fill="none" stroke="white" strokeWidth="12" strokeDasharray={`${(data.wellness_score/100) * 440} 440`} strokeLinecap="round" transform="rotate(-90 80 80)" />
+                        <text x="80" y="80" textAnchor="middle" dy="0.35em" fill="white" fontSize="32" fontWeight="bold">{data.wellness_score}</text>
+                     </svg>
+                 </div>
+            </div>
+        </motion.div>
 
         {/* ── Metric Row ── */}
         <motion.div
@@ -394,6 +432,30 @@ export default function DashboardPage() {
                ))}
             </div>
           </motion.div>
+
+          {/* New: Wellness Factors Radar (from Insights) */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3 }}
+            className="bg-white dark:bg-[#0f1629] rounded-2xl border border-slate-200 dark:border-white/[0.06] shadow-sm p-6 lg:col-span-1"
+          >
+            <div className="flex items-center justify-between mb-8">
+                <h2 className="font-semibold text-slate-900 dark:text-white">Wellness Core</h2>
+                <Star size={18} className="text-slate-300" />
+            </div>
+            <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                    <RadarChart data={wellnessFactors}>
+                        <PolarGrid stroke="rgba(0,0,0,0.05)" />
+                        <PolarAngleAxis dataKey="factor" tick={{ fontSize: 10, fill: '#94a3b8' }} />
+                        <Radar name="Score" dataKey="score" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.1} strokeWidth={2} />
+                        <Tooltip />
+                    </RadarChart>
+                </ResponsiveContainer>
+            </div>
+          </motion.div>
+
         </div>
 
         {/* ── Bottom Row: Recent Activity + Find Therapist ── */}

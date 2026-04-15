@@ -63,7 +63,13 @@ export default function AnxietyHub() {
                     
                     {/* LEFT: The Reframer Tool */}
                     <div className="space-y-6">
-                        <FloatingCard title="Thought Reframer" icon={Brain}>
+                        <FloatingCard>
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="p-2 bg-rose-500/10 text-rose-500 rounded-xl">
+                                    <Brain size={20} />
+                                </div>
+                                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Thought Reframer</h3>
+                            </div>
                             <div className="space-y-6">
                                 <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
                                     What's weighting on your mind right now? Write it out exactly as it feels.

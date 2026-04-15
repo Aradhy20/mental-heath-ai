@@ -223,7 +223,7 @@ export default function JournalPage() {
       await fetch(`${API_BASE}/api/v1/journal`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...newEntry, user_id: user?.id || 'guest' })
+        body: JSON.stringify({ ...newEntry, user_id: user?.user_id || 'guest' })
       })
     } catch (_) {}
 

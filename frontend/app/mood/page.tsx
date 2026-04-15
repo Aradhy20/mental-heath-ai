@@ -98,7 +98,7 @@ export default function MoodPage() {
           feelings: selectedFeelings,
           activities: selectedActivities,
           note,
-          user_id: user?.id || 'guest'
+          user_id: user?.user_id || 'guest'
         })
       })
     } catch (_) {}

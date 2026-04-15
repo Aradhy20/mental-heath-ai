@@ -4,9 +4,10 @@ import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Send, Mic, Video, VideoOff, Brain,
-  Sparkles, AlertTriangle, Phone, Activity, Zap,
-  X, RotateCcw, Loader2, ChevronDown, Copy, Check
+  Sparkles, AlertTriangle, Phone, Activity, Zap, Shield,
+  X, RotateCcw, Loader2, ChevronDown, Copy, Check, ArrowRight
 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useAuthStore, getStoredToken } from '@/lib/store/auth-store'
 import FaceDetector from '@/components/ai/FaceDetector'
 
@@ -175,6 +176,7 @@ function CrisisModal({ onClose }: { onClose: () => void }) {
 
 // ─── MAIN PAGE ──────────────────────────────────────────────────────────────
 export default function ChatPage() {
+  const router = useRouter()
   const { token } = useAuthStore()
   const [messages, setMessages] = useState<Message[]>([{
     id: '0',
@@ -189,7 +191,7 @@ export default function ChatPage() {
   const [sessionCount, setSessionCount] = useState(0)
   const [showQuickPrompts, setShowQuickPrompts] = useState(true)
   const [mentalState, setMentalState] = useState<any>(null)
-  const [lastAction, setLastAction] = useState<string | null>(null)
+  const [lastAction, setLastAction] = useState<any>(null)
   const [detectedEmotion, setDetectedEmotion] = useState<string | null>(null)
   const [isRecording, setIsRecording] = useState(false)
   const [isVoiceEnabled, setIsVoiceEnabled] = useState(true)

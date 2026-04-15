@@ -6,7 +6,7 @@ import Link from 'next/link'
 import {
     Brain, PenTool, Sparkles, ArrowRight, Activity, Zap,
     Heart, Target, Users, Calendar, TrendingUp, Award,
-    Clock, Star, CheckCircle, Play
+    Clock, Star, CheckCircle, Play, ShieldAlert, Wind
 } from 'lucide-react'
 import FloatingCard from '@/components/anti-gravity/FloatingCard'
 import { useAuthStore } from '@/lib/store/auth-store'

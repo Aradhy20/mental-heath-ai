@@ -41,6 +41,13 @@ class DBJournal(Base):
     created_at = Column(DateTime, default=dt.datetime.utcnow)
     updated_at = Column(DateTime, default=dt.datetime.utcnow)
 
+class DBOTP(Base):
+    __tablename__ = "otps"
+    identifier = Column(String(100), primary_key=True, index=True)
+    otp = Column(String(10))
+    created_at = Column(DateTime, default=dt.datetime.utcnow)
+
+
 # ================= AUTH REQUESTS/RESPONSES =================
 class UserCreate(BaseModel):
     email: str

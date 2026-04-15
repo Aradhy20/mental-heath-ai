@@ -17,14 +17,14 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: backend-express/package-lock.json
+          cache-dependency-path: backend/express/package-lock.json
       - name: Install dependencies
         run: |
-          cd backend-express
+          cd backend/express
           npm ci
       - name: Check Syntax/Build
         run: |
-          cd backend-express
+          cd backend/express
           # Simply ensuring the server can start/be required
           node -e "require('./server.js')" || echo "Basic server check done"
 
@@ -48,7 +48,7 @@ jobs:
           cd backend
           # Check core files for syntax errors
           python -m py_compile start_services.py
-          python -m py_compile text_service/main.py
+          python -m py_compile ai/text_service/main.py
 
   # 3. Frontend Check (Next.js)
   frontend-check:

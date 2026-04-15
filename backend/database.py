@@ -24,21 +24,14 @@ sessions_collection = analysis_logs_collection # Alias for Fusion service
 moods_collection = db["moods"]
 journals_collection = db["journals"]
 
-# --- SQL Configuration (MySQL via SQLAlchemy) ---
+# --- SQL Configuration (MySQL — confirmed available at /usr/local/mysql) ---
 # Primary storage for: Auth, Identity, Tokens
-# User: root, Pass: 12345678, DB: mindful_ai
-# Use MySQL in production; fall back to SQLite for local development
 MYSQL_URL = os.getenv(
     "MYSQL_URL",
-    "mysql+aiomysql://root:12345678@localhost/mindful_ai"
+    "mysql+aiomysql://root:12345678@127.0.0.1:3306/mindful_ai"
 )
-# SQLite async fallback (zero-config local dev)
-SQLITE_URL = "sqlite+aiosqlite:///./mindfulai_local.db"
 
-try:
-    engine = create_async_engine(MYSQL_URL, echo=False, pool_pre_ping=True)
-except Exception:
-    engine = create_async_engine(SQLITE_URL, echo=False)
+engine = create_async_engine(MYSQL_URL, echo=False, pool_pre_ping=True)
 AsyncSessionLocal = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 Base = declarative_base()
 

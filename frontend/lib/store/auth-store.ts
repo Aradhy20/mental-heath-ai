@@ -28,17 +28,14 @@ export const useAuthStore = create<AuthState>()(
             token: null,
             isAuthenticated: false,
             login: (user, token) => {
-                // Also write to localStorage directly for non-Zustand consumers (e.g., cookie)
+                // Ensure cookie is set for Next.js middleware (Edge Runtime)
                 if (typeof window !== 'undefined') {
-                    localStorage.setItem('calmspace_token', token)
-                    localStorage.setItem('calmspace_user', JSON.stringify(user))
+                    document.cookie = `token=${token}; path=/; max-age=2592000; SameSite=Lax` // 30 days
                 }
                 set({ user, token, isAuthenticated: true })
             },
             logout: () => {
                 if (typeof window !== 'undefined') {
-                    localStorage.removeItem('calmspace_token')
-                    localStorage.removeItem('calmspace_user')
                     document.cookie = 'token=; path=/; max-age=0'
                 }
                 set({ user: null, token: null, isAuthenticated: false })

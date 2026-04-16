@@ -25,10 +25,10 @@ import { useAuthStore } from '@/lib/store/auth-store'
 const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard' },
     { icon: Smile, label: 'Mood Tracker', href: '/mood' },
-    { icon: BookOpen, label: 'Journal', href: '/journal' },
+
     { icon: MessageCircle, label: 'AI Chat', href: '/chat' },
     { icon: Wind, label: 'Meditation', href: '/meditation' },
-    { icon: BarChart2, label: 'Insights', href: '/insights' },
+
     { icon: MapPin, label: 'Specialists', href: '/specialists' },
 ]
 
@@ -55,12 +55,12 @@ const AnimatedSidebar = () => {
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -20 }}
-                            className="flex items-center gap-2"
+                            className="flex items-center gap-2.5"
                         >
-                            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-serenity-400 to-serenity-600 dark:from-aurora-500 dark:to-aurora-700 flex items-center justify-center text-white font-bold">
-                                M
+                            <div className="w-9 h-9 rounded-xl overflow-hidden shadow-sm flex items-center justify-center bg-white border border-slate-200/50">
+                                <img src="/logo.png" alt="MindfulAI" className="w-full h-full object-cover" />
                             </div>
-                            <span className="font-display font-bold text-xl tracking-tight">MindfulAI</span>
+                            <span className="font-display font-bold text-xl tracking-tight bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">MindfulAI</span>
                         </motion.div>
                     )}
                 </AnimatePresence>

@@ -9,7 +9,7 @@ os.environ["USE_TORCH"] = "1"
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from core.logging import log
-from api import auth, analysis, wellness, chat, alerts, voice, biometrics, clinical_assessments
+from api import auth, analysis, wellness, chat, alerts, voice, biometrics, clinical_assessments, insights
 from ai.learning_loop import router as learning_router
 
 app = FastAPI(
@@ -77,6 +77,7 @@ app.include_router(alerts.router, prefix="/api/v1")
 app.include_router(voice.router, prefix="/api/v1")
 app.include_router(biometrics.router, prefix="/api/v1")
 app.include_router(clinical_assessments.router, prefix="/api/v1")
+app.include_router(insights.router, prefix="/api/v1")
 app.include_router(learning_router, prefix="/api/v1")
 
 @app.get("/")
@@ -87,9 +88,27 @@ def health_check():
         "message": "MindfulAI 2.0 Backend is fully operational"
     }
 
+def check_dependencies():
+    """Validates that all critical AI dependencies are installed and accessible."""
+    try:
+        import torch
+        import librosa
+        import mediapipe
+        import cv2
+        import numpy
+        log.info("AI Infrastructure validated: All core libraries accessible.")
+        return True
+    except ImportError as e:
+        log.critical(f"FATAL: Missing AI dependency: {e}. System cannot boot.")
+        return False
+
 @app.on_event("startup")
 async def startup_event():
     log.info("MindfulAI SaaS Backend v3.0 Starting...")
+    if not check_dependencies():
+        # In a real prod env, we might stop the boot process
+        # For now, we log it clearly as a system warning
+        log.error("AI system is running in DEGRADED mode due to missing dependencies.")
     log.info("Wellness tables initialized")
     log.info("SmolLM2 and MediaPipe engines will load on first request")
 

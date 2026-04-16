@@ -2,11 +2,12 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
 from typing import List, Optional
 from core.security import get_optional_user
-from database import get_db, journals_collection # MongoDB for journals if preferred, but user said switch to MySQL
-from models import MoodEntry, JournalEntry, MoodLog, DBJournal, DBUser
+from database import get_db
+from models import MoodEntry, MoodLog, DBUser
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, update
+from sqlalchemy import select, func
 import uuid
+import datetime
 
 router = APIRouter(tags=["Wellness Data"])
 
@@ -22,7 +23,9 @@ async def log_mood(entry: MoodEntry, db_sql: AsyncSession = Depends(get_db)):
             score=str(entry.score),
             feelings=",".join(entry.feelings or []),
             activities=",".join(entry.activities or []),
-            note=entry.note or ""
+            note=entry.note or "",
+            sleep_hours=str(entry.sleep_hours or 0),
+            energy_level=str(entry.energy_level or 5),
         )
         db_sql.add(new_mood)
         await db_sql.commit()
@@ -39,11 +42,13 @@ async def get_mood_history(user_id: str = Query("guest"), limit: int = Query(30)
         rows = result.scalars().all()
         return [
             {
-                "id": r.id, 
-                "score": int(r.score) if r.score.isdigit() else 0,
+                "id": r.id,
+                "score": int(r.score) if (r.score or '').isdigit() else 0,
                 "feelings": r.feelings.split(",") if r.feelings else [],
                 "activities": r.activities.split(",") if r.activities else [],
                 "note": r.note,
+                "sleep_hours": float(r.sleep_hours) if r.sleep_hours else 0.0,
+                "energy_level": int(r.energy_level) if (r.energy_level or '').isdigit() else 5,
                 "created_at": r.created_at.isoformat()
             }
             for r in rows
@@ -51,78 +56,73 @@ async def get_mood_history(user_id: str = Query("guest"), limit: int = Query(30)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# ─── JOURNAL Endpoints ───────────────────────────────────────────────────────
 
-@router.post("/journal", summary="Create or update a journal entry")
-async def save_journal(entry: JournalEntry, db_sql: AsyncSession = Depends(get_db)):
+@router.get("/mood/trends", summary="AI-powered mood trend analysis")
+async def get_mood_trends(user_id: str = Query("guest"), db_sql: AsyncSession = Depends(get_db)):
+    """Returns a 30-day AI analysis of mood, sleep, and energy trends."""
     try:
-        entry_id = entry.id or str(uuid.uuid4())
-        now = datetime.datetime.now(datetime.timezone.utc)
-        
-        # Check if exists
-        query = select(DBJournal).where(DBJournal.id == entry_id)
-        result = await db_sql.execute(query)
-        existing = result.scalars().first()
-        
-        if existing:
-            existing.title = entry.title
-            existing.content = entry.content
-            existing.tags = ",".join(entry.tags or [])
-            existing.sentiment = entry.sentiment or "neutral"
-            existing.word_count = str(entry.word_count or len(entry.content.split()))
-            existing.updated_at = now
-        else:
-            new_journal = DBJournal(
-                id=entry_id,
-                user_id=entry.user_id,
-                title=entry.title,
-                content=entry.content,
-                tags=",".join(entry.tags or []),
-                sentiment=entry.sentiment or "neutral",
-                word_count=str(entry.word_count or len(entry.content.split())),
-                created_at=now,
-                updated_at=now
-            )
-            db_sql.add(new_journal)
-            
-        await db_sql.commit()
-        
-        # Also sync to NoSQL for cross-modality analysis if needed
-        journal_nosql = {
-            "id": entry_id,
-            "user_id": entry.user_id,
-            "title": entry.title,
-            "content": entry.content,
-            "sentiment": entry.sentiment,
-            "updated_at": now
-        }
-        await journals_collection.update_one({"id": entry_id}, {"$set": journal_nosql}, upsert=True)
-        
-        return {"id": entry_id, "status": "saved"}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Journal save failed: {str(e)}")
-
-
-@router.get("/journal", summary="Get journal entries for a user")
-async def get_journal_entries(user_id: str = Query("guest"), limit: int = Query(50), db_sql: AsyncSession = Depends(get_db)):
-    try:
-        query = select(DBJournal).where(DBJournal.user_id == user_id).order_by(DBJournal.created_at.desc()).limit(limit)
+        thirty_days_ago = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=30)
+        query = select(MoodLog).where(
+            MoodLog.user_id == user_id,
+            MoodLog.created_at >= thirty_days_ago
+        ).order_by(MoodLog.created_at.asc())
         result = await db_sql.execute(query)
         rows = result.scalars().all()
-        return [
-            {
-                "id": r.id, 
-                "title": r.title, 
-                "content": r.content,
-                "tags": r.tags.split(",") if r.tags else [],
-                "sentiment": r.sentiment,
-                "word_count": int(r.word_count) if r.word_count.isdigit() else 0,
-                "created_at": r.created_at.isoformat()
+
+        if not rows:
+            return {
+                "summary": "Not enough data yet. Log your mood daily to unlock trend analysis.",
+                "avg_mood": 0, "avg_sleep": 0, "avg_energy": 0,
+                "trend": "neutral", "insight": None, "data_points": 0
             }
-            for r in rows
-        ]
+
+        scores = [int(r.score) for r in rows if (r.score or '').isdigit()]
+        sleeps = [float(r.sleep_hours) for r in rows if r.sleep_hours and r.sleep_hours != '0']
+        energies = [int(r.energy_level) for r in rows if (r.energy_level or '').isdigit()]
+
+        avg_mood = round(sum(scores) / len(scores), 1) if scores else 0
+        avg_sleep = round(sum(sleeps) / len(sleeps), 1) if sleeps else 0
+        avg_energy = round(sum(energies) / len(energies), 1) if energies else 0
+
+        # Simple trend: compare first half vs second half
+        mid = len(scores) // 2
+        first_half_avg = sum(scores[:mid]) / max(mid, 1)
+        second_half_avg = sum(scores[mid:]) / max(len(scores) - mid, 1)
+        trend = "improving" if second_half_avg > first_half_avg + 0.3 else "declining" if second_half_avg < first_half_avg - 0.3 else "stable"
+
+        # AI-style insight
+        if avg_sleep < 6 and avg_mood < 3:
+            insight = "Your data shows a strong link between low sleep and low mood. Try improving sleep consistency."
+        elif avg_energy < 4 and avg_mood < 3:
+            insight = "Low energy levels appear to be impacting your mood. Consider light exercise or adjusting your routine."
+        elif trend == "improving":
+            insight = f"Great progress! Your mood has been improving over the past 30 days — keep it up."
+        elif trend == "declining":
+            insight = "Your mood trend is declining. Consider speaking with a mental health professional or trying our guided meditation."
+        else:
+            insight = f"You're maintaining a stable mood of {avg_mood}/5. Consistency is the foundation of well-being."
+
+        return {
+            "summary": f"{len(rows)} check-ins over 30 days",
+            "avg_mood": avg_mood,
+            "avg_sleep": avg_sleep,
+            "avg_energy": avg_energy,
+            "trend": trend,
+            "insight": insight,
+            "data_points": len(rows),
+            "chart_data": [
+                {
+                    "date": r.created_at.strftime("%b %d"),
+                    "mood": int(r.score) if (r.score or '').isdigit() else 0,
+                    "sleep": float(r.sleep_hours) if r.sleep_hours else 0,
+                    "energy": int(r.energy_level) if (r.energy_level or '').isdigit() else 5,
+                }
+                for r in rows
+            ]
+        }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 
 # ─── NEARBY RESOURCES Endpoint ───────────────────────────────────────────────
 
@@ -143,6 +143,9 @@ FALLBACK_RESOURCES = [
     {"id": "f3", "name": "NIMHANS Bangalore", "type": "Psychiatry Institute", "address": "Hosur Road, Bengaluru – 560029", "phone": "080-46110007", "lat": 12.9428, "lon": 77.5963, "tags": ["Expert", "Govt", "OPD"]},
     {"id": "f4", "name": "LVPrasad Eye & Mental Care", "type": "Mental Health Clinic", "address": "Hyderabad, Telangana", "phone": "+91 40 3061 7000", "lat": 17.4239, "lon": 78.4738, "tags": ["In-person", "Specialist"]},
     {"id": "f5", "name": "The MIND Foundation", "type": "Psychology", "address": "Chennai, Tamil Nadu", "phone": "+91 44 2467 3456", "lat": 13.0141, "lon": 80.2676, "tags": ["CBT", "Family"]},
+    {"id": "y1", "name": "Isha Yoga Center", "type": "Yoga", "address": "Coimbatore, Tamil Nadu", "phone": "0422 251 5345", "lat": 10.9701, "lon": 76.7328, "tags": ["Meditation", "Wellness"]},
+    {"id": "y2", "name": "The Yoga Institute", "type": "Yoga", "address": "Santacruz, Mumbai", "phone": "022 2612 2185", "lat": 19.0760, "lon": 72.8465, "tags": ["Traditional", "Health"]},
+    {"id": "g1", "name": "Gold's Gym India", "type": "Gym", "address": "Multiple Locations", "phone": "1800 123 456", "lat": 19.1190, "lon": 72.8478, "tags": ["Fitness", "International"]},
 ]
 
 @router.get("/nearby-resources", summary="Find nearby mental health resources via OSM")

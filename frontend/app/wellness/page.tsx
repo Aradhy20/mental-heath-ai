@@ -6,11 +6,11 @@ import Link from 'next/link'
 import {
     Brain, PenTool, Sparkles, ArrowRight, Activity, Zap,
     Heart, Target, Users, Calendar, TrendingUp, Award,
-    Clock, Star, CheckCircle, Play, ShieldAlert, Wind
+    Clock, Star, CheckCircle, Play, ShieldAlert, Wind, MapPin
 } from 'lucide-react'
 import FloatingCard from '@/components/anti-gravity/FloatingCard'
 import { useAuthStore } from '@/lib/store/auth-store'
-import { analysisAPI } from '@/lib/api'
+import { wellnessAPI, analysisAPI } from '@/lib/api'
 
 const features = [
     {
@@ -22,15 +22,7 @@ const features = [
         stats: 'Active logs: 128',
         benefits: ['Pattern recognition', 'AI insights', 'Trend analysis']
     },
-    {
-        title: 'Guided Journaling',
-        description: 'Express your thoughts with AI-curated prompts and emotional analysis.',
-        icon: PenTool,
-        href: '/journal',
-        color: 'bg-gradient-to-br from-blue-500/20 to-indigo-500/20 text-blue-600 border-blue-500/30',
-        stats: 'Total entries: 45',
-        benefits: ['AI prompts', 'Emotion analysis', 'Progress tracking']
-    },
+
     {
         title: 'Mindfulness & Breathing',
         description: 'Access guided meditations, breathing exercises, and coping strategies.',
@@ -84,6 +76,15 @@ const features = [
         color: 'bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-indigo-600 border-indigo-500/30',
         stats: 'Reports generated: 23',
         benefits: ['Advanced analytics', 'Risk assessment', 'Progress reports']
+    },
+    {
+        title: 'Wellness Discovery',
+        description: 'Find nearby Yoga centers, Gyms, and Clinical support based on your location.',
+        icon: MapPin,
+        href: '/nearby',
+        color: 'bg-gradient-to-br from-indigo-500/20 to-blue-500/20 text-indigo-600 border-indigo-500/30',
+        stats: 'Resources found: 42',
+        benefits: ['Nearby Yoga & Gyms', 'Vetted Clinicians', 'OSM Navigation']
     }
 ]
 
@@ -103,7 +104,7 @@ export default function WellnessPage() {
         // Load current wellness score
         const loadWellnessScore = async () => {
             try {
-                const response = await analysisAPI.getWellnessScore({
+                const response = await wellnessAPI.getWellnessScore({
                     mood_score: 7,
                     anxiety_level: 30,
                     stress_level: 25,
@@ -130,7 +131,7 @@ export default function WellnessPage() {
     const runWellnessCheck = async () => {
         setIsLoading(true)
         try {
-            const response = await analysisAPI.getWellnessScore({
+            const response = await wellnessAPI.getWellnessScore({
                 mood_score: Math.floor(Math.random() * 10) + 1,
                 anxiety_level: Math.floor(Math.random() * 50),
                 stress_level: Math.floor(Math.random() * 50),

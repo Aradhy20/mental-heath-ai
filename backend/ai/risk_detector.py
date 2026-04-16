@@ -1,74 +1,41 @@
 """
-MindfulAI Risk Detection Engine
-Immediate override system for high-risk signals.
+MindfulAI Risk Detector
+Identifies high-risk clinical keywords and triggers safety overrides.
 """
 
-from typing import Dict, List, Any
-import re
+from core.logging import log
 
 class RiskDetector:
     def __init__(self):
-        # Critical indicators
-        self.CRISIS_KEYWORDS = [
-            r"suicide", 
-            r"kill myself", 
-            r"die", 
-            r"end my life", 
-            r"hurt myself",
-            r"overdose",
-            r"can't go on"
+        # High-risk trigger keywords
+        self.critical_keywords = [
+            "suicide", "kill myself", "die", "end it all", 
+            "hurt myself", "better off dead", "no reason to live"
         ]
         
-        # Moderate indicators
-        self.MODERATE_KEYWORDS = [
-            r"hopeless",
-            r"worthless",
-            r"give up",
-            r"hate myself",
-            r"pointless"
+        # Moderate risk (Anxiety/Stress)
+        self.concerning_keywords = [
+            "scared", "panicking", "can't breathe", "hopeless", "worthless"
         ]
 
-    def analyze_risk(self, text: str) -> Dict[str, Any]:
+    def check_risk(self, text: str):
         """
-        Scans text for high-risk indicators and returns risk level.
+        Returns (is_crisis: bool, risk_level: str)
         """
         text_lower = text.lower()
         
-        high_risk_matches = []
-        for pattern in self.CRISIS_KEYWORDS:
-            if re.search(pattern, text_lower):
-                high_risk_matches.append(pattern)
+        # Check for CRITICAL risk
+        for kw in self.critical_keywords:
+            if kw in text_lower:
+                log.warning(f"CRITICAL RISK DETECTED: Trigger word '{kw}' found.")
+                return True, "HIGH"
         
-        if high_risk_matches:
-            return {
-                "risk_level": "HIGH",
-                "indicators": high_risk_matches,
-                "bypass_required": True,
-                "confidence": 1.0,
-                "message": "Immediate crisis support recommended."
-            }
-            
-        moderate_matches = []
-        for pattern in self.MODERATE_KEYWORDS:
-            if re.search(pattern, text_lower):
-                moderate_matches.append(pattern)
-                
-        if moderate_matches:
-            return {
-                "risk_level": "MODERATE",
-                "indicators": moderate_matches,
-                "bypass_required": False,
-                "confidence": 0.8,
-                "message": "Increased stress levels detected. Close monitoring advised."
-            }
-            
-        return {
-            "risk_level": "LOW",
-            "indicators": [],
-            "bypass_required": False,
-            "confidence": 0.5,
-            "message": "Normal baseline detected."
-        }
+        # Check for CONCERNING risk
+        for kw in self.concerning_keywords:
+            if kw in text_lower:
+                log.info(f"Concerning symptoms detected in text: '{kw}'")
+                return False, "MODERATE"
+        
+        return False, "LOW"
 
-# Singleton instance
 risk_detector = RiskDetector()

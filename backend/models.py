@@ -23,23 +23,14 @@ class MoodLog(Base):
     __tablename__ = "mood_logs"
     id = Column(String(50), primary_key=True, index=True)
     user_id = Column(String(50), index=True)
-    score = Column(String(50)) # Using string for flexibility, or Integer
+    score = Column(String(50))
     feelings = Column(String(255))
     activities = Column(String(255))
     note = Column(String(500))
+    sleep_hours = Column(String(10), default="0")
+    energy_level = Column(String(10), default="5")
     created_at = Column(DateTime, default=dt.datetime.utcnow)
 
-class DBJournal(Base):
-    __tablename__ = "journal_entries"
-    id = Column(String(50), primary_key=True, index=True)
-    user_id = Column(String(50), index=True)
-    title = Column(String(255))
-    content = Column(String(5000))
-    tags = Column(String(255))
-    sentiment = Column(String(50), default="neutral")
-    word_count = Column(String(10), default="0")
-    created_at = Column(DateTime, default=dt.datetime.utcnow)
-    updated_at = Column(DateTime, default=dt.datetime.utcnow)
 
 class DBOTP(Base):
     __tablename__ = "otps"
@@ -103,16 +94,10 @@ class MoodEntry(BaseModel):
     activities: Optional[List[str]] = []
     note: Optional[str] = ""
     user_id: Optional[str] = "guest"
+    sleep_hours: Optional[float] = 0.0   # 0-10 hours
+    energy_level: Optional[int] = 5      # 1-10 scale
 
-class JournalEntry(BaseModel):
-    id: Optional[str] = None
-    title: str
-    content: str
-    tags: Optional[List[str]] = []
-    sentiment: Optional[str] = "neutral"
-    word_count: Optional[int] = 0
-    user_id: Optional[str] = "guest"
-    
+
 # ================= CHAT (RAG) MODELS =================
 class ChatRequest(BaseModel):
     prompt: str

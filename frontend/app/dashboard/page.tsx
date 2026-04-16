@@ -11,6 +11,7 @@ import { useAuthStore, getStoredToken } from '@/lib/store/auth-store'
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, PieChart, Pie, Cell, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts'
 import Link from 'next/link'
 import AICompanion from '@/components/dashboard/AICompanion'
+import { insightsAPI, userAPI, wellnessAPI } from '@/lib/api'
 
 
 const API_BASE = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:8000'
@@ -68,7 +69,6 @@ function MetricCard({ label, value, suffix, delta, icon: Icon, color, href }: {
 const QUICK_ACTIONS = [
   { label: 'Log My Mood',       href: '/mood',       icon: Smile,         color: 'from-violet-500 to-purple-500', desc: 'How are you feeling?' },
   { label: 'Talk to AI',        href: '/chat',       icon: MessageCircle, color: 'from-blue-500 to-cyan-500',    desc: 'Instant support' },
-  { label: 'Write in Journal',  href: '/journal',    icon: BookOpen,      color: 'from-indigo-500 to-violet-500', desc: 'Private thoughts' },
   { label: 'Breathe & Relax',   href: '/meditation', icon: Wind,          color: 'from-teal-500 to-emerald-500',  desc: 'Guided breathing' },
 ]
 
@@ -126,6 +126,8 @@ export default function DashboardPage() {
   const { user } = useAuthStore()
   const [stats, setStats] = useState<any>(null)
   const [twin, setTwin] = useState<any>(null)
+  const [trends, setTrends] = useState<any>(null)
+  const [explain, setExplain] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const hour = new Date().getHours()
   const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening'
@@ -133,16 +135,18 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetch_stats = async () => {
       try {
-        const [statsRes, twinRes] = await Promise.all([
-            fetch(`${API_BASE}/api/v1/dashboard/stats`),
-            fetch(`${API_BASE}/api/v1/profile/twin`, {
-                headers: { ...(getStoredToken() ? { Authorization: `Bearer ${getStoredToken()}` } : {}) }
-            })
+        const [statsRes, twinRes, trendsRes, explainRes] = await Promise.all([
+            userAPI.getDashboardStats(),
+            insightsAPI.getDigitalTwin(),
+            wellnessAPI.getMoodTrends(),
+            insightsAPI.explainMind()
         ])
-        if (statsRes.ok) setStats(await statsRes.json())
-        if (twinRes.ok) setTwin(await twinRes.json())
+        if (statsRes.data) setStats(statsRes.data)
+        if (twinRes.data) setTwin(twinRes.data)
+        if (trendsRes.data) setTrends(trendsRes.data)
+        if (explainRes.data) setExplain(explainRes.data)
       } catch (_) {
-        // use defaults
+        console.error("Failed to load live dashboard data")
       } finally {
         setLoading(false)
       }
@@ -210,7 +214,7 @@ export default function DashboardPage() {
                   <h3 className="text-xs font-bold uppercase tracking-widest text-indigo-100">Digital Twin Profile</h3>
                 </div>
                 <p className="text-3xl font-extrabold mb-1">Resilience: {Math.round(twin.resilience_index)}%</p>
-                <p className="text-xs text-indigo-100/70">Based on your activity patterns and emotional recovery rate.</p>
+                <p className="text-xs text-indigo-100/70">{explain?.narrative || 'Based on your activity patterns and emotional recovery rate.'}</p>
               </div>
 
               <div className="md:col-span-1 border-r border-white/10 pr-4">
@@ -281,6 +285,65 @@ export default function DashboardPage() {
           <MetricCard label="Stress Level"      value={Math.round(data.stress_index * 100)} suffix="%" delta="-12%" icon={Brain}    color="bg-rose-500"    href="/analysis" />
           <MetricCard label="Sleep Quality"     value={72}                  suffix="%"     delta="+8"  icon={Wind}      color="bg-blue-500"   />
           <MetricCard label="AI Conversations"  value={data.active_sessions}               delta="+3"  icon={MessageCircle} color="bg-emerald-500" href="/chat" />
+        </motion.div>
+
+        {/* ── Biometric Summary ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="grid grid-cols-1 lg:grid-cols-3 gap-4"
+        >
+          {/* Sleep Card */}
+          <div className="bg-white dark:bg-[#0f1629] rounded-2xl border border-slate-200 dark:border-white/[0.06] shadow-sm p-5 flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-blue-500/10 flex items-center justify-center text-2xl shrink-0">😴</div>
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-0.5">Avg Sleep</p>
+              <p className="text-2xl font-bold text-slate-900 dark:text-white">{trends?.avg_sleep > 0 ? `${trends.avg_sleep}h` : '–'}</p>
+              <p className="text-[10px] text-slate-400 mt-0.5">
+                {trends?.avg_sleep >= 7 ? '✅ Well rested' : trends?.avg_sleep >= 5 ? '⚡ Below ideal' : trends?.avg_sleep > 0 ? '⚠️ Sleep deprived' : 'Log mood to see data'}
+              </p>
+            </div>
+            <div className="w-10 h-10 shrink-0">
+              <svg viewBox="0 0 36 36">
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="rgba(59,130,246,0.1)" strokeWidth="4" />
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="#3b82f6" strokeWidth="4"
+                  strokeDasharray={`${Math.min((trends?.avg_sleep || 0) / 12 * 100, 100)} 100`}
+                  strokeLinecap="round" transform="rotate(-90 18 18)" />
+              </svg>
+            </div>
+          </div>
+
+          {/* Energy Card */}
+          <div className="bg-white dark:bg-[#0f1629] rounded-2xl border border-slate-200 dark:border-white/[0.06] shadow-sm p-5 flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-amber-500/10 flex items-center justify-center text-2xl shrink-0">⚡</div>
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-0.5">Avg Energy</p>
+              <p className="text-2xl font-bold text-slate-900 dark:text-white">{trends?.avg_energy > 0 ? `${trends.avg_energy}/10` : '–'}</p>
+              <div className="flex gap-0.5 mt-1.5">
+                {Array.from({length: 10}, (_, i) => i + 1).map(n => (
+                  <div key={n} className={`flex-1 h-1.5 rounded-full ${
+                    n <= Math.round(trends?.avg_energy || 0)
+                      ? n <= 3 ? 'bg-red-400' : n <= 6 ? 'bg-amber-400' : 'bg-emerald-400'
+                      : 'bg-slate-200 dark:bg-slate-700'
+                  }`} />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* AI Insight Card */}
+          <div className="bg-gradient-to-br from-violet-600 to-indigo-600 rounded-2xl shadow-sm p-5 flex items-start gap-4 text-white">
+            <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
+              <Sparkles size={18} />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-bold uppercase tracking-widest text-violet-200 mb-1">AI Insight</p>
+              <p className="text-xs text-white/90 leading-relaxed">
+                {trends?.insight || 'Log your mood daily to unlock personalized AI wellness insights.'}
+              </p>
+            </div>
+          </div>
         </motion.div>
 
         {/* ── Quick Actions ── */}
@@ -459,44 +522,7 @@ export default function DashboardPage() {
         </div>
 
         {/* ── Bottom Row: Recent Activity + Find Therapist ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-          {/* Recent Journal */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25 }}
-            className="bg-white dark:bg-[#0f1629] rounded-2xl border border-slate-200 dark:border-white/[0.06] shadow-sm p-6"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold text-slate-900 dark:text-white flex items-center gap-2">
-                <BookOpen size={16} className="text-violet-500" /> Recent Journal
-              </h2>
-              <Link href="/journal" className="text-xs text-violet-600 dark:text-violet-400 font-semibold hover:underline flex items-center gap-1">
-                View all <ChevronRight size={12} />
-              </Link>
-            </div>
-            <div className="space-y-3">
-              {[
-                { title: 'Feeling overwhelmed 😔', date: 'Yesterday', mood: 'Processing', color: 'text-rose-500' },
-                { title: 'Setting better boundaries 💪', date: '2 days ago', mood: 'Positive', color: 'text-emerald-500' },
-                { title: 'Gratitude list 🙏', date: '4 days ago', mood: 'Positive', color: 'text-emerald-500' },
-              ].map((e, i) => (
-                <Link key={i} href="/journal">
-                  <div className="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-white/[0.03] transition-all group">
-                    <div className="w-8 h-8 rounded-lg bg-violet-100 dark:bg-violet-500/15 flex items-center justify-center shrink-0">
-                      <BookOpen size={13} className="text-violet-500" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-slate-800 dark:text-slate-200 group-hover:text-violet-600 transition-colors truncate">{e.title}</p>
-                      <p className="text-xs text-slate-400">{e.date} · <span className={e.color}>{e.mood}</span></p>
-                    </div>
-                    <ChevronRight size={14} className="text-slate-300 dark:text-slate-600 group-hover:text-violet-400 transition-colors shrink-0" />
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </motion.div>
+        <div className="grid grid-cols-1 gap-6">
 
           {/* Find Support */}
           <motion.div

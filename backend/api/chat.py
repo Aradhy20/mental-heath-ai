@@ -17,6 +17,7 @@ from ai.conversation_engine import conversation_engine
 from ai.action_engine import action_engine
 from ai.digital_twin import digital_twin
 from ai.voice_interface import voice_interface
+from ai.chatbot_engine import chatbot_engine
 from core.logging import log
 
 router = APIRouter(tags=["Intelligent Chat"])
@@ -30,69 +31,36 @@ class ChatRequest(BaseModel):
 @router.post("/chat", summary="Process chat through the AI Mental Health OS")
 async def intelligent_chat(
     req: ChatRequest, 
-    user_id: str = Depends(get_optional_user),
-    db: AsyncSession = Depends(get_db)
+    user_id: str = Depends(get_optional_user)
 ):
     try:
-        log.info(f"Pipeline Start: User Input = '{req.message[:50]}...'")
-
-        # 1 & 2. Feature Pipeline + Mental Engine (Analysis)
-        mental_state = await mental_engine.analyze_state(
-            text=req.message, 
-            wearable_data=req.biometrics,
-            user_id=user_id, 
-            db=db
+        # User Input -> Chatbot Engine
+        response_pkg = await chatbot_engine.get_response(
+            user_id=user_id,
+            message=req.message,
+            bio_data=req.biometrics
         )
-        log.info(f"Stage 1: Mental State Analyzed (Emotion: {mental_state.get('emotion')})")
-        
-        # Memory Context (Phase 3.0)
-        memory_context = mental_state.get("historical_context", {}).get("digital_twin_memory")
 
-        # 3. Risk Detection (Handled inside mental_engine but verified here)
-        risk_level = mental_state.get("risk_level", "LOW")
-        log.info(f"Stage 2: Risk Detector (Level: {risk_level})")
-
-        # 4. Decision Engine (Path Selection)
-        decision = decision_engine.determine_path(mental_state)
-        log.info(f"Stage 3: Decision Engine (Selected Mode: {decision['selected_mode']})")
-
-        # 5. Conversation Engine (Empathetic Generation)
-        response_data = await conversation_engine.generate_response(
-            user_input=req.message,
-            mental_state=mental_state,
-            mode=decision['selected_mode'],
-            history=req.history,
-            memory_context=memory_context
-        )
-        log.info("Stage 4: Conversation Engine (Response Generated)")
-
-        # 6. Action Engine (Proactive support)
-        recommended_action = action_engine.suggest_action(mental_state)
-
-        # 7. Voice Interface (Optional Alexa-like TTS)
-        voice_output = ""
+        # Generate Voice Audio if requested
+        voice_audio = None
         if req.use_voice_features:
-            voice_output = await voice_interface.generate_speech(response_data["message"])
-            log.info("Stage 5: Voice Interface (TTS Generated)")
-
-        # Persistent Profile Update
-        twin_profile = await digital_twin.update_profile(user_id, db)
+            voice_audio = await voice_interface.text_to_speech(response_pkg["message"])
 
         return {
-            "message": response_data["message"],
-            "voice_audio": voice_output,
-            "emotion": mental_state.get("emotion"),
-            "risk_level": risk_level,
-            "mode": decision['selected_mode'],
-            "mental_state": mental_state.get("mental_state"),
-            "recommended_action": recommended_action,
-            "digital_twin": twin_profile,
-            "modality_contribution": mental_state.get("modality_contribution")
+            "message": response_pkg["message"],
+            "emotion": response_pkg["emotion"],
+            "risk_level": response_pkg["risk_level"],
+            "mental_state": response_pkg["mental_state"],
+            "modality_contribution": response_pkg["modality_contribution"],
+            "recommended_action": response_pkg["recommended_action"],
+            "mode": response_pkg["mode"],
+            "voice_audio": voice_audio,
+            "clinical_justification": response_pkg.get("clinical_justification")
         }
 
     except Exception as e:
-        log.error(f"INTEGRATION ERROR: {e}")
-        raise HTTPException(status_code=500, detail="Intelligence Engine Pipeline failed.")
+        log.error(f"CHAT API ERROR: {e}")
+        raise HTTPException(status_code=500, detail="Chatbot engine failed.")
 
 @router.get("/profile/twin")
 async def get_digital_twin_profile(

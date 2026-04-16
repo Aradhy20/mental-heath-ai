@@ -37,26 +37,8 @@ const Sidebar = () => {
       ),
       href: '/chat'
     },
-    {
-      id: 'journaling',
-      label: 'Journaling',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-        </svg>
-      ),
-      href: '/journal'
-    },
-    {
-      id: 'insights',
-      label: 'AI Insights',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-        </svg>
-      ),
-      href: '/insights'
-    },
+
+
     {
       id: 'meditation',
       label: 'Meditation',
@@ -139,10 +121,17 @@ const Sidebar = () => {
           <div className="flex flex-col h-full">
             {/* Logo */}
             <div className="p-6 border-b border-gray-200/50">
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">
-                MindfulAI
-              </h1>
-              <p className="text-sm text-gray-500 mt-1">Your mental wellness companion</p>
+              <Link href="/" className="flex items-center">
+                <div className="w-10 h-10 rounded-xl overflow-hidden shadow-sm flex items-center justify-center bg-white border border-slate-200/50">
+                  <img src="/logo.png" alt="MindfulAI" className="w-full h-full object-cover" />
+                </div>
+                <div className="ml-3">
+                  <h1 className="text-xl font-bold bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
+                    MindfulAI
+                  </h1>
+                </div>
+              </Link>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-2">Wellness Companion</p>
             </div>
 
             {/* Navigation */}

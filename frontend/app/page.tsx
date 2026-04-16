@@ -15,21 +15,20 @@ const Nav = () => (
   <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-white/5">
     <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
       <div className="flex items-center gap-2.5">
-        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center shadow-lg">
-          <Sparkles size={16} className="text-white" />
+        <div className="w-10 h-10 rounded-lg overflow-hidden flex items-center justify-center shadow-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10">
+          <img src="/logo.png" alt="MindfulAI Logo" className="w-full h-full object-cover" />
         </div>
         <span className="font-bold text-xl tracking-tight text-slate-900 dark:text-white">MindfulAI</span>
       </div>
       
       <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600 dark:text-slate-400">
-        <a href="#features" className="hover:text-violet-600 dark:hover:text-violet-400 transition-colors">Features</a>
-        <a href="#how-it-works" className="hover:text-violet-600 dark:hover:text-violet-400 transition-colors">How it Works</a>
-        <a href="#pricing" className="hover:text-violet-600 dark:hover:text-violet-400 transition-colors">Pricing</a>
+        <a href="#features" className="hover:text-violet-600 transition-colors">Features</a>
+        <a href="#how-it-works" className="hover:text-violet-600 transition-colors">How it Works</a>
       </div>
 
       <div className="flex items-center gap-4">
-        <Link href="/login" className="text-sm font-semibold text-slate-900 dark:text-white hover:opacity-70">Login</Link>
-        <Link href="/register" className="px-5 py-2.5 bg-violet-600 hover:bg-violet-700 text-white rounded-xl text-sm font-bold shadow-lg shadow-violet-500/20 transition-all">
+        <Link href="/login" className="text-sm font-bold text-slate-700 dark:text-white hover:text-violet-600 transition-colors">Login</Link>
+        <Link href="/register" className="px-6 py-2.5 bg-violet-600 hover:bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-violet-500/25 transition-all">
           Get Started
         </Link>
       </div>
@@ -120,12 +119,12 @@ const Hero = () => (
 )
 
 const FEATURES = [
-  { icon: Brain, title: "Emotion Recognition", desc: "Advanced AI identifies subtle emotional shifts in your text, voice, and facial expressions.", color: "text-blue-500", bg: "bg-blue-500/10" },
-  { icon: MessageCircle, title: "AI Therapy", desc: "Speak with MindfulAI, an empathetic companion trained on clinical wellness frameworks.", color: "text-violet-500", bg: "bg-violet-500/10" },
-  { icon: Activity, title: "Wellness Tracking", desc: "Visualize your sleep, mood, and stress patterns over time with professional charts.", color: "text-emerald-500", bg: "bg-emerald-500/10" },
-  { icon: Lock, title: "Privacy First", desc: "Your clinical data is end-to-end encrypted. You own your data. We never sell it.", color: "text-slate-500", bg: "bg-slate-500/10" },
-  { icon: MapPin, title: "Resource Finder", desc: "Find vetted therapists, psychiatrists, and crisis helplines near your location instantly.", color: "text-rose-500", bg: "bg-rose-500/10" },
-  { icon: Globe, title: "Community Circles", desc: "Connect with others in safe, anonymous spaces for shared healing and support.", color: "text-indigo-500", bg: "bg-indigo-500/10" },
+  { icon: Brain, title: "Multi-Agent Intelligence", desc: "A swarm of specialized AI agents (Therapists, Coaches, Analysts) collaborate to understand your unique mental state.", color: "text-blue-500", bg: "bg-blue-500/10" },
+  { icon: Shield, title: "Clinical Risk Protocols", desc: "Strict safety-first overrides monitor for high-risk signals and provide immediate emergency resources when needed.", color: "text-rose-500", bg: "bg-rose-500/10" },
+  { icon: Activity, title: "Predictive Forecasting", desc: "Our Temporal Engine projects your anxiety and burnout instability windows 48h in advance using your behavioral data.", color: "text-emerald-500", bg: "bg-emerald-500/10" },
+  { icon: Lock, title: "Local Privacy (Ollama)", desc: "Optional local model support ensures your clinical conversations never leave your device. Private by design.", color: "text-slate-500", bg: "bg-slate-500/10" },
+  { icon: MapPin, title: "Wellness Map", desc: "Find nearby Yoga, Gyms, and clinical facilities instantly with integrated OSM navigation.", color: "text-indigo-500", bg: "bg-indigo-500/10" },
+  { icon: Heart, title: "Data-Driven CBT", desc: "Experience Cognitive Behavioral Therapy justified by your real-world sleep and stress metrics, not just generic advice.", color: "text-violet-500", bg: "bg-violet-500/10" },
 ]
 
 const Features = () => (
@@ -171,8 +170,8 @@ const Footer = () => (
       <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
         <div className="col-span-1 md:col-span-2 space-y-6">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center">
-              <Sparkles size={16} className="text-white" />
+            <div className="w-8 h-8 rounded-lg overflow-hidden bg-white dark:bg-white/10 flex items-center justify-center shadow-sm border border-white/20">
+              <img src="/logo.png" alt="MindfulAI" className="w-full h-full object-cover" />
             </div>
             <span className="font-bold text-xl tracking-tight">MindfulAI</span>
           </div>

@@ -52,6 +52,11 @@ export const authAPI = {
   getMe: () => api.get('/auth/me'),
 };
 
+export const wellnessAPI = {
+  getMoodTrends: () => api.get('/mood/trends'),
+  getWellnessScore: (data: any) => api.post('/analysis/wellness', data),
+};
+
 export const analysisAPI = {
   analyzeText: (text: string, userId: string = '1') => api.post('/analysis/text', { text, user_id: userId }),
   analyzeTextContextual: (text: string, userId: string = '1') => api.post('/analysis/text/contextual', { text, user_id: userId }),
@@ -64,7 +69,6 @@ export const analysisAPI = {
       headers: { 'Content-Type': 'multipart/form-data' }
     });
   },
-  getWellnessScore: (data: any) => api.post('/analysis/wellness', data),
   generateGoals: (data: any) => api.post('/analysis/goals', data),
 };
 
@@ -74,17 +78,22 @@ export const doctorsAPI = {
 };
 
 export const userAPI = {
-  getDashboardStats: () => api.get('/users/dashboard-stats'),
+  getDashboardStats: () => api.get('/dashboard/stats'),
   getMoodHistory: () => api.get('/mood'),
 };
 
 export const intelligentChatAPI = {
-  chat: (data: { message: string, voice_score?: number, face_score?: number }) => api.post('/chat/', data),
+  chat: (data: { message: string, history?: any[] }) => api.post('/chat', data),
 };
 
 export const alertsAPI = {
-  getAlerts: () => api.get('/alerts/'),
-  logCrisis: () => api.post('/alerts/crisis-log/'),
+  getAlerts: () => api.get('/alerts'),
+  logCrisis: () => api.post('/alerts/crisis-log'),
+};
+
+export const insightsAPI = {
+  getDigitalTwin: () => api.get('/profile/twin'),
+  explainMind: () => api.get('/insights/explain'),
 };
 
 export default api;

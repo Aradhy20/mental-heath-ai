@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -16,7 +16,7 @@ function saveTokenCookie(token: string) {
   document.cookie = `token=${token};path=/;max-age=${COOKIE_MAX_AGE};SameSite=Lax${secure}`;
 }
 
-export default function LoginPage() {
+function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const setAuth = useAuthStore((state) => state.login);
@@ -96,8 +96,8 @@ export default function LoginPage() {
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-[80px] -ml-32 -mb-32" />
 
         <Link href="/" className="flex items-center gap-2.5 relative z-10 hover:opacity-80 transition-opacity">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center shadow-lg">
-            <Sparkles size={18} className="text-white" />
+          <div className="w-9 h-9 rounded-xl overflow-hidden bg-white dark:bg-white/10 flex items-center justify-center shadow-lg border border-slate-200 dark:border-white/10">
+            <img src="/logo.png" alt="MindfulAI" className="w-full h-full object-cover" />
           </div>
           <span className="font-bold text-2xl tracking-tight text-slate-900 dark:text-white">MindfulAI</span>
         </Link>
@@ -136,8 +136,8 @@ export default function LoginPage() {
             
             <div className="lg:hidden mb-10 text-center">
                  <div className="inline-flex items-center gap-2.5 mx-auto">
-                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center text-white">
-                        <Sparkles size={15} />
+                    <div className="w-8 h-8 rounded-lg overflow-hidden bg-white dark:bg-white/10 flex items-center justify-center text-white border border-slate-200 dark:border-white/10">
+                        <img src="/logo.png" alt="MindfulAI" className="w-full h-full object-cover" />
                     </div>
                     <span className="font-bold text-xl text-slate-900 dark:text-white">MindfulAI</span>
                  </div>
@@ -213,4 +213,16 @@ export default function LoginPage() {
       </div>
     </div>
   );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-[#0a0d1a]">
+        <div className="w-8 h-8 rounded-full border-4 border-violet-500 border-t-transparent animate-spin" />
+      </div>
+    }>
+      <LoginContent />
+    </Suspense>
+  )
 }

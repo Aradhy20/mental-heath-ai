@@ -226,7 +226,7 @@ export default function SettingsPage() {
           <div className="space-y-4">
             <div className="p-5 rounded-xl border border-slate-200 dark:border-white/[0.06] space-y-3">
               <h3 className="font-semibold text-sm text-slate-900 dark:text-white">Export Your Data</h3>
-              <p className="text-xs text-slate-500">Download all your journals, mood logs, and wellness data in JSON format.</p>
+              <p className="text-xs text-slate-500">Download all your mood logs and wellness data in JSON format.</p>
               <button className="px-4 py-2 text-sm font-semibold text-violet-600 dark:text-violet-400 border border-violet-200 dark:border-violet-500/30 rounded-xl hover:bg-violet-50 dark:hover:bg-violet-500/10 transition-all">
                 Export All Data
               </button>

@@ -56,7 +56,27 @@ class TemporalEngine:
             "final_state": float(final_state),
             "past_trend": float(past_trend),
             "current_signal": float(current_score),
-            "trend_direction": "improving" if current_score > past_trend + 0.1 else "declining" if current_score < past_trend - 0.1 else "stable"
+            "trend_direction": "improving" if current_score > past_trend + 0.1 else "declining" if current_score < past_trend - 0.1 else "stable",
+            "prediction": self.predict_next_state(current_score, past_trend)
+        }
+
+    def predict_next_state(self, current: float, past: float) -> Dict[str, Any]:
+        """
+        Expert Predictive Model: Projects burnout and instability risk (Phase 3).
+        """
+        velocity = current - past
+        forecast = max(0.0, min(1.0, current + (velocity * 0.5)))
+        
+        # Clinical Burnout Risk logic
+        is_burnout_risk = current < 0.3 and velocity < -0.1
+        
+        return {
+            "forecast_score": float(forecast),
+            "burnout_risk": "HIGH" if is_burnout_risk else "MODERATE" if current < 0.4 else "LOW",
+            "instability_index": float(abs(velocity)),
+            "prediction_24h": "High probability of anxiety" if velocity < -0.15 else "Stable wellness projected",
+            "confidence": 0.85 if abs(velocity) < 0.2 else 0.6,
+            "horizon": "24-48h"
         }
 
 # Singleton instance

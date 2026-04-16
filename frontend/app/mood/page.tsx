@@ -70,9 +70,11 @@ export default function MoodPage() {
   const [selectedFeelings, setSelectedFeelings] = useState<string[]>([])
   const [selectedActivities, setSelectedActivities] = useState<string[]>([])
   const [note, setNote] = useState('')
+  const [sleepHours, setSleepHours] = useState(7)
+  const [energyLevel, setEnergyLevel] = useState(5)
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
-  const [step, setStep] = useState<'mood' | 'feelings' | 'note' | 'done'>('mood')
+  const [step, setStep] = useState<'mood' | 'feelings' | 'biometrics' | 'note' | 'done'>('mood')
 
   // Weekly data
   const avgMood = (WEEKLY_DATA.reduce((a, b) => a + b.mood, 0) / WEEKLY_DATA.length).toFixed(1)
@@ -98,6 +100,8 @@ export default function MoodPage() {
           feelings: selectedFeelings,
           activities: selectedActivities,
           note,
+          sleep_hours: sleepHours,
+          energy_level: energyLevel,
           user_id: user?.user_id || 'guest'
         })
       })
@@ -138,7 +142,7 @@ export default function MoodPage() {
               <div className="h-1 bg-slate-100 dark:bg-white/5">
                 <motion.div
                   className="h-full bg-gradient-to-r from-violet-500 to-indigo-500 rounded-full"
-                  animate={{ width: step === 'mood' ? '25%' : step === 'feelings' ? '60%' : step === 'note' ? '85%' : '100%' }}
+                  animate={{ width: step === 'mood' ? '20%' : step === 'feelings' ? '45%' : step === 'biometrics' ? '70%' : step === 'note' ? '88%' : '100%' }}
                   transition={{ duration: 0.4 }}
                 />
               </div>
@@ -228,6 +232,80 @@ export default function MoodPage() {
 
                       <div className="flex gap-3">
                         <button onClick={() => setStep('mood')} className="px-4 py-2.5 text-sm font-medium text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">← Back</button>
+                        <button onClick={() => setStep('biometrics')} className="flex-1 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-xl font-semibold text-sm flex items-center justify-center gap-2 shadow-md shadow-violet-500/25 hover:brightness-110 transition-all">
+                          Continue <ChevronRight size={16} />
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* Step 2.5: Biometrics */}
+                  {step === 'biometrics' && (
+                    <motion.div key="biometrics" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
+                      <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-1">How's your body doing?</h2>
+                      <p className="text-sm text-slate-400 mb-6">Sleep and energy directly affect your mental health.</p>
+
+                      <div className="space-y-8 mb-6">
+                        {/* Sleep hours slider */}
+                        <div>
+                          <div className="flex items-center justify-between mb-3">
+                            <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                              😴 Sleep Last Night
+                            </label>
+                            <span className="text-lg font-bold text-violet-600 dark:text-violet-400">{sleepHours}h</span>
+                          </div>
+                          <input
+                            type="range" min={0} max={12} step={0.5}
+                            value={sleepHours}
+                            onChange={e => setSleepHours(Number(e.target.value))}
+                            className="w-full h-2 rounded-full appearance-none cursor-pointer accent-violet-500 bg-slate-200 dark:bg-slate-700"
+                          />
+                          <div className="flex justify-between text-[10px] text-slate-400 mt-1.5">
+                            <span>0h</span><span>6h (recommended)</span><span>12h</span>
+                          </div>
+                          <div className="mt-2 text-xs font-medium px-3 py-1.5 rounded-lg inline-block"
+                            style={{
+                              background: sleepHours < 5 ? 'rgba(239,68,68,0.1)' : sleepHours < 7 ? 'rgba(234,179,8,0.1)' : 'rgba(34,197,94,0.1)',
+                              color: sleepHours < 5 ? '#ef4444' : sleepHours < 7 ? '#ca8a04' : '#16a34a'
+                            }}
+                          >
+                            {sleepHours < 5 ? '⚠️ Sleep deprived' : sleepHours < 7 ? '⚡ Could be more' : '✅ Well rested'}
+                          </div>
+                        </div>
+
+                        {/* Energy level slider */}
+                        <div>
+                          <div className="flex items-center justify-between mb-3">
+                            <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                              ⚡ Energy Level
+                            </label>
+                            <span className="text-lg font-bold text-violet-600 dark:text-violet-400">{energyLevel}/10</span>
+                          </div>
+                          <input
+                            type="range" min={1} max={10} step={1}
+                            value={energyLevel}
+                            onChange={e => setEnergyLevel(Number(e.target.value))}
+                            className="w-full h-2 rounded-full appearance-none cursor-pointer accent-violet-500 bg-slate-200 dark:bg-slate-700"
+                          />
+                          <div className="flex justify-between text-[10px] text-slate-400 mt-1.5">
+                            <span>Exhausted</span><span>Moderate</span><span>Energized</span>
+                          </div>
+                          <div className="flex gap-1 mt-3">
+                            {Array.from({length: 10}, (_, i) => i + 1).map(n => (
+                              <div key={n}
+                                className={`flex-1 h-2 rounded-full transition-all ${
+                                  n <= energyLevel
+                                    ? n <= 3 ? 'bg-red-400' : n <= 6 ? 'bg-amber-400' : 'bg-emerald-400'
+                                    : 'bg-slate-200 dark:bg-slate-700'
+                                }`}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-3">
+                        <button onClick={() => setStep('feelings')} className="px-4 py-2.5 text-sm font-medium text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">← Back</button>
                         <button onClick={() => setStep('note')} className="flex-1 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-xl font-semibold text-sm flex items-center justify-center gap-2 shadow-md shadow-violet-500/25 hover:brightness-110 transition-all">
                           Continue <ChevronRight size={16} />
                         </button>
@@ -247,7 +325,7 @@ export default function MoodPage() {
                         className="w-full h-28 p-4 text-sm rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03] text-slate-900 dark:text-white placeholder:text-slate-400 outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-400/20 transition-all resize-none"
                       />
                       <div className="flex gap-3 mt-4">
-                        <button onClick={() => setStep('feelings')} className="px-4 py-2.5 text-sm font-medium text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">← Back</button>
+                        <button onClick={() => setStep('biometrics')} className="px-4 py-2.5 text-sm font-medium text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">← Back</button>
                         <button
                           onClick={handleSave}
                           disabled={saving}
@@ -277,7 +355,7 @@ export default function MoodPage() {
                         {selectedFeelings.length > 0 && ` Feeling ${selectedFeelings.slice(0, 2).join(' & ')}.`}
                       </p>
                       <button
-                        onClick={() => { setStep('mood'); setSelectedMood(null); setSelectedFeelings([]); setSelectedActivities([]); setNote(''); setSaved(false) }}
+                        onClick={() => { setStep('mood'); setSelectedMood(null); setSelectedFeelings([]); setSelectedActivities([]); setNote(''); setSleepHours(7); setEnergyLevel(5); setSaved(false) }}
                         className="px-6 py-2.5 text-sm font-semibold text-violet-600 hover:text-violet-700 border border-violet-200 dark:border-violet-500/30 rounded-xl hover:bg-violet-50 dark:hover:bg-violet-500/10 transition-all"
                       >
                         Log Another

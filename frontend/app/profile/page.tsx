@@ -14,7 +14,7 @@ export default function ProfilePage() {
     // In a real app, these stats would come from an API
     const [stats] = useState([
         { label: 'Streak', value: '12 Days', icon: Activity, color: 'text-amber-500', bg: 'bg-amber-500/10' },
-        { label: 'Journal Entries', value: '45', icon: BookOpen, color: 'text-blue-500', bg: 'bg-blue-500/10' },
+
         { label: 'Mood Logged', value: '128', icon: Smile, color: 'text-green-500', bg: 'bg-green-500/10' },
         { label: 'Meditation', value: '4.5 hrs', icon: Wind, color: 'text-purple-500', bg: 'bg-purple-500/10' },
     ])
@@ -118,7 +118,7 @@ export default function ProfilePage() {
                             Achievements
                         </h3>
                         <div className="flex flex-wrap gap-2">
-                            {['Early Bird', 'Consistency King', 'Zen Master', 'Journalist'].map((badge, i) => (
+                            {['Early Bird', 'Consistency King', 'Zen Master', 'Explorer'].map((badge, i) => (
                                 <span key={i} className="px-3 py-1 rounded-full bg-serenity-100 dark:bg-aurora-500/20 text-xs font-medium text-serenity-700 dark:text-aurora-300 border border-serenity-200 dark:border-aurora-500/30">
                                     {badge}
                                 </span>

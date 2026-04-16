@@ -44,8 +44,8 @@ export default function RegisterPage() {
                 <div className="absolute top-0 right-0 w-64 h-64 bg-violet-500/5 rounded-full blur-[80px] -mr-32 -mt-32" />
                 
                 <Link href="/" className="flex items-center gap-2.5 relative z-10">
-                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center shadow-lg">
-                        <Sparkles size={18} className="text-white" />
+                    <div className="w-9 h-9 rounded-xl overflow-hidden bg-white dark:bg-white/10 flex items-center justify-center shadow-lg border border-slate-200 dark:border-white/10">
+                        <img src="/logo.png" alt="MindfulAI Logo" className="w-full h-full object-cover" />
                     </div>
                     <span className="font-bold text-2xl tracking-tight text-slate-900 dark:text-white">MindfulAI</span>
                 </Link>
@@ -91,8 +91,8 @@ export default function RegisterPage() {
                         
                         <div className="lg:hidden mb-10 text-center">
                             <div className="inline-flex items-center gap-2.5 mx-auto">
-                                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center text-white">
-                                    <Sparkles size={15} />
+                                <div className="w-8 h-8 rounded-lg overflow-hidden bg-white dark:bg-white/10 flex items-center justify-center text-white border border-slate-200 dark:border-white/10">
+                                    <img src="/logo.png" alt="MindfulAI" className="w-full h-full object-cover" />
                                 </div>
                                 <span className="font-bold text-xl text-slate-900 dark:text-white">MindfulAI</span>
                             </div>

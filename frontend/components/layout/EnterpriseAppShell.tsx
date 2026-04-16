@@ -20,7 +20,7 @@ const NAV_GROUPS = [
       { name: 'Dashboard',     href: '/dashboard',  icon: LayoutDashboard, desc: 'Your wellness overview' },
       { name: 'Mood Check-in', href: '/mood',       icon: Smile,           desc: 'Track how you feel' },
       { name: 'AI Therapist',  href: '/chat',       icon: MessageCircle,   desc: 'Talk to MindfulAI' },
-      { name: 'My Journal',    href: '/journal',    icon: BookOpen,        desc: 'Private thoughts vault' },
+
     ]
   },
   {
@@ -28,7 +28,7 @@ const NAV_GROUPS = [
     items: [
       { name: 'Breathe & Relax', href: '/meditation', icon: Wind,        desc: 'Guided breathing' },
       { name: 'Anakskit Hub',    href: '/anakskit',   icon: ShieldAlert,  desc: 'Crisis & Anxiety support' },
-      { name: 'Insights',        href: '/insights',   icon: Brain,        desc: 'Your mental patterns' },
+
       { name: 'Face Analysis',   href: '/analysis',   icon: HeartPulse,   desc: 'Biometric emotion tracking' },
     ]
   },
@@ -157,8 +157,8 @@ export default function EnterpriseAppShell({ children }: { children: React.React
         {/* Logo */}
         <div className="h-16 flex items-center px-4 border-b border-slate-100 dark:border-white/[0.05] shrink-0">
           <div className="flex items-center gap-3 overflow-hidden">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-indigo-500 flex items-center justify-center shrink-0 shadow-md">
-              <Sparkles size={15} className="text-white" />
+            <div className="w-8 h-8 rounded-lg overflow-hidden bg-white dark:bg-white/10 flex items-center justify-center shadow-md border border-slate-200 dark:border-white/10">
+              <img src="/logo.png" alt="MindfulAI Logo" className="w-full h-full object-cover" />
             </div>
             <AnimatePresence>
               {!isCollapsed && (

@@ -32,19 +32,30 @@ class MentalEngine:
         Processes multi-modal input through the full intelligence pipeline.
         Now supports Digital Twin memory and Wearable Biometrics.
         """
-        # 1. RISK DETECTION (Priority Override)
+        # 1. RISK DETECTION (Phase 4: High-Priority Override)
         risk_result = {"risk_level": "LOW", "bypass_required": False}
         if text:
-            risk_result = risk_detector.analyze_risk(text)
+            # Detect severe clinical signals (Suicide/Self-Harm)
+            risk_result = risk_detector.check_risk(text) # Returns (is_crisis, label) 
             
-        if risk_result.get("bypass_required"):
+        if risk_result[0]: # is_crisis is True
+            log.critical("!!! SAFETY OVERRIDE TRIGGERED !!! High-risk patient signal detected.")
             return {
-                "emotion": "crisis",
-                "confidence": 1.0,
-                "risk_level": risk_result["risk_level"],
-                "mental_state": "CRITICAL",
-                "modality_contribution": {"text": 1.0},
-                "risk_details": risk_result
+                "mental_state_vector": {
+                    "emotion": "Crisis",
+                    "stress_level": "CRITICAL",
+                    "risk_level": "HIGH",
+                    "energy_level": 0,
+                    "cognitive_pattern": "Emergency Situation"
+                },
+                "safety_override": True,
+                "message": "Clinical safety protocol engaged. Your safety is our only priority right now.",
+                "emergency_resources": {
+                    "helpline": "988 (Suicide & Crisis Lifeline)",
+                    "text": "Text 'HOME' to 741741",
+                    "action": "Please contact a professional immediateley or visit the nearest emergency room."
+                },
+                "risk_details": risk_result[1]
             }
 
         # 2. DIGITAL TWIN (MEMORY RETRIEVAL)
@@ -88,7 +99,7 @@ class MentalEngine:
                 db
             )
 
-        # 7. CONSOLIDATED OUTPUT
+        # 7. CONSOLIDATED OUTPUT (Phases 2 & 5)
         # Prefer Neural Emotion if available, fallback to fused score mapping
         emotion = neural_preds.get("emotion")
         if not emotion:
@@ -97,18 +108,30 @@ class MentalEngine:
             elif mental_score > 0.4: emotion = "neutral"
             else: emotion = "calm"
 
-        result = {
+        # Create the expert Clinical "Mental State Vector"
+        mental_state_vector = {
             "emotion": emotion,
-            "confidence": neural_preds.get("confidence", fused_results["confidence"]),
+            "stress_level": "HIGH" if final_state_data.get("final_state", 0) > 0.7 else "MEDIUM" if final_state_data.get("final_state", 0) > 0.4 else "LOW",
             "risk_level": risk_result["risk_level"],
-            "mental_state": final_state_data.get("trend_direction", "stable"),
-            "modality_contribution": fused_results["modality_contribution"],
-            "score": float(fused_results["final_score"]),
+            "energy_level": features.get("wearable", {}).get("energy_level", 5),
+            "cognitive_pattern": neural_preds.get("top_distortion", "None detected")
+        }
+
+        # Calculate Deviation from baseline
+        baseline = memory_context.get("emotional_baseline", 0.5) if memory_context else 0.5
+        deviation = float(abs(fused_results["final_score"] - baseline))
+
+        result = {
+            "mental_state_vector": mental_state_vector,
+            "deviation_from_baseline": deviation,
+            "confidence": neural_preds.get("confidence", fused_results["confidence"]),
             "historical_context": {
-                "past_trend": final_state_data.get("past_trend"),
-                "current_signal": final_state_data.get("current_signal"),
+                "prediction": final_state_data.get("prediction"),
+                "trend": final_state_data.get("trend_direction"),
                 "digital_twin_memory": memory_context
             },
+            "modality_contribution": fused_results["modality_contribution"],
+            "score": float(fused_results["final_score"]),
             "biometrics": wearable_data,
             "neural_insights": neural_preds
         }

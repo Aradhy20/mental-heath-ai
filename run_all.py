@@ -1,51 +1,58 @@
 import subprocess
-import os
-import sys
 import time
-from threading import Thread
+import sys
+import os
+
+# Explicitly use the Python 3.10 environment where dependencies were installed
+PYTHON_PATH = "/Library/Frameworks/Python.framework/Versions/3.10/bin/python3"
+
+def cleanup_ports():
+    print("🧹 Cleaning up ports 3000 and 8000...")
+    subprocess.run("lsof -ti:3000,8000 | xargs kill -9 2>/dev/null || true", shell=True)
 
 def run_backend():
-    print("🚀 Starting MindfulAI Backend...")
-    # Kill any zombie process holding port 8000
-    try:
-        subprocess.run("kill -9 $(lsof -t -i:8000) 2>/dev/null", shell=True)
-    except:
-        pass
-    
-    os.chdir("backend")
-    
-    # Set required environment variable for protobuf compatibility
-    env = os.environ.copy()
-    env["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
-    
-    # Use explicitly the venv python if it exists
-    python_exe = os.path.join("venv", "bin", "python3")
-    if not os.path.exists(python_exe):
-        python_exe = sys.executable
-
-    # Using the unified main.py instead of multiple service scripts for simpler local run
-    subprocess.run([python_exe, "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"], env=env)
+    print("🚀 Starting MindfulAI Backend (FastAPI)...")
+    return subprocess.Popen(
+        [PYTHON_PATH, "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"],
+        cwd=os.path.join(os.getcwd(), "backend")
+    )
 
 def run_frontend():
-    print("🎨 Starting MindfulAI Frontend...")
-    os.chdir("frontend")
-    # Check if npm is available
-    try:
-        subprocess.run(["npm", "run", "dev"])
-    except FileNotFoundError:
-        print("❌ Error: 'npm' not found in PATH. Please install Node.js and run 'npm install && npm run dev' in the frontend directory.")
+    print("🎨 Starting MindfulAI Frontend (Next.js)...")
+    return subprocess.Popen(
+        ["npm", "run", "dev", "--", "-p", "3000"],
+        cwd=os.path.join(os.getcwd(), "frontend")
+    )
 
 if __name__ == "__main__":
-    # Get current root path
-    root_path = os.getcwd()
-
-    backend_thread = Thread(target=run_backend)
-    backend_thread.daemon = True
-    backend_thread.start()
-
-    # Wait a bit for backend to initialize
-    time.sleep(3)
-
-    # Return to root and then go to frontend
-    os.chdir(root_path)
-    run_frontend()
+    cleanup_ports()
+    backend_proc = None
+    frontend_proc = None
+    try:
+        backend_proc = run_backend()
+        time.sleep(4) # Wait for backend to initialize
+        frontend_proc = run_frontend()
+        
+        print("\n✅ MindfulAI Clinical Intelligence is now running!")
+        print("   - Private Dashboard: http://localhost:3000")
+        print("   - Clinical Backend: http://localhost:8000")
+        print("   - API Intelligence: http://localhost:8000/api/docs")
+        print("\nPress Ctrl+C to safely terminate all services.\n")
+        
+        while True:
+            time.sleep(2)
+            if backend_proc.poll() is not None:
+                print("❌ Backend process stopped unexpectedly. Check your dependencies.")
+                break
+            if frontend_proc.poll() is not None:
+                print("❌ Frontend process stopped unexpectedly. Check npm logs.")
+                break
+                
+    except KeyboardInterrupt:
+        print("\n🛑 Safely stopping MindfulAI...")
+    finally:
+        if backend_proc:
+            backend_proc.terminate()
+        if frontend_proc:
+            frontend_proc.terminate()
+        sys.exit(0)

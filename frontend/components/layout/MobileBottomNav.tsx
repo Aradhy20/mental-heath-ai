@@ -7,7 +7,6 @@ import { motion } from 'framer-motion'
 import {
     LayoutDashboard,
     Smile,
-    BookOpen,
     MessageCircle,
     Wind
 } from 'lucide-react'
@@ -16,7 +15,7 @@ import { cn } from '@/lib/utils'
 const navItems = [
     { icon: LayoutDashboard, href: '/dashboard', label: 'Home' },
     { icon: Smile, href: '/mood', label: 'Mood' },
-    { icon: BookOpen, href: '/journal', label: 'Journal' },
+
     { icon: MessageCircle, href: '/chat', label: 'Chat' },
     { icon: Wind, href: '/meditation', label: 'Zen' },
 ]

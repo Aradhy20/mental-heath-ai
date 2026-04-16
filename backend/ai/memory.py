@@ -1,46 +1,45 @@
-from typing import List, Dict, Any
-from datetime import datetime
-import numpy as np
-import os
+"""
+MindfulAI Memory System
+Maintains conversation history and emotional context per session.
+"""
+
+from typing import List, Dict
+import datetime
+from core.logging import log
 
 class MemorySystem:
-    """
-    Intelligent memory for MindfulAI.
-    Detects repeated patterns and personalizes context.
-    """
-    
     def __init__(self):
-        # We assume sentence-transformers is available as checked
-        # Load a lightweight model
-        try:
-            from sentence_transformers import SentenceTransformer
-            self.model = SentenceTransformer('all-MiniLM-L6-v2')
-            self.has_embedder = True
-        except ImportError:
-            self.has_embedder = False
-            print("⚠️ SentenceTransformer not found. Memory will be keyword-based.")
+        # In-memory store (In production, this would be MongoDB/Redis)
+        self.storage: Dict[str, List[Dict]] = {}
+        log.info("MemorySystem Initialized")
 
-    def store_interaction(self, user_id: str, text: str, analysis: Dict[str, Any]):
+    def get_history(self, user_id: str) -> List[Dict]:
         """
-        In a production app, this would save to MongoDB or ChromaDB.
-        For Phase 5, we'll simulate the logic for pattern detection.
+        Retrieves the last 10 messages for context.
         """
-        # Logic to save to DB would go here
-        pass
+        if user_id not in self.storage:
+            return []
+        return self.storage[user_id][-10:]
 
-    def get_context(self, user_id: str) -> str:
+    def add_entry(self, user_id: str, role: str, content: str):
         """
-        Retrieves relevant history to personalize responses.
+        Adds a message to the user's conversation history.
         """
-        return "The user has shown a pattern of work-related anxiety in the last 3 sessions."
+        if user_id not in self.storage:
+            self.storage[user_id] = []
+            
+        self.storage[user_id].append({
+            "role": role,
+            "content": content,
+            "timestamp": datetime.datetime.now().isoformat()
+        })
+        
+        # Limit history size to prevent memory leaks
+        if len(self.storage[user_id]) > 50:
+            self.storage[user_id] = self.storage[user_id][-50:]
 
-    def detect_repeated_patterns(self, user_id: str, current_analysis: Dict[str, Any]) -> List[str]:
-        """
-        Compares current state with historical trends.
-        """
-        # Placeholder for pattern matching logic
-        if current_analysis.get("emotion") == "anxious":
-            return ["recurring_anxiety"]
-        return []
+    def clear(self, user_id: str):
+        if user_id in self.storage:
+            del self.storage[user_id]
 
-memory_system = MemorySystem()
+memory = MemorySystem()

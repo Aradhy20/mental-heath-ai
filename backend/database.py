@@ -17,10 +17,10 @@ client = AsyncIOMotorClient(MONGO_URL, tlsCAFile=certifi.where(), serverSelectio
 db = client[DB_NAME]
 
 # Collections
+# Primary logs and telemetry still in MongoDB
 analysis_logs_collection = db["analysis_logs"]
 sessions_collection = analysis_logs_collection # Alias for Fusion service
-moods_collection = db["moods"]
-journals_collection = db["journals"]
+# NOTE: Moods and Journals have been moved to MySQL for relational integrity and structured analysis.
 
 # --- SQL Configuration (MySQL — confirmed available at /usr/local/mysql) ---
 # Primary storage for: Auth, Identity, Tokens

@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 env_path = os.path.join(os.path.dirname(__file__), "..", "..", ".env")
 load_dotenv(dotenv_path=env_path)
 
-SECRET_KEY = os.getenv("JWT_SECRET", "super-secret-mindfulai-key")
+SECRET_KEY = os.getenv("JWT_SECRET_KEY") or os.getenv("JWT_SECRET", "super-secret-mindfulai-key")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
 

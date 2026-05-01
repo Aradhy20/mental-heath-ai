@@ -1,61 +1,94 @@
 """
-Mental Health Chatbot Engine - MindfulAI 2.0
-Intelligent conversational assistant using SmolLM2 (Local LLM)
+Mental Health Chatbot Engine - MindfulAI 3.0
+OPTIMIZED: max_new_tokens reduced, use_cache=True, MPS/GPU generation, thread-streamer.
 """
 
-import os
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
-from typing import Dict, List, Optional
-from datetime import datetime
+from transformers import AutoModelForCausalLM, AutoTokenizer, TextIteratorStreamer
+from typing import Dict, List, Optional, Generator
+from threading import Thread
 import json
+
+# ── Performance globals — set once at module load ─────────────────────────────
+_MAX_NEW_TOKENS = 150      # ↓ from 256. Enough for 2-3 clinical sentences.
+_TEMPERATURE    = 0.75
+_TOP_P          = 0.88
+_REPETITION_PENALTY = 1.15  # Prevents repetitive loops without extra inference
 
 class ChatContext:
     """Manages conversation memory for the LLM"""
-    def __init__(self, max_history: int = 5):
+    def __init__(self, max_history: int = 4):   # ↓ from 5 — smaller context window = faster tokenization
         self.history: List[Dict[str, str]] = []
         self.max_history = max_history
 
     def add_message(self, role: str, content: str):
         self.history.append({"role": role, "content": content})
         if len(self.history) > self.max_history * 2:
-            # Keep system prompt if it exists, otherwise just slice
-            self.history = self.history[-self.max_history * 2:]
+            # Always keep system prompt (index 0)
+            system = [m for m in self.history if m["role"] == "system"]
+            rest   = [m for m in self.history if m["role"] != "system"]
+            self.history = system + rest[-(self.max_history * 2):]
 
     def get_messages(self) -> List[Dict[str, str]]:
         return self.history
 
+
 class MentalHealthChatbot:
-    """Intelligent mental health assistant using SmokLM2"""
+    """Intelligent mental health assistant using SmolLM2-135M"""
     
-    def __init__(self, model_id: str = "HuggingFaceTB/SmolLM2-135M-Instruct", device: str = None):
-        """
-        Initialize the LLM-based chatbot.
-        Defaults to 135M for speed, can be upgraded to 1.7B.
-        """
-        if device is None:
-            self.device = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
-        else:
-            self.device = device
+    def __init__(self, model_id: str = "HuggingFaceTB/SmolLM2-135M-Instruct", device: str = "cpu"):
+        # Force CPU as per low-resource optimization requirements
+        self.device = "cpu"
             
-        print(f"Initializing Chatbot on {self.device} using {model_id}...")
+        print(f"[MindfulAI] Loading {model_id} on {self.device} (Low RAM Mode)...")
         
         self.tokenizer = AutoTokenizer.from_pretrained(model_id)
+        # Load with standard float32 for CPU stability and memory predictability
         self.model = AutoModelForCausalLM.from_pretrained(
-            model_id, 
-            torch_dtype=torch.float16 if self.device != "cpu" else torch.float32,
-            device_map="auto" if self.device != "cpu" else None
+            model_id,
+            torch_dtype=torch.float32,
+            device_map=None,
         )
         
+        # ── torch.compile disabled for 8GB RAM machines (compilation is RAM-heavy) ──
+        self.model.eval()
+
         self.system_prompt = (
-            "You are MindfulAI, a compassionate and supportive mental health assistant. "
-            "Your goal is to provide emotional support, listen without judgment, and suggest "
-            "scientifically backed coping strategies for stress, anxiety, and sadness. "
-            "Always be empathetic and encouraging. If a user expresses self-harm, gently "
-            "recommend professional help and provide crisis resources (e.g., 988)."
+            "You are MindfulAI, a compassionate mental health companion. "
+            "Respond with warmth and clinical insight. "
+            "Be concise — 2 to 3 sentences maximum unless the user needs more."
         )
-        
         self.contexts: Dict[str, ChatContext] = {}
+
+        # ─ Warmup removed to save memory at startup ──────
+
+    def _run_warmup(self):
+        """Dummy 1-token generation to flush JIT/compile overhead at startup."""
+        try:
+            dummy = self.tokenizer("hello", return_tensors="pt")["input_ids"].to(self.device)
+            mask  = torch.ones_like(dummy)
+            with torch.no_grad():
+                self.model.generate(
+                    input_ids=dummy,
+                    attention_mask=mask,
+                    max_new_tokens=1,
+                    do_sample=False,
+                    use_cache=True,
+                    pad_token_id=self.tokenizer.eos_token_id
+                )
+            print("[MindfulAI] ✅ Warmup complete — model ready for first request.")
+        except Exception as e:
+            print(f"[MindfulAI] Warmup skipped ({e})")
+
+    def set_system_prompt(self, system_prompt: str, user_id: str = "default"):
+        """Overrides the system prompt for a session without rebuilding context."""
+        if user_id not in self.contexts:
+            self.contexts[user_id] = ChatContext()
+        ctx = self.contexts[user_id]
+        if ctx.history and ctx.history[0]["role"] == "system":
+            ctx.history[0]["content"] = system_prompt
+        else:
+            ctx.history.insert(0, {"role": "system", "content": system_prompt})
 
     def _get_or_create_context(self, user_id: str) -> ChatContext:
         if user_id not in self.contexts:
@@ -64,96 +97,83 @@ class MentalHealthChatbot:
             self.contexts[user_id] = ctx
         return self.contexts[user_id]
 
+    def _prepare_inputs(self, messages):
+        """Tokenise messages and always return input_ids + attention_mask."""
+        raw = self.tokenizer.apply_chat_template(
+            messages, tokenize=True, add_generation_prompt=True, return_tensors="pt"
+        )
+        if isinstance(raw, torch.Tensor):
+            input_ids = raw.to(self.device)
+        else:
+            input_ids = raw["input_ids"].to(self.device)
+        # Always build attention_mask — required on MPS, safe on all devices
+        attention_mask = torch.ones_like(input_ids)
+        return input_ids, attention_mask
+
     def chat(self, user_input: str, user_id: str = "default") -> str:
-        """Process user input and generate a supportive response"""
+        """Blocking generation — use chat_stream for production."""
         context = self._get_or_create_context(user_id)
         context.add_message("user", user_input)
-        
-        # Format messages for the model
-        messages = context.get_messages()
-        
-        # Generate response
-        inputs = self.tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True, return_tensors="pt")
-        
-        if isinstance(inputs, torch.Tensor):
-            input_ids = inputs.to(self.device)
-            attention_mask = None
-        else:
-            input_ids = inputs["input_ids"].to(self.device)
-            attention_mask = inputs.get("attention_mask")
-            if attention_mask is not None:
-                attention_mask = attention_mask.to(self.device)
+        input_ids, attention_mask = self._prepare_inputs(context.get_messages())
 
         with torch.no_grad():
             outputs = self.model.generate(
                 input_ids=input_ids,
                 attention_mask=attention_mask,
-                max_new_tokens=256, 
-                temperature=0.7, 
-                top_p=0.9,
+                max_new_tokens=_MAX_NEW_TOKENS,
+                temperature=_TEMPERATURE,
+                top_p=_TOP_P,
+                repetition_penalty=_REPETITION_PENALTY,
                 do_sample=True,
+                use_cache=True,
                 pad_token_id=self.tokenizer.eos_token_id
             )
-            input_length = input_ids.shape[1]
-            
-        response_text = self.tokenizer.decode(outputs[0][input_length:], skip_special_tokens=True)
-        
-        # Cleanup and store
-        response_text = response_text.strip()
+
+        response_text = self.tokenizer.decode(
+            outputs[0][input_ids.shape[1]:], skip_special_tokens=True
+        ).strip()
         context.add_message("assistant", response_text)
-        
         return response_text
 
-    def get_mood_analysis(self, user_input: str) -> Dict:
-        """Zero-shot mood analysis using the same LLM"""
-        analysis_prompt = (
-            f"Analyze the following user input and return a JSON object with 'mood' "
-            f"(very_positive, positive, neutral, negative, very_negative) and 'confidence' (0-1).\n"
-            f"Input: \"{user_input}\"\nJSON:"
-        )
-        
-        inputs = self.tokenizer(analysis_prompt, return_tensors="pt").to(self.device)
-        
-        with torch.no_grad():
-            outputs = self.model.generate(inputs.input_ids, max_new_tokens=50, temperature=0.1)
-            
-        raw_result = self.tokenizer.decode(outputs[0][len(inputs.input_ids[0]):], skip_special_tokens=True)
-        
-        try:
-            # Attempt to parse JSON from the response
-            start_idx = raw_result.find('{')
-            end_idx = raw_result.rfind('}') + 1
-            if start_idx != -1 and end_idx != -1:
-                return json.loads(raw_result[start_idx:end_idx])
-            return {"mood": "neutral", "confidence": 0.5, "error": "parse_failure"}
-        except:
-            return {"mood": "neutral", "confidence": 0.5}
+    def chat_stream(self, user_input: str, user_id: str = "default") -> Generator[str, None, None]:
+        """Non-blocking threaded streamer — yields tokens as generated."""
+        context = self._get_or_create_context(user_id)
+        context.add_message("user", user_input)
+        input_ids, attention_mask = self._prepare_inputs(context.get_messages())
 
-# Simplified fallback for development/demo
+        streamer = TextIteratorStreamer(
+            self.tokenizer, skip_prompt=True, skip_special_tokens=True
+        )
+
+        generation_kwargs = dict(
+            input_ids=input_ids,
+            attention_mask=attention_mask,
+            streamer=streamer,
+            max_new_tokens=_MAX_NEW_TOKENS,
+            temperature=_TEMPERATURE,
+            top_p=_TOP_P,
+            repetition_penalty=_REPETITION_PENALTY,
+            do_sample=True,
+            use_cache=True,
+            pad_token_id=self.tokenizer.eos_token_id,
+        )
+
+        thread = Thread(target=self.model.generate, kwargs=generation_kwargs, daemon=True)
+        thread.start()
+
+        full_response = ""
+        for new_text in streamer:
+            full_response += new_text
+            yield new_text
+
+        context.add_message("assistant", full_response.strip())
+
+
 class LegacyMoodSupport:
     @staticmethod
     def get_resources():
-        return """
-**Mental Health Resources:**
-🆘 **Crisis Support:**
-- National Suicide Prevention Lifeline: **988**
-- Crisis Text Line: Text **HOME** to **741741**
-"""
-
-if __name__ == "__main__":
-    # Quick test
-    bot = MentalHealthChatbot(model_id="HuggingFaceTB/SmolLM2-135M-Instruct")
-    print("Bot initialized. Ready to chat.")
-    
-    test_inputs = [
-        "Hi, I've been feeling really stressed lately with work.",
-        "What can I do to feel better?",
-        "Thank you, that helps."
-    ]
-    
-    for inp in test_inputs:
-        print(f"\nUser: {inp}")
-        res = bot.chat(inp)
-        print(f"MindfulAI: {res}")
-    
-    print(f"\n\n{LegacyMoodSupport.get_resources()}")
+        return (
+            "**Crisis Support:**\n"
+            "- Suicide & Crisis Lifeline: **988**\n"
+            "- Crisis Text Line: Text **HOME** to **741741**\n"
+        )

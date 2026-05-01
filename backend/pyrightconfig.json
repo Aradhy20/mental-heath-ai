@@ -1,0 +1,13 @@
+{
+  "include": ["."],
+  "exclude": ["**/__pycache__", "**/node_modules", ".git"],
+  "venvPath": ".",
+  "venv": "venv",
+  "pythonVersion": "3.9",
+  "typeCheckingMode": "basic",
+  "reportMissingModuleSource": "none",
+  "reportMissingImports": "warning",
+  "reportMissingTypeStubs": "none",
+  "reportPrivateImportUsage": "none",
+  "useLibraryCodeForTypes": true
+}

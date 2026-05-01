@@ -22,7 +22,7 @@ class TemporalEngine:
         if user_id == "guest":
             return 0.5 # Neutral fallback for guest
             
-        seven_days_ago = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=7)
+        seven_days_ago = datetime.datetime.utcnow() - datetime.timedelta(days=7)
         
         try:
             query = select(MoodLog).where(

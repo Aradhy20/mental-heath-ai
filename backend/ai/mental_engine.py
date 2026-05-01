@@ -3,6 +3,7 @@ MindfulAI Mental Health Engine (The Brain)
 Unified orchestrator for feature extraction, fusion, risk detection, and temporal analysis.
 """
 
+from core.logging import log
 from typing import Dict, Any, Optional
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -33,12 +34,13 @@ class MentalEngine:
         Now supports Digital Twin memory and Wearable Biometrics.
         """
         # 1. RISK DETECTION (Phase 4: High-Priority Override)
-        risk_result = {"risk_level": "LOW", "bypass_required": False}
+        is_crisis = False
+        risk_label = "LOW"
         if text:
             # Detect severe clinical signals (Suicide/Self-Harm)
-            risk_result = risk_detector.check_risk(text) # Returns (is_crisis, label) 
+            is_crisis, risk_label = risk_detector.check_risk(text) 
             
-        if risk_result[0]: # is_crisis is True
+        if is_crisis: # is_crisis is True
             log.critical("!!! SAFETY OVERRIDE TRIGGERED !!! High-risk patient signal detected.")
             return {
                 "mental_state_vector": {
@@ -53,9 +55,9 @@ class MentalEngine:
                 "emergency_resources": {
                     "helpline": "988 (Suicide & Crisis Lifeline)",
                     "text": "Text 'HOME' to 741741",
-                    "action": "Please contact a professional immediateley or visit the nearest emergency room."
+                    "action": "Please contact a professional immediately or visit the nearest emergency room."
                 },
-                "risk_details": risk_result[1]
+                "risk_details": risk_label
             }
 
         # 2. DIGITAL TWIN (MEMORY RETRIEVAL)
@@ -76,10 +78,9 @@ class MentalEngine:
             emb = torch.tensor(features["text"]["embedding"], dtype=torch.float32)
             neural_preds = inference_engine.predict_context(emb)
             neural_risk = inference_engine.predict_risk(emb)
-            risk_result["neural_risk"] = neural_risk
             # Update risk if neural model is confident
             if neural_risk == "HIGH":
-                risk_result["risk_level"] = "HIGH"
+                risk_label = "HIGH"
 
         if audio_data and features.get("audio") and features["audio"].get("mfcc_mean"):
             # Combine MFCC + Pitch + Energy for stress inference
@@ -112,7 +113,7 @@ class MentalEngine:
         mental_state_vector = {
             "emotion": emotion,
             "stress_level": "HIGH" if final_state_data.get("final_state", 0) > 0.7 else "MEDIUM" if final_state_data.get("final_state", 0) > 0.4 else "LOW",
-            "risk_level": risk_result["risk_level"],
+            "risk_level": risk_label,
             "energy_level": features.get("wearable", {}).get("energy_level", 5),
             "cognitive_pattern": neural_preds.get("top_distortion", "None detected")
         }

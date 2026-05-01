@@ -1,34 +1,23 @@
-'use client'
+"use client"
 
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { motion } from 'framer-motion'
+import { ArrowRight, Activity, MessageCircle, BarChart3, ShieldCheck, Heart, Sparkles } from 'lucide-react'
 import Link from 'next/link'
-import { 
-  Sparkles, Brain, Heart, Wind, Shield, Check, 
-  ArrowRight, MessageCircle, Activity, Star,
-  Zap, MapPin, Globe, Lock
-} from 'lucide-react'
 
-// ── Components ──────────────────────────────────────────────────────────────
-
-const Nav = () => (
-  <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-white/5">
-    <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-      <div className="flex items-center gap-2.5">
-        <div className="w-10 h-10 rounded-lg overflow-hidden flex items-center justify-center shadow-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10">
-          <img src="/logo.png" alt="MindfulAI Logo" className="w-full h-full object-cover" />
+const Navbar = () => (
+  <nav className="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-md border-b border-slate-200">
+    <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div className="flex items-center gap-2">
+        <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+          <Heart className="text-white w-5 h-5" />
         </div>
-        <span className="font-bold text-xl tracking-tight text-slate-900 dark:text-white">MindfulAI</span>
+        <span className="font-bold text-xl text-slate-900">MindfulAI</span>
       </div>
-      
-      <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600 dark:text-slate-400">
-        <a href="#features" className="hover:text-violet-600 transition-colors">Features</a>
-        <a href="#how-it-works" className="hover:text-violet-600 transition-colors">How it Works</a>
-      </div>
-
-      <div className="flex items-center gap-4">
-        <Link href="/login" className="text-sm font-bold text-slate-700 dark:text-white hover:text-violet-600 transition-colors">Login</Link>
-        <Link href="/register" className="px-6 py-2.5 bg-violet-600 hover:bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-violet-500/25 transition-all">
+      <div className="hidden md:flex items-center gap-8 text-slate-600 font-medium">
+        <a href="#features" className="hover:text-indigo-600 transition-colors">Features</a>
+        <a href="#how-it-works" className="hover:text-indigo-600 transition-colors">How it Works</a>
+        <Link href="/auth/login" className="px-5 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-all shadow-md hover:shadow-lg">
           Get Started
         </Link>
       </div>
@@ -36,219 +25,149 @@ const Nav = () => (
   </nav>
 )
 
-const Hero = () => (
-  <section className="relative pt-32 pb-20 overflow-hidden bg-slate-50 dark:bg-[#0a0d1a]">
-    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none">
-      <div className="absolute top-20 left-10 w-72 h-72 bg-violet-500/10 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl animate-pulse delay-700" />
+const FeatureCard = ({ icon: Icon, title, desc, delay }: any) => (
+  <motion.div 
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ delay, duration: 0.5 }}
+    viewport={{ once: true }}
+    className="p-8 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-all group"
+  >
+    <div className="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-indigo-600 transition-colors">
+      <Icon className="text-indigo-600 w-6 h-6 group-hover:text-white transition-colors" />
     </div>
-
-    <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-100 dark:bg-violet-500/15 text-violet-700 dark:text-violet-400 text-xs font-bold mb-8 border border-violet-200 dark:border-violet-500/20"
-      >
-        <Sparkles size={12} />
-        <span>AI-powered Mental Wellness for the Next Gen</span>
-      </motion.div>
-
-      <motion.h1
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.1 }}
-        className="text-5xl md:text-7xl font-extrabold text-slate-900 dark:text-white leading-[1.1] mb-8"
-      >
-        Your feelings, <br />
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-indigo-600">finally understood.</span>
-      </motion.h1>
-
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed"
-      >
-        MindfulAI combines deep empathy with clinical science. 
-        Track your mood, journal with AI reflection, and speak to an AI companion who truly listens.
-      </motion.p>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.3 }}
-        className="flex flex-col sm:flex-row items-center justify-center gap-4"
-      >
-        <Link href="/register" className="w-full sm:w-auto px-8 py-4 bg-violet-600 hover:bg-violet-700 text-white rounded-2xl text-lg font-bold shadow-xl shadow-violet-500/25 transition-all flex items-center justify-center gap-2">
-          Start Free Journey <ArrowRight size={20} />
-        </Link>
-        <Link href="/about" className="w-full sm:w-auto px-8 py-4 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white rounded-2xl text-lg font-bold hover:bg-slate-50 transition-all">
-          How it Works
-        </Link>
-      </motion.div>
-
-      {/* Hero Image Mockup Area */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.5 }}
-        className="mt-20 relative px-4"
-      >
-        <div className="max-w-5xl mx-auto rounded-3xl bg-white dark:bg-[#0f1629] border border-slate-200 dark:border-white/[0.08] shadow-2xl p-4 overflow-hidden">
-          <div className="bg-slate-50 dark:bg-[#0a0d1a] rounded-2xl h-64 md:h-[480px] flex items-center justify-center overflow-hidden relative">
-             <div className="absolute inset-0 bg-gradient-to-br from-violet-600/5 to-indigo-600/5" />
-             <div className="grid grid-cols-12 gap-4 p-8 w-full h-full opacity-60">
-                <div className="col-span-3 h-full bg-slate-200 dark:bg-white/5 rounded-xl border border-dashed border-slate-300 dark:border-white/10" />
-                <div className="col-span-9 space-y-4">
-                   <div className="h-20 w-full bg-slate-200 dark:bg-white/5 rounded-xl border border-dashed border-slate-300 dark:border-white/10" />
-                   <div className="grid grid-cols-3 gap-4 h-32">
-                      <div className="bg-slate-200 dark:bg-white/5 rounded-xl border border-dashed border-slate-300 dark:border-white/10" />
-                      <div className="bg-slate-200 dark:bg-white/5 rounded-xl border border-dashed border-slate-300 dark:border-white/10" />
-                      <div className="bg-slate-200 dark:bg-white/5 rounded-xl border border-dashed border-slate-300 dark:border-white/10" />
-                   </div>
-                   <div className="h-44 w-full bg-slate-200 dark:bg-white/5 rounded-xl border border-dashed border-slate-300 dark:border-white/10" />
-                </div>
-             </div>
-             <p className="absolute text-slate-400 font-bold uppercase tracking-widest text-sm pointer-events-none">MindfulAI Dashboard Preview</p>
-          </div>
-        </div>
-      </motion.div>
-    </div>
-  </section>
-)
-
-const FEATURES = [
-  { icon: Brain, title: "Multi-Agent Intelligence", desc: "A swarm of specialized AI agents (Therapists, Coaches, Analysts) collaborate to understand your unique mental state.", color: "text-blue-500", bg: "bg-blue-500/10" },
-  { icon: Shield, title: "Clinical Risk Protocols", desc: "Strict safety-first overrides monitor for high-risk signals and provide immediate emergency resources when needed.", color: "text-rose-500", bg: "bg-rose-500/10" },
-  { icon: Activity, title: "Predictive Forecasting", desc: "Our Temporal Engine projects your anxiety and burnout instability windows 48h in advance using your behavioral data.", color: "text-emerald-500", bg: "bg-emerald-500/10" },
-  { icon: Lock, title: "Local Privacy (Ollama)", desc: "Optional local model support ensures your clinical conversations never leave your device. Private by design.", color: "text-slate-500", bg: "bg-slate-500/10" },
-  { icon: MapPin, title: "Wellness Map", desc: "Find nearby Yoga, Gyms, and clinical facilities instantly with integrated OSM navigation.", color: "text-indigo-500", bg: "bg-indigo-500/10" },
-  { icon: Heart, title: "Data-Driven CBT", desc: "Experience Cognitive Behavioral Therapy justified by your real-world sleep and stress metrics, not just generic advice.", color: "text-violet-500", bg: "bg-violet-500/10" },
-]
-
-const Features = () => (
-  <section id="features" className="py-24 bg-white dark:bg-[#0f1629]">
-    <div className="max-w-7xl mx-auto px-6">
-      <div className="text-center mb-20">
-        <h2 className="text-sm font-bold text-violet-600 dark:text-violet-400 uppercase tracking-widest mb-3">Capabilities</h2>
-        <p className="text-4xl font-bold text-slate-900 dark:text-white">Built for more than just tracking.</p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {FEATURES.map((f, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1 }}
-            viewport={{ once: true }}
-            className="p-8 rounded-3xl border border-slate-100 dark:border-white/5 bg-slate-50 dark:bg-white/[0.02] hover:shadow-xl hover:shadow-violet-500/5 transition-all group"
-          >
-            <div className={`w-14 h-14 rounded-2xl ${f.bg} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
-              <f.icon className={f.color} size={28} />
-            </div>
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">{f.title}</h3>
-            <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">{f.desc}</p>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  </section>
-)
-
-const STATS = [
-  { label: "Active Users", value: "50k+" },
-  { label: "Journals Written", value: "1.2M" },
-  { label: "Stress Reduced", value: "35%" },
-  { label: "App Rating", value: "4.9/5" },
-]
-
-const Footer = () => (
-  <footer className="py-20 bg-slate-900 text-white">
-    <div className="max-w-7xl mx-auto px-6">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-        <div className="col-span-1 md:col-span-2 space-y-6">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg overflow-hidden bg-white dark:bg-white/10 flex items-center justify-center shadow-sm border border-white/20">
-              <img src="/logo.png" alt="MindfulAI" className="w-full h-full object-cover" />
-            </div>
-            <span className="font-bold text-xl tracking-tight">MindfulAI</span>
-          </div>
-          <p className="text-slate-400 max-w-sm">
-            Empowering the next generation with AI-driven mental health support. Private, empathetic, and clinical-grade insights.
-          </p>
-        </div>
-        <div>
-          <h4 className="font-bold mb-6">Product</h4>
-          <ul className="space-y-4 text-slate-400 text-sm">
-            <li><Link href="/features">Features</Link></li>
-            <li><Link href="/pricing">Pricing</Link></li>
-            <li><Link href="/chat">AI Therapy</Link></li>
-          </ul>
-        </div>
-        <div>
-          <h4 className="font-bold mb-6">Support</h4>
-          <ul className="space-y-4 text-slate-400 text-sm">
-            <li><Link href="/help">Help Center</Link></li>
-            <li><Link href="/privacy">Privacy Policy</Link></li>
-            <li><Link href="/contact">Contact Us</Link></li>
-          </ul>
-        </div>
-      </div>
-      <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6 text-slate-500 text-xs font-medium">
-        <p>© 2026 MindfulAI SaaS Platform. All rights reserved.</p>
-        <div className="flex items-center gap-6">
-           <a href="#">Twitter</a>
-           <a href="#">Instagram</a>
-           <a href="#">LinkedIn</a>
-        </div>
-      </div>
-    </div>
-  </footer>
+    <h3 className="text-xl font-bold text-slate-900 mb-3">{title}</h3>
+    <p className="text-slate-600 leading-relaxed">{desc}</p>
+  </motion.div>
 )
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen">
-      <Nav />
-      <Hero />
-      <Features />
-      
-      {/* Testimonial / Social Proof */}
-      <section className="py-24 bg-slate-50 dark:bg-[#0a0d1a]">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-           <div className="flex justify-center gap-1 mb-8">
-              {[1,2,3,4,5].map(i => <Star key={i} size={24} className="text-amber-400 fill-amber-400" />)}
-           </div>
-           <p className="text-2xl md:text-3xl font-medium text-slate-800 dark:text-slate-200 italic mb-10 leading-relaxed">
-             "MindfulAI is the first wellness app that actually feels like it knows me. The AI chat isn't generic — it's warm, supportive, and remarkably insightful."
-           </p>
-           <div className="flex items-center justify-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-slate-200 dark:bg-white/10" />
-              <div className="text-left">
-                <p className="font-bold text-slate-900 dark:text-white">Sarah Jenkins</p>
-                <p className="text-sm text-slate-500">Wellness Blogger & Beta User</p>
-              </div>
-           </div>
+    <div className="min-h-screen bg-slate-50 overflow-x-hidden">
+      <Navbar />
+
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-20 px-4">
+        <div className="max-w-5xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-sm font-semibold mb-6">
+              <Sparkles className="w-4 h-4" />
+              <span>Next-Gen Mental Health Intelligence</span>
+            </div>
+            <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight mb-8">
+              Your AI-Powered <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-500">
+                Mental Health Companion
+              </span>
+            </h1>
+            <p className="text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+              MindfulAI uses clinical-grade emotion detection and supportive intelligence to help you navigate your mental wellness journey, 24/7.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link href="/auth/register" className="w-full sm:w-auto px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold text-lg shadow-xl shadow-indigo-200 hover:bg-indigo-700 hover:-translate-y-1 transition-all flex items-center justify-center gap-2">
+                Start Free Trial <ArrowRight className="w-5 h-5" />
+              </Link>
+              <button className="w-full sm:w-auto px-8 py-4 bg-white text-slate-900 rounded-2xl font-bold text-lg border border-slate-200 hover:bg-slate-50 transition-all">
+                Watch Demo
+              </button>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Decorative Background */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 -z-10 w-full max-w-4xl opacity-20 pointer-events-none">
+          <div className="w-[800px] h-[800px] bg-indigo-400 rounded-full blur-[120px] absolute -top-40 -left-40"></div>
+          <div className="w-[600px] h-[600px] bg-blue-300 rounded-full blur-[100px] absolute -top-20 -right-20"></div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24 bg-white dark:bg-[#0f1629]">
-        <div className="max-w-5xl mx-auto px-6 pt-20">
-          <div className="relative rounded-[3rem] bg-gradient-to-br from-violet-600 to-indigo-700 p-12 overflow-hidden text-center text-white">
-            <div className="absolute top-0 left-0 w-full h-full opacity-10 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.8),transparent)]" />
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 relative z-10">Start your journey to calm.</h2>
-            <p className="text-violet-100 text-lg mb-10 max-w-xl mx-auto relative z-10">Join 50,000+ others finding clarity and peace with MindfulAI.</p>
-            <Link href="/register" className="inline-flex items-center gap-2 px-10 py-5 bg-white text-violet-700 rounded-2xl text-xl font-bold hover:bg-violet-50 transition-all shadow-xl relative z-10">
-              Get MindfulAI Free <ArrowRight size={24} />
-            </Link>
+      {/* Features Grid */}
+      <section id="features" className="py-20 px-4 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Holistic Mental Support</h2>
+            <p className="text-slate-600 max-w-xl mx-auto">Built by clinical experts and AI researchers to provide a complete emotional toolkit.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <FeatureCard 
+              icon={MessageCircle}
+              title="Empathetic AI Chat"
+              desc="Talk to our clinical-grade AI that understands your emotions through voice and text."
+              delay={0.1}
+            />
+            <FeatureCard 
+              icon={Activity}
+              title="Emotion Tracking"
+              desc="Advanced analysis of your facial expressions and vocal biomarkers for deeper insights."
+              delay={0.2}
+            />
+            <FeatureCard 
+              icon={BarChart3}
+              title="Progress Insights"
+              desc="Weekly reports and data-driven trends to visualize your mental wellness growth."
+              delay={0.3}
+            />
           </div>
         </div>
       </section>
 
-      <Footer />
+      {/* How It Works */}
+      <section id="how-it-works" className="py-20 px-4 bg-slate-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <h2 className="text-4xl font-bold text-slate-900 mb-8">How MindfulAI Empowers You</h2>
+              <div className="space-y-8">
+                {[
+                  { step: "01", title: "Daily Check-in", desc: "Spend 2 minutes recording your mood through voice or video." },
+                  { step: "02", title: "AI Analysis", desc: "Our engine analyzes 400+ biometric points to map your emotional state." },
+                  { step: "03", title: "Guided Support", desc: "Receive personalized coping strategies and empathetic chat support." }
+                ].map((item, idx) => (
+                  <div key={idx} className="flex gap-6">
+                    <div className="text-4xl font-black text-indigo-100">{item.step}</div>
+                    <div>
+                      <h4 className="text-xl font-bold text-slate-900 mb-2">{item.title}</h4>
+                      <p className="text-slate-600">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="relative">
+              <div className="aspect-square bg-indigo-600 rounded-3xl overflow-hidden shadow-2xl">
+                 <div className="w-full h-full bg-gradient-to-br from-indigo-500 to-blue-700 p-12 flex items-center justify-center">
+                    <div className="w-64 h-64 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center border border-white/30 animate-pulse">
+                      <Heart className="text-white w-24 h-24" />
+                    </div>
+                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Footer */}
+      <footer className="py-20 px-4 bg-slate-900 text-white">
+        <div className="max-w-7xl mx-auto flex flex-col items-center text-center">
+          <h2 className="text-4xl font-bold mb-6">Ready to prioritize your mind?</h2>
+          <p className="text-slate-400 mb-10 max-w-lg">Join 10,000+ users who have transformed their mental health journey with MindfulAI.</p>
+          <Link href="/auth/register" className="px-8 py-4 bg-indigo-600 rounded-full font-bold text-lg hover:bg-indigo-500 transition-all">
+            Get Started Today
+          </Link>
+          <div className="mt-20 pt-8 border-t border-slate-800 w-full flex justify-between items-center text-slate-500 text-sm">
+            <div>© 2026 MindfulAI. All rights reserved.</div>
+            <div className="flex gap-6">
+              <a href="#">Privacy</a>
+              <a href="#">Terms</a>
+              <a href="#">Support</a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }

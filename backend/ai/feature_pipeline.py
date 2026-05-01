@@ -32,13 +32,21 @@ except ImportError:
 class FeaturePipeline:
     def __init__(self):
         # Initialize MediaPipe
-        if HAS_MEDIAPIPE:
+        try:
+            import mediapipe as mp
             self.mp_face_mesh = mp.solutions.face_mesh
             self.face_mesh = self.mp_face_mesh.FaceMesh(
-                static_image_mode=True,
+                static_image_mode=False,
                 max_num_faces=1,
-                refine_landmarks=True
+                refine_landmarks=True,
+                min_detection_confidence=0.5,
+                min_tracking_confidence=0.5
             )
+            self.HAS_MEDIAPIPE = True
+        except (AttributeError, ImportError):
+            print("Warning: MediaPipe solutions not found in FeaturePipeline. Using mock.")
+            self.HAS_MEDIAPIPE = False
+            self.face_mesh = None
         
         # Initialize Text Embedder
         self.text_model = None
@@ -155,6 +163,14 @@ class FeaturePipeline:
             "speech_rate": float(speech_rate),
             "pause_duration": float(pause_duration)
         }
+
+    def extract_audio_emotion(self, audio_data: bytes) -> dict:
+        """Run the trained CREMA-D audio emotion model on raw bytes."""
+        try:
+            from ai.audio_emotion_model import audio_emotion_model
+            return audio_emotion_model.predict(audio_data)
+        except Exception as e:
+            return {"emotion": "neutral", "confidence": 0.0, "source": "error"}
 
     # ─── STEP 4: FACE FEATURES ────────────────────────────────────────────────────
 

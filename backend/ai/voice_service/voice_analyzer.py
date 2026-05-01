@@ -11,7 +11,7 @@ if project_root not in sys.path:
     sys.path.append(project_root)
 
 try:
-    from ai_models.voice.inference.voice_analyzer import VoiceAnalyzer as SharedVoiceAnalyzer
+    from ml.engines.voice.inference.voice_analyzer import VoiceAnalyzer as SharedVoiceAnalyzer
 except ImportError as e:
     print(f"Warning: Could not import shared VoiceAnalyzer: {e}")
     SharedVoiceAnalyzer = None

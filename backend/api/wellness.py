@@ -8,10 +8,50 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
 import uuid
 import datetime
+import httpx
 
 router = APIRouter(tags=["Wellness Data"])
 
 # ─── MOOD Endpoints ──────────────────────────────────────────────────────────
+
+# ─── JOURNAL Endpoints ───────────────────────────────────────────────────────
+class JournalRequest(BaseModel):
+    content: str
+    mood_tag: Optional[str] = None
+    is_private: Optional[bool] = False
+
+@router.post("/journal", summary="Create a new journal entry")
+async def create_journal(entry: JournalRequest, user_id: str = Depends(get_optional_user), db_sql: AsyncSession = Depends(get_db)):
+    from models import JournalEntry as DBJournalEntry
+    import uuid
+    log_id = str(uuid.uuid4())
+    new_entry = DBJournalEntry(
+        id=log_id,
+        user_id=user_id,
+        content=entry.content,
+        sentiment=entry.mood_tag or "neutral"
+    )
+    db_sql.add(new_entry)
+    await db_sql.commit()
+    return {"id": log_id, "status": "saved"}
+
+@router.get("/journal", summary="Get journal history")
+async def get_journal_history(user_id: str = Depends(get_optional_user), db_sql: AsyncSession = Depends(get_db)):
+    from models import JournalEntry as DBJournalEntry
+    from sqlalchemy import select
+    query = select(DBJournalEntry).where(DBJournalEntry.user_id == user_id).order_by(DBJournalEntry.created_at.desc()).limit(20)
+    result = await db_sql.execute(query)
+    rows = result.scalars().all()
+    return [
+        {
+            "id": r.id,
+            "content": r.content,
+            "mood_tag": r.sentiment,
+            "created_at": r.created_at.isoformat()
+        }
+        for r in rows
+    ]
+
 
 @router.post("/mood", summary="Log a mood entry")
 async def log_mood(entry: MoodEntry, db_sql: AsyncSession = Depends(get_db)):
@@ -20,12 +60,12 @@ async def log_mood(entry: MoodEntry, db_sql: AsyncSession = Depends(get_db)):
         new_mood = MoodLog(
             id=log_id,
             user_id=entry.user_id,
-            score=str(entry.score),
+            score=float(entry.score), # Store as Float
             feelings=",".join(entry.feelings or []),
             activities=",".join(entry.activities or []),
             note=entry.note or "",
-            sleep_hours=str(entry.sleep_hours or 0),
-            energy_level=str(entry.energy_level or 5),
+            sleep_hours=float(entry.sleep_hours or 0.0),
+            energy_level=int(entry.energy_level or 5),
         )
         db_sql.add(new_mood)
         await db_sql.commit()
@@ -43,12 +83,12 @@ async def get_mood_history(user_id: str = Query("guest"), limit: int = Query(30)
         return [
             {
                 "id": r.id,
-                "score": int(r.score) if (r.score or '').isdigit() else 0,
+                "score": r.score,
                 "feelings": r.feelings.split(",") if r.feelings else [],
                 "activities": r.activities.split(",") if r.activities else [],
                 "note": r.note,
-                "sleep_hours": float(r.sleep_hours) if r.sleep_hours else 0.0,
-                "energy_level": int(r.energy_level) if (r.energy_level or '').isdigit() else 5,
+                "sleep_hours": r.sleep_hours,
+                "energy_level": r.energy_level,
                 "created_at": r.created_at.isoformat()
             }
             for r in rows
@@ -61,7 +101,7 @@ async def get_mood_history(user_id: str = Query("guest"), limit: int = Query(30)
 async def get_mood_trends(user_id: str = Query("guest"), db_sql: AsyncSession = Depends(get_db)):
     """Returns a 30-day AI analysis of mood, sleep, and energy trends."""
     try:
-        thirty_days_ago = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=30)
+        thirty_days_ago = datetime.datetime.utcnow() - datetime.timedelta(days=30)
         query = select(MoodLog).where(
             MoodLog.user_id == user_id,
             MoodLog.created_at >= thirty_days_ago
@@ -76,9 +116,9 @@ async def get_mood_trends(user_id: str = Query("guest"), db_sql: AsyncSession = 
                 "trend": "neutral", "insight": None, "data_points": 0
             }
 
-        scores = [int(r.score) for r in rows if (r.score or '').isdigit()]
-        sleeps = [float(r.sleep_hours) for r in rows if r.sleep_hours and r.sleep_hours != '0']
-        energies = [int(r.energy_level) for r in rows if (r.energy_level or '').isdigit()]
+        scores = [r.score for r in rows]
+        sleeps = [r.sleep_hours for r in rows if r.sleep_hours > 0]
+        energies = [r.energy_level for r in rows]
 
         avg_mood = round(sum(scores) / len(scores), 1) if scores else 0
         avg_sleep = round(sum(sleeps) / len(sleeps), 1) if sleeps else 0
@@ -113,9 +153,9 @@ async def get_mood_trends(user_id: str = Query("guest"), db_sql: AsyncSession = 
             "chart_data": [
                 {
                     "date": r.created_at.strftime("%b %d"),
-                    "mood": int(r.score) if (r.score or '').isdigit() else 0,
-                    "sleep": float(r.sleep_hours) if r.sleep_hours else 0,
-                    "energy": int(r.energy_level) if (r.energy_level or '').isdigit() else 5,
+                    "mood": r.score,
+                    "sleep": r.sleep_hours,
+                    "energy": r.energy_level,
                 }
                 for r in rows
             ]

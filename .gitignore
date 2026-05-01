@@ -113,3 +113,16 @@ backend/venv/
 
 # AI Datasets
 Mental-Health-Detection--1/
+
+# Google Drive temp files
+.tmp.driveupload/
+
+# Large datasets
+data/
+
+# Virtual environments
+backend/mindfulai-env/
+backend/venv/
+venv/
+env/
+.venv/

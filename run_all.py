@@ -3,8 +3,9 @@ import time
 import sys
 import os
 
-# Explicitly use the Python 3.10 environment where dependencies were installed
-PYTHON_PATH = "/Library/Frameworks/Python.framework/Versions/3.10/bin/python3"
+# Use the virtual environment Python
+PYTHON_PATH = os.path.join(os.getcwd(), "backend", "venv", "bin", "python3")
+
 
 def cleanup_ports():
     print("🧹 Cleaning up ports 3000 and 8000...")
@@ -19,9 +20,13 @@ def run_backend():
 
 def run_frontend():
     print("🎨 Starting MindfulAI Frontend (Next.js)...")
+    env = os.environ.copy()
+    node_path = os.path.expanduser("~/.nvm/versions/node/v22.22.2/bin")
+    env["PATH"] = f"{node_path}:{env['PATH']}"
     return subprocess.Popen(
         ["npm", "run", "dev", "--", "-p", "3000"],
-        cwd=os.path.join(os.getcwd(), "frontend")
+        cwd=os.path.join(os.getcwd(), "frontend"),
+        env=env
     )
 
 if __name__ == "__main__":

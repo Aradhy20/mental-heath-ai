@@ -1,99 +1,171 @@
-import axios from 'axios';
+/**
+ * MindfulAI — Centralized API Service Layer
+ * Used by BOTH web (Next.js) and can be ported to mobile
+ * All backend calls go through this single module.
+ */
 
-// API Configuration — unified FastAPI backend on port 8000
-const API_URL = process.env.NEXT_PUBLIC_AUTH_URL
-  ? `${process.env.NEXT_PUBLIC_AUTH_URL}/api/v1`
-  : 'http://localhost:8000/api/v1';
+const BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000/api/v1'
 
-// Create Axios Instance
-const api = axios.create({
-  baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  withCredentials: true, // Important for CORS cookies
-});
+// ── Token helpers ──────────────────────────────────────────────────────────────
+export const getToken = () =>
+  (typeof window !== 'undefined' ? localStorage.getItem('mindful_token') : null) ?? ''
 
-// Request Interceptor (Add Token)
-api.interceptors.request.use(
-  (config) => {
-    // Client-side only
-    if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('calmspace_token');
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+const authHeaders = () => ({
+  'Content-Type': 'application/json',
+  Authorization: `Bearer ${getToken()}`,
+})
 
-// Response Interceptor (Handle Errors)
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      // Auto-logout on 401
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('calmspace_token');
-        localStorage.removeItem('calmspace_user');
-      }
-    }
-    return Promise.reject(error);
+// ── Generic fetch helpers ──────────────────────────────────────────────────────
+async function api<T>(path: string, init?: RequestInit): Promise<T> {
+  const res = await fetch(`${BASE}${path}`, {
+    ...init,
+    headers: { ...authHeaders(), ...(init?.headers ?? {}) },
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: res.statusText }))
+    throw new Error(err?.detail ?? `Request failed: ${res.status}`)
   }
-);
+  return res.json()
+}
+
+const get  = <T>(path: string) => api<T>(path)
+const post = <T>(path: string, body: unknown) =>
+  api<T>(path, { method: 'POST', body: JSON.stringify(body) })
+
+// ── AUTH ───────────────────────────────────────────────────────────────────────
+export interface AuthResponse {
+  access_token: string
+  token: string
+  user_id: string
+  user: { username: string; email: string; full_name: string | null }
+}
 
 export const authAPI = {
-  login: (credentials: any) => api.post('/auth/login', credentials),
-  register: (userData: any) => api.post('/auth/signup', userData),
-  requestOTP: (data: { phone?: string; email?: string }) => api.post('/auth/request-otp', data),
-  verifyOTP: (data: { phone?: string; email?: string; otp: string }) => api.post('/auth/verify-otp', data),
-  getMe: () => api.get('/auth/me'),
-};
+  register: (data: { username: string; email: string; password: string }) =>
+    post<AuthResponse>('/auth/signup', data),
+  login: (data: { email: string; password: string }) =>
+    post<AuthResponse>('/auth/login', data),
+  me: () => get<AuthResponse['user']>('/auth/me'),
+}
 
-export const wellnessAPI = {
-  getMoodTrends: () => api.get('/mood/trends'),
-  getWellnessScore: (data: any) => api.post('/analysis/wellness', data),
-};
+// ── CHAT (streaming) ──────────────────────────────────────────────────────────
+export interface ChatChunk {
+  type: 'token' | 'metadata' | 'error'
+  content?: string
+  emotion?: string
+  emotion_source?: string
+  confidence?: number
+  risk?: string
+  risk_confidence?: number
+  mode?: string
+  action?: string
+}
 
-export const analysisAPI = {
-  analyzeText: (text: string, userId: string = '1') => api.post('/analysis/text', { text, user_id: userId }),
-  analyzeTextContextual: (text: string, userId: string = '1') => api.post('/analysis/text/contextual', { text, user_id: userId }),
-  analyzeFace: (imageData: string, userId: string = '1') => api.post('/analysis/face', { image: imageData, user_id: userId }),
-  analyzeVoice: (audioBlob: Blob, userId: string = '1') => {
-    const formData = new FormData();
-    formData.append('audio', audioBlob);
-    formData.append('user_id', userId);
-    return api.post('/analysis/voice', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' }
-    });
-  },
-  generateGoals: (data: any) => api.post('/analysis/goals', data),
-};
+export async function* streamChat(
+  message: string,
+  history: { role: string; content: string }[],
+  biometrics?: Record<string, unknown> | null,
+  signal?: AbortSignal
+): AsyncGenerator<ChatChunk> {
+  const res = await fetch(`${BASE}/chat`, {
+    method: 'POST',
+    headers: authHeaders(),
+    signal,
+    body: JSON.stringify({ message, history, biometrics }),
+  })
 
-export const doctorsAPI = {
-  getNearby: (lat: number, lon: number, maxDistance: number = 50000) =>
-    api.post('/doctors/nearby', { lat, lon, maxDistance }),
-};
+  if (!res.body) throw new Error('No response body')
+  const reader  = res.body.getReader()
+  const decoder = new TextDecoder()
 
-export const userAPI = {
-  getDashboardStats: () => api.get('/dashboard/stats'),
-  getMoodHistory: () => api.get('/mood'),
-};
+  while (true) {
+    const { done, value } = await reader.read()
+    if (done) break
+    const chunk = decoder.decode(value, { stream: true })
+    for (const line of chunk.split('\n')) {
+      if (line.startsWith('data: ')) {
+        try { yield JSON.parse(line.slice(6)) as ChatChunk } catch {}
+      }
+    }
+  }
+}
 
-export const intelligentChatAPI = {
-  chat: (data: { message: string, history?: any[] }) => api.post('/chat', data),
-};
+// ── MOOD ───────────────────────────────────────────────────────────────────────
+export interface MoodLog {
+  score: number         // 1-10
+  energy: number        // 1-10
+  sleep_hours: number
+  notes?: string
+}
+export interface MoodEntry extends MoodLog {
+  id: string
+  user_id: string
+  created_at: string
+}
 
-export const alertsAPI = {
-  getAlerts: () => api.get('/alerts'),
-  logCrisis: () => api.post('/alerts/crisis-log'),
-};
+export const moodAPI = {
+  log:    (data: MoodLog) => post<{ success: boolean; id: string }>('/mood', data),
+  recent: ()              => get<MoodEntry[]>('/mood?limit=14'),
+}
+
+// ── JOURNAL ────────────────────────────────────────────────────────────────────
+export interface JournalEntry {
+  content: string
+  mood_tag?: string
+  is_private?: boolean
+}
+export interface JournalRecord extends JournalEntry {
+  id: string
+  created_at: string
+  emotion_analysis?: { emotion: string; score: number }
+}
+
+export const journalAPI = {
+  create:  (data: JournalEntry) => post<{ id: string }>('/journal', data),
+  list:    ()                   => get<JournalRecord[]>('/journal'),
+}
+
+// ── INSIGHTS ───────────────────────────────────────────────────────────────────
+export interface InsightData {
+  weekly_summary:   { avg_mood: number; trend: string; dominant_emotion: string }
+  emotion_breakdown: { emotion: string; count: number; percentage: number }[]
+  risk_assessment:  { level: string; confidence: number }
+  recommendations:  string[]
+  mood_history:     { date: string; score: number; emotion: string }[]
+}
 
 export const insightsAPI = {
-  getDigitalTwin: () => api.get('/profile/twin'),
-  explainMind: () => api.get('/insights/explain'),
-};
+  get: () => get<InsightData>('/insights'),
+}
 
-export default api;
+// ── WELLNESS ───────────────────────────────────────────────────────────────────
+export const wellnessAPI = {
+  dashboard: () => get<{ wellness_score: number; active_sessions: number; last_emotion: string }>('/dashboard/stats'),
+  actions:   () => get<{ actions: { id: string; title: string; completed: boolean }[] }>('/wellness/actions'),
+}
+
+// ── ASSESSMENT ────────────────────────────────────────────────────────────────
+export interface AssessmentPayload { type: string; answers: Record<string, number> }
+export const assessmentAPI = {
+  submit: (data: AssessmentPayload) => post<{ score: number; level: string; feedback: string }>('/assessments', data),
+}
+
+// ── GAMES ──────────────────────────────────────────────────────────────────────
+export interface GameScorePayload {
+  game_name: string
+  score: number
+  mood_impact: number
+}
+
+export interface GameRecommendation {
+  id: string
+  name: string
+  description: string
+  benefit: string
+}
+
+export const gamesAPI = {
+  saveScore: (data: GameScorePayload) => post<{ status: string; message: string }>('/games/score', data),
+  getRecommendations: () => get<{ recommended_games: GameRecommendation[] }>('/games/recommendations'),
+}
+

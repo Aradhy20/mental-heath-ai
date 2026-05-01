@@ -1,16 +1,18 @@
 import torch
 import os
 import sys
+from pathlib import Path
 from typing import Dict, Any, Tuple
 
 # Add training folder to path to load model classes
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'ml', 'training'))
+BASE_DIR = Path(__file__).resolve().parent.parent
+sys.path.append(str(BASE_DIR / "ml" / "training"))
 from ml.training.models import TextClassifier, AudioStressModel, RiskSentinel
 
 class InferenceEngine:
     def __init__(self):
         self.device = torch.device("cpu") # Default to CPU for stability
-        self.base_path = "backend/ml/weights"
+        self.base_path = BASE_DIR / "ml" / "weights"
         
         # Load Models
         self.text_model = self._load_model(TextClassifier(), "text_classifier.pth")

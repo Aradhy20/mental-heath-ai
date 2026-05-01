@@ -65,18 +65,35 @@ class ActionEngine:
             ]
         }
 
-    def suggest_action(self, mental_state: Dict[str, Any]) -> Dict[str, str]:
+    def suggest_action(self, mental_state: Dict[str, Any], context_data: dict = None) -> Dict[str, str]:
         """
-        Suggests a structured micro-intervention based on detected state.
-        Now returns a dictionary with title, action, and benefit.
+        Suggests a structured micro-intervention based on detected state and historical twin data.
+        Returns a dictionary with title, action, and benefit.
         """
         emotion = mental_state.get("emotion", "neutral")
         risk = mental_state.get("risk_level", "LOW")
+        
+        recent_moods = context_data.get("recent_moods", "") if context_data else ""
+        text_data = str(recent_moods)
+        
+        # Data-driven overrides for massive personalization
+        if "Sleep: 0" in text_data or "Sleep: 1.0" in text_data or "Sleep: 2.0" in text_data or "Sleep: 3.0" in text_data:
+            return {
+                "title": "Low Energy Rest",
+                "action": "Take a 5-minute offline rest right now. Avoid screens.",
+                "benefit": "Your recent data shows very low sleep. Restorative micro-breaks rebuild behavioral capacity when sleep is deprived."
+            }
+            
+        if "Energy: 1" in text_data or "Energy: 2" in text_data:
+            return {
+                "title": "Energy Boundary",
+                "action": "Say 'no' to one non-essential task today (based on your low energy pattern).",
+                "benefit": "Protecting your boundaries directly restores your baseline energy levels."
+            }
 
         category = "crisis" if risk == "HIGH" else emotion
         actions = self.action_library.get(category, self.action_library["neutral"])
         
-        # Select an action and return the full object for more meaningful UI display
         return random.choice(actions)
 
 # Singleton instance

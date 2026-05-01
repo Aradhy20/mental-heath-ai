@@ -63,8 +63,8 @@ async def login(user_credentials: UserLogin, db_sql: AsyncSession = Depends(get_
     if not db_user or not verify_password(user_credentials.password, db_user.password_hash):
         raise HTTPException(status_code=400, detail="Incorrect email or password")
     
-    access_token = create_access_token(data={"sub": db_user.user_id})
-    return {"token": access_token, "access_token": access_token, "token_type": "bearer", "user_id": db_user.user_id, "user": {"user_id": db_user.user_id, "username": db_user.username, "email": db_user.email}}
+    access_token = create_access_token(data={"sub": db_user.user_id, "tier": db_user.subscription_tier})
+    return {"token": access_token, "access_token": access_token, "token_type": "bearer", "user_id": db_user.user_id, "user": {"user_id": db_user.user_id, "username": db_user.username, "email": db_user.email, "subscription_tier": db_user.subscription_tier}}
 
 @router.post("/request-otp")
 async def request_otp(data: OTPRequest, db_sql: AsyncSession = Depends(get_db)):
@@ -247,3 +247,20 @@ async def update_me(update_data: UserUpdate, user_id: str = Depends(get_current_
         "full_name": updated_user.full_name,
         "phone": updated_user.phone
     }}
+
+@router.get("/users")
+async def get_all_users(user_id: str = Depends(get_current_user), db_sql: AsyncSession = Depends(get_db)):
+    query = select(DBUser)
+    result = await db_sql.execute(query)
+    users = result.scalars().all()
+    return [
+        {
+            "user_id": user.user_id,
+            "username": user.username,
+            "email": user.email,
+            "full_name": user.full_name,
+            "phone": user.phone,
+            "created_at": user.created_at
+        }
+        for user in users
+    ]

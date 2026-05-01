@@ -9,6 +9,17 @@ import numpy as np
 from typing import Dict, Tuple, Optional
 import time
 
+try:
+    import mediapipe as mp
+    mp_drawing = mp.solutions.drawing_utils
+    mp_face_mesh = mp.solutions.face_mesh
+    HAS_MEDIAPIPE = True
+except (AttributeError, ImportError):
+    print("Warning: MediaPipe solutions not found in face_engine.py. Using mock.")
+    HAS_MEDIAPIPE = False
+    mp_drawing = None
+    mp_face_mesh = None
+
 class FaceEngine:
     def __init__(self):
         # Initialize MediaPipe Face Mesh
@@ -47,6 +58,7 @@ class FaceEngine:
                 "detected": False,
                 "emotion": "none",
                 "score": 0.0,
+                "confidence": 0.0,
                 "landmarks_count": 0
             }
 

@@ -42,25 +42,46 @@ class MemoryEngine:
             logger.error(f"Failed to store memory: {e}")
             return False
 
-    async def get_digital_twin_context(self, user_id: str, query: str) -> Optional[str]:
+    async def get_digital_twin_context(self, user_id: str, query: str):
         """
         Retrieves relevant historical context to personalize the conversation.
+        Returns human-readable timestamps so the LLM can say "you felt similar last Tuesday".
         """
+        import datetime
         try:
             id_val = int(user_id) if user_id.isdigit() else 1
             memories = self.db.get_user_context(id_val, query, n_results=3)
-            
+
             if not memories:
                 return None
-            
-            # Construct a memory summary
+
             context_bits = []
+            now = datetime.datetime.utcnow()
+
             for m in memories:
                 emotion = m['metadata'].get('emotion', 'unknown')
-                context_bits.append(f"- On {m['metadata'].get('timestamp', 'past')}, user felt {emotion} regarding: \"{m['text'][:100]}...\"")
-            
-            summary = "Recent relevant memories:\n" + "\n".join(context_bits)
-            return summary
+                raw_ts = m['metadata'].get('timestamp')
+
+                # Parse timestamp to human-readable relative format
+                try:
+                    ts = datetime.datetime.fromisoformat(raw_ts)
+                    delta = now - ts
+                    if delta.days == 0:
+                        when = "earlier today"
+                    elif delta.days == 1:
+                        when = "yesterday"
+                    elif delta.days <= 6:
+                        when = f"last {ts.strftime('%A')}"
+                    else:
+                        when = ts.strftime("on %B %d")
+                except Exception:
+                    when = "recently"
+
+                context_bits.append(
+                    f"- {when.capitalize()}, you felt **{emotion}** and said: \"{m['text'][:100]}...\""
+                )
+
+            return "On " + "\n".join(context_bits)
         except Exception as e:
             logger.error(f"Failed to retrieve memory: {e}")
             return None

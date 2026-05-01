@@ -9,28 +9,15 @@ from dotenv import load_dotenv
 env_path = os.path.join(os.path.dirname(__file__), "..", ".env")
 load_dotenv(dotenv_path=env_path)
 
-# --- NoSQL Configuration (MongoDB Atlas) ---
-# Primary storage for: Journals, Moods, AI Analysis logs
-MONGO_URL = os.getenv("MONGO_URL", os.getenv("MONGO_DETAILS", "mongodb://localhost:27017"))
-DB_NAME = os.getenv("MONGO_DB_NAME", "mental_health_db")
-client = AsyncIOMotorClient(MONGO_URL, tlsCAFile=certifi.where(), serverSelectionTimeoutMS=5000)
-db = client[DB_NAME]
-
-# Collections
-# Primary logs and telemetry still in MongoDB
-analysis_logs_collection = db["analysis_logs"]
-sessions_collection = analysis_logs_collection # Alias for Fusion service
-# NOTE: Moods and Journals have been moved to MySQL for relational integrity and structured analysis.
-
-# --- SQL Configuration (MySQL — confirmed available at /usr/local/mysql) ---
+# --- SQL Configuration (PostgreSQL — primary storage for all relational data) ---
 # Primary storage for: Auth, Identity, Tokens
-MYSQL_URL = os.getenv(
-    "MYSQL_URL",
-    "mysql+aiomysql://root:12345678@127.0.0.1:3306/mindful_ai"
+POSTGRES_URL = os.getenv(
+    "POSTGRES_URL",
+    "postgresql+asyncpg://postgres:12345678@localhost:5432/mindful_ai"
 )
 
 engine = create_async_engine(
-    MYSQL_URL, 
+    POSTGRES_URL, 
     echo=False, 
     pool_pre_ping=True,
     pool_size=5,

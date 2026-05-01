@@ -1,20 +1,28 @@
 import os
-import json
-import asyncio
-from typing import List
-
+os.environ["OMP_NUM_THREADS"] = "2"
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 os.environ["USE_TF"] = "0"
 os.environ["USE_TORCH"] = "1"
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+import json
+import asyncio
+import time
+from typing import List
+from dotenv import load_dotenv
+
+# Load environment variables (API Keys, DB URLs) before other imports
+load_dotenv()
+
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
 from core.logging import log
-from api import auth, analysis, wellness, chat, alerts, voice, biometrics, clinical_assessments, insights
+from api import auth, analysis, input, wellness, chat, alerts, voice, biometrics, clinical_assessments, insights, explain, trends, checkin, analytics, games
 from ai.learning_loop import router as learning_router
 
 app = FastAPI(
-    title="MindfulAI SaaS Platform — API",
-    description="Production mental health SaaS: AI chat, emotion detection, mood tracking, journal, therapist discovery.",
+    title="MindfulAI Core OS — v3.0",
+    description="The world's first AI-powered mental health operating system. Modern charcoal architecture with high-fidelity neural processing.",
     version="3.0.0",
     docs_url="/api/docs",
     redoc_url="/api/redoc"
@@ -37,6 +45,19 @@ app.add_middleware(
     expose_headers=["*"],
 )
 
+# ── Performance Timing Middleware ─────────────────────────────────────────────
+class TimingMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        t0 = time.perf_counter()
+        response = await call_next(request)
+        elapsed_ms = (time.perf_counter() - t0) * 1000
+        response.headers["X-Process-Time-Ms"] = f"{elapsed_ms:.1f}"
+        if elapsed_ms > 500:  # Only log slow requests
+            log.info(f"[PERF] {request.method} {request.url.path} → {elapsed_ms:.0f}ms")
+        return response
+
+app.add_middleware(TimingMiddleware)
+
 # WebSocket connection manager
 class ConnectionManager:
     def __init__(self):
@@ -56,29 +77,96 @@ manager = ConnectionManager()
 
 @app.websocket("/ws/analysis")
 async def websocket_analysis(websocket: WebSocket):
+    """
+    Real-time multimodal analysis stream.
+    Client sends JSON frames with optional: audio_features, face_landmarks, face_confidence, text.
+    Returns: emotion, risk_level, fused_state probabilities.
+    """
     await manager.connect(websocket)
+    
+    # Lazy-import ML components to avoid startup delay
+    from ml.engines.inference_manager import inference_manager
+    from ml.engines.fusion_engine import MultimodalFusionEngine
+    import numpy as np
+    
+    ws_fusion = MultimodalFusionEngine()
+    EMOTION_LABELS = ["happy", "sad", "anxious", "angry", "neutral"]
+    RISK_LABELS    = ["low", "moderate", "high"]
+    
     try:
         while True:
-            data = await websocket.receive_text()
-            # In a real scenario, we'd process the frame/data here
-            # For MindfulAI 2.0, we acknowledge the ping and could stream back results
-            response = {"status": "received", "timestamp": str(asyncio.get_event_loop().time())}
+            raw = await websocket.receive_text()
+            try:
+                frame = json.loads(raw)
+            except Exception:
+                await websocket.send_text(json.dumps({"error": "Invalid JSON"}))
+                continue
+
+            # ── Text inference (if text present in frame) ──
+            text = frame.get("text", "")
+            text_emo_prob  = np.array([0.1]*4 + [0.6])
+            text_risk_prob = np.array([0.9, 0.05, 0.05])
+            if text:
+                te, tr = inference_manager.predict_text(text)
+                if te is not None: text_emo_prob  = te
+                if tr is not None: text_risk_prob = tr
+
+            # ── Audio inference ──
+            audio_prob = np.array([0.2]*5)
+            raw_audio = frame.get("audio_features")
+            if raw_audio is not None:
+                ap = inference_manager.predict_audio(np.array(raw_audio, dtype=np.float32))
+                if ap is not None: audio_prob = ap
+
+            # ── Face inference ──
+            face_prob = np.array([0.2]*5)
+            face_conf = float(frame.get("face_confidence", 0.0))
+            raw_face  = frame.get("face_landmarks")
+            if raw_face is not None:
+                fp = inference_manager.predict_face(np.array(raw_face, dtype=np.float32))
+                if fp is not None: face_prob = fp
+
+            # ── Fusion ──
+            fused = ws_fusion.fuse_current_state(text_emo_prob, audio_prob, face_prob, face_confidence=face_conf)
+            emotion   = ws_fusion.predict_emotion(fused)
+            risk_idx  = int(np.argmax(text_risk_prob))
+            risk_level = RISK_LABELS[risk_idx]
+
+            response = {
+                "emotion":              emotion,
+                "risk_level":           risk_level,
+                "emotion_confidence":   float(np.max(fused)),
+                "risk_confidence":      float(np.max(text_risk_prob)),
+                "fused_probs":          {EMOTION_LABELS[i]: round(float(fused[i]), 3) for i in range(5)},
+                "timestamp":            asyncio.get_event_loop().time(),
+            }
             await manager.send_personal_message(json.dumps(response), websocket)
+
     except WebSocketDisconnect:
         manager.disconnect(websocket)
+    except Exception as e:
+        log.error(f"WebSocket error: {e}", exc_info=True)
+        manager.disconnect(websocket)
+
 
 # Connect Routers
 app.include_router(auth.router, prefix="/api/v1")
+app.include_router(input.router, prefix="/api/v1")
 app.include_router(analysis.router, prefix="/api/v1")
 app.include_router(wellness.router, prefix="/api/v1")
-
 app.include_router(chat.router, prefix="/api/v1")
 app.include_router(alerts.router, prefix="/api/v1")
 app.include_router(voice.router, prefix="/api/v1")
 app.include_router(biometrics.router, prefix="/api/v1")
 app.include_router(clinical_assessments.router, prefix="/api/v1")
 app.include_router(insights.router, prefix="/api/v1")
+app.include_router(games.router, prefix="/api/v1")
+app.include_router(explain.router, prefix="/api/v1")
+app.include_router(trends.router, prefix="/api/v1")
+app.include_router(checkin.router, prefix="/api/v1")
+app.include_router(analytics.router, prefix="/api/v1")
 app.include_router(learning_router, prefix="/api/v1")
+
 
 @app.get("/")
 def health_check():
@@ -104,13 +192,9 @@ def check_dependencies():
 
 @app.on_event("startup")
 async def startup_event():
-    log.info("MindfulAI SaaS Backend v3.0 Starting...")
-    if not check_dependencies():
-        # In a real prod env, we might stop the boot process
-        # For now, we log it clearly as a system warning
-        log.error("AI system is running in DEGRADED mode due to missing dependencies.")
+    log.info("MindfulAI Backend (Low RAM Optimized) Starting...")
+    # No pre-loading here - we use lazy loading instead
     log.info("Wellness tables initialized")
-    log.info("SmolLM2 and MediaPipe engines will load on first request")
 
 @app.get("/health")
 def health():

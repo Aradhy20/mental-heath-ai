@@ -8,14 +8,22 @@ import io
 import base64
 import tempfile
 import os
+from elevenlabs.client import ElevenLabs
+from elevenlabs import Voice, VoiceSettings
 from core.logging import log
 
-# Optional dependencies check
+# Free + Offline Dependencies
 try:
-    import speech_recognition as sr
-    HAS_SR = True
+    from faster_whisper import WhisperModel
+    HAS_WHISPER = True
 except ImportError:
-    HAS_SR = False
+    HAS_WHISPER = False
+
+try:
+    import pyttsx3
+    HAS_PYTTSX3 = True
+except ImportError:
+    HAS_PYTTSX3 = False
 
 try:
     from gtts import gTTS
@@ -25,105 +33,112 @@ except ImportError:
 
 class VoiceInterface:
     def __init__(self):
-        self.recognizer = None
-        if HAS_SR:
-            self.recognizer = sr.Recognizer()
-        log.info(f"VoiceInterface loaded (STT: {HAS_SR}, TTS: {HAS_GTTS})")
+        self.whisper_model = None
+        self.tts_engine = None
+        self.eleven_client = None
+        self.eleven_api_key = os.getenv("ELEVENLABS_API_KEY")
+        
+        if self.eleven_api_key:
+            try:
+                self.eleven_client = ElevenLabs(api_key=self.eleven_api_key)
+                log.info("ElevenLabs Client initialized")
+            except Exception as e:
+                log.error(f"Failed to init ElevenLabs: {e}")
+
+        log.info("VoiceInterface initialized in LAZY mode.")
+
+    def _lazy_init_whisper(self):
+        if self.whisper_model is None and HAS_WHISPER:
+            log.info("VoiceInterface: Lazy-loading Whisper tiny model...")
+            from faster_whisper import WhisperModel
+            self.whisper_model = WhisperModel("tiny", device="cpu", compute_type="int8")
+            log.info("VoiceInterface: ✅ Whisper Ready")
+
+    def _lazy_init_tts(self):
+        if self.tts_engine is None and HAS_PYTTSX3:
+            log.info("VoiceInterface: Lazy-initializing pyttsx3...")
+            import pyttsx3
+            self.tts_engine = pyttsx3.init()
+            self.tts_engine.setProperty('rate', 160)
+            log.info("VoiceInterface: ✅ TTS Ready")
 
     async def speech_to_text(self, audio_bytes: bytes) -> str:
+        self._lazy_init_whisper()
         """
-        Converts clinical audio bytes to text with robust local fallback.
+        Converts clinical audio bytes to text using FasterWhisper (Offline STT).
         """
-        if not HAS_SR:
-            log.warning("STT Engine: speech_recognition not installed. Using fallback.")
-            return "(Voice transcription unavailable in this environment)"
+        if not HAS_WHISPER:
+            log.warning("FasterWhisper not installed. Falling back to generic notification.")
+            return "(Voice transcription unavailable offline)"
         
         try:
-            # 1. Prepare Audio Data
             with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as tmp:
                 tmp.write(audio_bytes)
                 tmp_path = tmp.name
 
-            # 2. Attempt Transcription (Priority: Google Cloud / Online)
-            try:
-                with sr.AudioFile(tmp_path) as source:
-                    audio_data = self.recognizer.record(source)
-                    transcript = self.recognizer.recognize_google(audio_data)
-                
-                os.remove(tmp_path)
-                return transcript
+            segments, info = self.whisper_model.transcribe(tmp_path, beam_size=5)
+            transcript = " ".join([segment.text for segment in segments])
             
-            except (sr.UnknownValueError, sr.RequestError) as api_err:
-                log.warning(f"External STT API failed: {api_err}. Falling back to internal heuristics.")
-                # 3. INTERNAL FALLBACK: Heuristic/Symbolic analysis if online API fails
-                # In prod, swap this with a local PocketSphinx or Whisper-tiny instance.
-                os.remove(tmp_path)
-                return "(Audio received but cloud transcription failed. Emotional tone remains analyzed.)"
-
+            os.remove(tmp_path)
+            return transcript.strip()
+            
         except Exception as e:
-            log.error(f"Critical STT Orchestration Error: {e}")
+            log.error(f"FasterWhisper STT Error: {e}")
             return "(System busy. Transcription failed.)"
 
     async def text_to_speech(self, text: str) -> str:
+        self._lazy_init_tts()
         """
-        Converts response text back to audio (base64) with ElevenLabs support and resilient fallback.
-    async def text_to_speech(self, text: str, emotion: str = "calm") -> str:
+        Converts response text back to audio (base64) prioritizing ElevenLabs (Premium), 
+        falling back to offline pyttsx3 or gTTS.
         """
-        Expert Voice Synthesis (Phase 3): Generates high-fidelity audio with emotional nuance.
-        Adjusts stability and similarity based on detected emotion (Sad, Anxious, Angry).
-        """
-        if not self.api_key:
-            log.warning("ElevenLabs API Key missing. Voice interface disabled.")
-            return None
-
-        try:
-            # Clinical Voice Adjustments (Section 3)
-            # Default: Stability 0.5, Similarity 0.75
-            stability = 0.5
-            similarity = 0.75
-            
-            if emotion == "Sad":
-                stability = 0.8  # More stable/slow
-            elif emotion == "Anxious":
-                stability = 0.3  # Shaky/fast
-            elif emotion == "Angry":
-                stability = 0.9  # Controlled
-            
-            audio_stream = self.client.generate(
-                text=text,
-                voice=self.voice_id,
-                model="eleven_multilingual_v2",
-                voice_settings=VoiceSettings(
-                    stability=stability,
-                    similarity_boost=similarity,
-                    style=0.0,
-                    use_speaker_boost=True,
+        # 1. Primary: ElevenLabs (High Fidelity)
+        if self.eleven_client:
+            try:
+                audio_gen = self.eleven_client.generate(
+                    text=text,
+                    voice=os.getenv("ELEVEN_VOICE_ID", "Rachel"),
+                    model="eleven_multilingual_v2"
                 )
-            )
-            
-            # Convert generator generator to bytes
-            audio_bytes = b"".join(audio_stream)
-            return f"data:audio/mpeg;base64,{base64.b64encode(audio_bytes).decode('utf-8')}"
+                
+                # audio_gen is a generator/iterator
+                audio_data = b"".join(list(audio_gen))
+                b64_str = base64.b64encode(audio_data).decode()
+                return f"data:audio/mpeg;base64,{b64_str}"
+            except Exception as e:
+                log.error(f"ElevenLabs TTS Error: {e}")
 
-        except Exception as e:
-            log.error(f"Voice Synthesis failed: {e}")
-            return None
-
-        # 2. Fallback to gTTS (Standard Quality)
-        if not HAS_GTTS:
-            log.warning("TTS Engine: gTTS not available.")
-            return ""
+        # 2. Secondary Offline TTS via pyttsx3
+        if HAS_PYTTSX3:
+            try:
+                with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as tmp:
+                    tmp_path = tmp.name
+                
+                self.tts_engine.save_to_file(text, tmp_path)
+                self.tts_engine.runAndWait()
+                
+                with open(tmp_path, "rb") as f:
+                    audio_data = f.read()
+                os.remove(tmp_path)
+                
+                b64_str = base64.b64encode(audio_data).decode()
+                return f"data:audio/wav;base64,{b64_str}"
+            except Exception as e:
+                log.error(f"pyttsx3 Offline TTS Error: {e}")
         
-        try:
-            tts = gTTS(text=text, lang='en')
-            fp = io.BytesIO()
-            tts.write_to_fp(fp)
-            fp.seek(0)
-            
-            b64_str = base64.b64encode(fp.read()).decode()
-            return f"data:audio/mp3;base64,{b64_str}"
-        except Exception as e:
-            log.error(f"Critical TTS Error: {e}")
-            return ""
+        # 2. Fallback to gTTS (Standard Quality / Requires internet but free)
+        if HAS_GTTS:
+            try:
+                tts = gTTS(text=text, lang='en')
+                fp = io.BytesIO()
+                tts.write_to_fp(fp)
+                fp.seek(0)
+                
+                b64_str = base64.b64encode(fp.read()).decode()
+                return f"data:audio/mp3;base64,{b64_str}"
+            except Exception as e:
+                log.error(f"gTTS Error: {e}")
+        
+        return ""
 
 voice_interface = VoiceInterface()

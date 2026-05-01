@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any
 from datetime import datetime
-from sqlalchemy import Column, String, DateTime, Boolean, JSON
+from sqlalchemy import Column, String, DateTime, Boolean, JSON, Float, Integer
 from database import Base
 import datetime as dt
 
@@ -16,6 +16,7 @@ class DBUser(Base):
     full_name = Column(String(100), nullable=True)
     phone = Column(String(20), nullable=True)
     is_active = Column(Boolean, default=True)
+    subscription_tier = Column(String(50), default="free")
     last_login = Column(DateTime, default=dt.datetime.utcnow)
     created_at = Column(DateTime, default=dt.datetime.utcnow)
 
@@ -23,19 +24,44 @@ class MoodLog(Base):
     __tablename__ = "mood_logs"
     id = Column(String(50), primary_key=True, index=True)
     user_id = Column(String(50), index=True)
-    score = Column(String(50))
+    score = Column(Float) # 1-5 scale
     feelings = Column(String(255))
     activities = Column(String(255))
     note = Column(String(500))
-    sleep_hours = Column(String(10), default="0")
-    energy_level = Column(String(10), default="5")
+    sleep_hours = Column(Float, default=0.0)
+    energy_level = Column(Integer, default=5)
     created_at = Column(DateTime, default=dt.datetime.utcnow)
 
+class DBChatHistory(Base):
+    __tablename__ = "chat_history"
+    id = Column(String(50), primary_key=True, index=True)
+    user_id = Column(String(50), index=True)
+    role = Column(String(20)) # user / assistant
+    content = Column(String(2000))
+    created_at = Column(DateTime, default=dt.datetime.utcnow)
+
+class JournalEntry(Base):
+    __tablename__ = "journal_entries"
+    id = Column(String(50), primary_key=True, index=True)
+    user_id = Column(String(50), index=True)
+    content = Column(String(2000))
+    sentiment = Column(String(50), default="neutral")
+    created_at = Column(DateTime, default=dt.datetime.utcnow)
 
 class DBOTP(Base):
     __tablename__ = "otps"
     identifier = Column(String(100), primary_key=True, index=True)
     otp = Column(String(10))
+    created_at = Column(DateTime, default=dt.datetime.utcnow)
+
+# ================= WEARABLE / REAL-WORLD MODELS =================
+class DBWearableData(Base):
+    __tablename__ = "wearable_data"
+    id = Column(String(50), primary_key=True, index=True)
+    user_id = Column(String(50), index=True)
+    heart_rate = Column(Integer, default=0)
+    sleep_hours = Column(Float, default=0.0)
+    activity_level = Column(String(50), default="low")
     created_at = Column(DateTime, default=dt.datetime.utcnow)
 
 
@@ -227,3 +253,29 @@ class MemorySnapshot(BaseModel):
     common_distortions: List[str] = []
     summary: str = "No recent emotional memory available."
     helpful_actions: List[str] = []
+
+# ================= WEARABLE / REAL-WORLD MODELS =================
+class WearableRequest(BaseModel):
+    heart_rate: Optional[int] = None
+    sleep_hours: Optional[float] = None
+    activity_level: Optional[str] = "low"
+
+class LocationRecommendation(BaseModel):
+    name: str
+    type: str
+    distance: str
+    address: str
+
+class MoodGameScore(Base):
+    __tablename__ = "mood_game_scores"
+    id = Column(String(50), primary_key=True, index=True)
+    user_id = Column(String(50), index=True)
+    game_name = Column(String(50))
+    score = Column(Integer)
+    mood_impact = Column(Float) # -1.0 to 1.0
+    created_at = Column(DateTime, default=dt.datetime.utcnow)
+
+class GameScoreRequest(BaseModel):
+    game_name: str
+    score: int
+    mood_impact: float

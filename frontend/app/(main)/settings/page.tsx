@@ -47,7 +47,7 @@ export default function SettingsPage() {
       </header>
 
       <div className="grid gap-6">
-        <div className="glass p-8 rounded-[3rem] border border-white/10 flex items-center justify-between">
+        <div className="glass p-8 rounded-[3rem] border border-black/5 flex items-center justify-between">
            <div className="flex items-center gap-6">
               <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-violet-600 flex items-center justify-center text-3xl font-black text-white shadow-2xl">
                  AJ
@@ -58,7 +58,7 @@ export default function SettingsPage() {
                  <p className="text-xs text-muted-foreground mt-1">aradhy@example.com</p>
               </div>
            </div>
-           <button className="px-6 py-2 bg-white/5 border border-white/10 rounded-xl font-bold text-xs hover:bg-white/10 transition-all">
+           <button className="px-6 py-2 bg-black/5 border border-black/5 rounded-xl font-bold text-xs hover:bg-black/10 transition-all">
               Edit Profile
            </button>
         </div>
@@ -70,7 +70,7 @@ export default function SettingsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className="glass p-8 rounded-[3.5rem] border border-white/5 space-y-6"
+              className="glass p-8 rounded-[3.5rem] border border-black/5 space-y-6"
             >
               <div className="flex items-center gap-3 text-primary">
                 <div className="p-3 bg-primary/10 rounded-2xl">
@@ -81,7 +81,7 @@ export default function SettingsPage() {
               
               <div className="space-y-1">
                 {section.items.map((item, j) => (
-                  <button key={j} className="w-full flex justify-between items-center p-3 hover:bg-white/5 rounded-xl text-sm text-muted-foreground hover:text-foreground transition-all group">
+                  <button key={j} className="w-full flex justify-between items-center p-3 hover:bg-black/5 rounded-xl text-sm text-muted-foreground hover:text-foreground transition-all group">
                     {item}
                     <ChevronRight size={14} className="opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
                   </button>
@@ -91,7 +91,7 @@ export default function SettingsPage() {
           ))}
         </div>
 
-        <div className="p-8 border-t border-white/5 flex justify-between items-center">
+        <div className="p-8 border-t border-black/5 flex justify-between items-center">
            <div className="flex gap-4">
               <button className="text-xs font-bold text-muted-foreground hover:text-white transition-all flex items-center gap-2">
                  API Documentation <ExternalLink size={12} />

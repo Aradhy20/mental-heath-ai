@@ -99,7 +99,7 @@ export default function BreathingPage() {
                 {[...Array(MAX_CYCLES)].map((_, i) => (
                   <div 
                     key={i} 
-                    className={`w-2 h-2 rounded-full transition-all duration-500 ${i <= cycle ? 'bg-primary w-4' : 'bg-white/10'}`} 
+                    className={`w-2 h-2 rounded-full transition-all duration-500 ${i <= cycle ? 'bg-primary w-4' : 'bg-black/10'}`} 
                   />
                 ))}
               </div>
@@ -124,7 +124,7 @@ export default function BreathingPage() {
             <div className="flex gap-4 justify-center pt-8">
               <button 
                 onClick={() => { setCycle(0); setPhase('inhale'); }}
-                className="flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 rounded-2xl font-bold hover:bg-white/10 transition-all"
+                className="flex items-center gap-2 px-6 py-3 bg-black/5 border border-black/5 rounded-2xl font-bold hover:bg-black/10 transition-all"
               >
                 <RefreshCw size={18} /> Repeat
               </button>

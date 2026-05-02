@@ -12,6 +12,7 @@ from dotenv import load_dotenv
 
 # Load environment variables (API Keys, DB URLs) before other imports
 load_dotenv()
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "..", ".env"))
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -28,23 +29,6 @@ app = FastAPI(
     redoc_url="/api/redoc"
 )
 
-# Robust CORS Setup
-ORIGINS = [
-    "http://localhost:3000",
-    "http://localhost:3001",
-    "http://127.0.0.1:3000",
-    "http://127.0.0.1:3001",
-    "https://mindfulai.vercel.app",  # production
-]
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=ORIGINS,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-    expose_headers=["*"],
-)
-
 # ── Performance Timing Middleware ─────────────────────────────────────────────
 class TimingMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
@@ -57,6 +41,24 @@ class TimingMiddleware(BaseHTTPMiddleware):
         return response
 
 app.add_middleware(TimingMiddleware)
+
+# Robust CORS Setup (Placed after other middleware to ensure response headers are preserved)
+ORIGINS = [
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:3001",
+    "https://mindfulai.vercel.app",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ORIGINS,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["*"],
+)
 
 # WebSocket connection manager
 class ConnectionManager:
@@ -193,8 +195,12 @@ def check_dependencies():
 @app.on_event("startup")
 async def startup_event():
     log.info("MindfulAI Backend (Low RAM Optimized) Starting...")
-    # No pre-loading here - we use lazy loading instead
-    log.info("Wellness tables initialized")
+    # Auto-create all SQLite tables from SQLAlchemy models
+    from database import engine, Base
+    import models  # noqa: F401 — ensure all models are registered with Base
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    log.info("✅ Database tables verified / created successfully")
 
 @app.get("/health")
 def health():

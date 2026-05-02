@@ -69,13 +69,7 @@ class LLMManager:
                     SystemMessage(content=system_prompt),
                     HumanMessage(content=user_input),
                 ]
-                loop = asyncio.get_running_loop()
-                # stream() is sync — run in executor to avoid blocking event loop
-                def _groq_stream():
-                    return list(self.llm.stream(messages))
-
-                chunks = await loop.run_in_executor(None, _groq_stream)
-                for chunk in chunks:
+                async for chunk in self.llm.astream(messages):
                     yield chunk.content
                 return
 

@@ -1,91 +1,147 @@
 "use client"
 
 import React from 'react'
+import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 import { 
-  Box, Container, Typography, Grid2 as Grid, 
-  Card, CardContent, Stack, Button, IconButton
-} from '@mui/material'
-import { 
-  Psychology as CBTIcon,
-  Air as BreatheIcon,
-  SelfImprovement as ZenIcon,
-  HelpOutline as AssessmentIcon,
-  ArrowForward as ArrowIcon,
-  Shield as SafetyIcon
-} from '@mui/icons-material'
-import { PremiumHeader } from '@/components/layout/premium-header'
+  Zap, 
+  Wind, 
+  Brain, 
+  Shield, 
+  ArrowRight,
+  Sparkles,
+  Activity,
+  Heart
+} from 'lucide-react'
+
+const TOOLS = [
+  { 
+    id: 'thought-challenge', 
+    title: "Thought Reframer", 
+    desc: "Interactive CBT tool to identify and challenge cognitive distortions.", 
+    icon: Brain, 
+    color: "text-violet-400",
+    bg: "bg-violet-400/10",
+    path: "/games/thought-challenge"
+  },
+  { 
+    id: 'breathing', 
+    title: "Serenity Breather", 
+    desc: "Guided heart-rate variability breathing to reset your nervous system.", 
+    icon: Wind, 
+    color: "text-cyan-400",
+    bg: "bg-cyan-400/10",
+    path: "/games/breathing"
+  },
+  { 
+    id: 'mood-mirror', 
+    title: "Mood Mirror", 
+    desc: "Map your subconscious emotional cues through somatic awareness.", 
+    icon: Activity, 
+    color: "text-emerald-400",
+    bg: "bg-emerald-400/10",
+    path: "/games/mood-mirror"
+  },
+  { 
+    id: 'crisis', 
+    title: "Crisis Guard", 
+    desc: "Immediate redirection to human support and safety protocols.", 
+    icon: Shield, 
+    color: "text-rose-400",
+    bg: "bg-rose-400/10",
+    path: "/nearby"
+  },
+]
 
 export default function ResiliencePage() {
-  const tools = [
-    { title: "Thought Reframer", desc: "Identify and challenge cognitive distortions.", icon: <CBTIcon />, color: "#8b5cf6" },
-    { title: "5-4-3-2-1 Grounding", desc: "Reconnect with your senses during panic.", icon: <ZenIcon />, color: "#3b82f6" },
-    { title: "Serenity Breather", desc: "Interactive guided breathing cycles.", icon: <BreatheIcon />, color: "#10b981" },
-    { title: "Crisis Guard", desc: "Immediate redirection to human support.", icon: <SafetyIcon />, color: "#ef4444" },
-  ];
+  const router = useRouter()
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', pb: 10 }}>
-      <PremiumHeader />
-      
-      <Container maxWidth="lg" sx={{ pt: 16 }}>
-        <Box sx={{ mb: 6 }}>
-          <Typography variant="h3" sx={{ fontWeight: 900, mb: 1 }}>
-            Resilience <span className="gradient-text">Hub</span>
-          </Typography>
-          <Typography color="text.secondary" sx={{ fontSize: '1.2rem' }}>
-            Interactive tools based on Cognitive Behavioral Therapy (CBT) and Mindfulness.
-          </Typography>
-        </Box>
-
-        <Grid container spacing={3}>
-          {tools.map((tool, index) => (
-            <Grid size={{ xs: 12, md: 6 }} key={index}>
-              <Card className="glass" sx={{ height: '100%', borderRadius: 6, transition: 'transform 0.2s', '&:hover': { transform: 'translateY(-4px)' } }}>
-                <CardContent sx={{ p: 4 }}>
-                  <Stack direction="row" spacing={3} alignItems="center">
-                    <Box sx={{ 
-                      width: 64, height: 64, borderRadius: 4, 
-                      bgcolor: `${tool.color}15`, color: tool.color,
-                      display: 'flex', alignItems: 'center', justifyContent: 'center'
-                    }}>
-                      {tool.icon}
-                    </Box>
-                    <Box sx={{ flex: 1 }}>
-                      <Typography variant="h5" sx={{ fontWeight: 800, mb: 1 }}>{tool.title}</Typography>
-                      <Typography color="text.secondary">{tool.desc}</Typography>
-                    </Box>
-                    <IconButton sx={{ color: 'primary.main' }}>
-                      <ArrowIcon />
-                    </IconButton>
-                  </Stack>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-
-        {/* Feature Promo */}
-        <Box 
-          className="glass" 
-          sx={{ 
-            mt: 6, p: 6, borderRadius: 8, 
-            background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%)',
-            textAlign: 'center'
-          }}
+    <div className="max-w-7xl mx-auto space-y-12 pb-20">
+      <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
         >
-          <Typography variant="h4" sx={{ fontWeight: 900, mb: 2 }}>Ready for an Assessment?</Typography>
-          <Typography sx={{ opacity: 0.7, mb: 4, maxWidth: 600, mx: 'auto' }}>
-            Take a clinically validated PHQ-9 or GAD-7 assessment to get a deeper understanding of your current mental health state.
-          </Typography>
-          <Button 
-            variant="contained" 
-            size="large"
-            sx={{ borderRadius: 4, px: 6, py: 2, fontWeight: 700 }}
+          <div className="flex items-center gap-3 mb-4">
+             <Heart className="text-primary fill-primary/20" size={20} />
+             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Core Resilience Protocol Active</span>
+          </div>
+          <h1 className="text-5xl font-black tracking-tight mb-4">Resilience <span className="gradient-text italic">Hub</span></h1>
+          <p className="text-muted-foreground font-medium text-lg max-w-2xl">
+            A suite of interactive neural-recalibration tools designed to strengthen your cognitive baseline.
+          </p>
+        </motion.div>
+        
+        <div className="px-6 py-4 glass rounded-[2.5rem] border border-black/5 flex items-center gap-5 shadow-2xl">
+           <div className="w-12 h-12 rounded-[1.25rem] bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+              <Zap size={24} />
+           </div>
+           <div>
+              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-0.5">Stability Index</p>
+              <p className="text-sm font-black tracking-tight text-emerald-400">94.2% Optimal</p>
+           </div>
+        </div>
+      </header>
+
+      <div className="grid md:grid-cols-2 gap-8">
+        {TOOLS.map((tool, i) => (
+          <motion.div
+            key={tool.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.1 }}
+            whileHover={{ y: -8 }}
+            className="group relative"
+            onClick={() => router.push(tool.path)}
           >
-            Start PHQ-9 Assessment
-          </Button>
-        </Box>
-      </Container>
-    </Box>
+            <div className="absolute inset-0 bg-primary/10 blur-[100px] rounded-full opacity-0 group-hover:opacity-20 transition-opacity" />
+            <div className="relative p-10 glass rounded-[3.5rem] border border-black/5 hover:border-primary/40 transition-all cursor-pointer overflow-hidden">
+               <div className="flex justify-between items-start mb-8">
+                  <div className={`p-6 rounded-[2rem] shadow-2xl border border-black/5 transition-transform group-hover:scale-110 ${tool.bg} ${tool.color}`}>
+                     <tool.icon size={36} />
+                  </div>
+                  <div className="p-4 bg-black/5 rounded-full text-muted-foreground group-hover:text-primary transition-colors">
+                     <ArrowRight size={20} />
+                  </div>
+               </div>
+               
+               <h3 className="text-3xl font-black mb-4 tracking-tight">{tool.title}</h3>
+               <p className="text-muted-foreground leading-relaxed font-medium">{tool.desc}</p>
+               
+               {/* Decorative Background Pattern */}
+               <div className="absolute -bottom-10 -right-10 opacity-5 group-hover:opacity-10 transition-opacity">
+                  <tool.icon size={200} />
+               </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.98 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        className="p-12 glass rounded-[4rem] border border-black/5 bg-gradient-to-r from-primary/10 via-transparent to-transparent flex flex-col md:flex-row items-center gap-12 relative overflow-hidden"
+      >
+        <div className="absolute top-0 right-0 p-12 opacity-5">
+           <Sparkles size={200} />
+        </div>
+        <div className="w-20 h-20 rounded-[2rem] bg-primary/20 flex items-center justify-center text-primary shadow-2xl border border-primary/30 relative z-10">
+          <Brain size={40} />
+        </div>
+        <div className="flex-1 space-y-4 relative z-10 text-center md:text-left">
+          <h4 className="text-2xl font-black tracking-tight">Need a full assessment?</h4>
+          <p className="text-base font-medium text-muted-foreground leading-relaxed max-w-2xl">
+            If you're feeling persistent symptoms, taking a standardized PHQ-9 or GAD-7 assessment can help our AI provide more tailored support.
+          </p>
+        </div>
+        <button 
+          onClick={() => router.push('/assessments')}
+          className="px-10 py-5 bg-white text-black font-black text-xs uppercase tracking-widest rounded-[1.5rem] hover:scale-105 transition-all shadow-2xl relative z-10"
+        >
+          Start Assessment
+        </button>
+      </motion.div>
+    </div>
   )
 }

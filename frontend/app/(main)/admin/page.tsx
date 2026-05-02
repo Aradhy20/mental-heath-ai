@@ -41,12 +41,12 @@ export default function AdminPage() {
       {/* Stats */}
       <div className="grid md:grid-cols-4 gap-6">
         {SYSTEM_STATS.map((stat, i) => (
-          <div key={i} className="p-6 glass rounded-3xl border border-white/5">
+          <div key={i} className="p-6 glass rounded-3xl border border-black/5">
             <div className="flex justify-between items-start mb-4">
-              <div className={`p-3 rounded-xl bg-white/5 ${stat.color}`}>
+              <div className={`p-3 rounded-xl bg-black/5 ${stat.color}`}>
                 <stat.icon size={20} />
               </div>
-              <span className={`text-[10px] font-bold ${stat.trend.startsWith('+') ? 'text-emerald-400' : 'text-rose-400'} px-2 py-1 bg-white/5 rounded-full`}>
+              <span className={`text-[10px] font-bold ${stat.trend.startsWith('+') ? 'text-emerald-400' : 'text-rose-400'} px-2 py-1 bg-black/5 rounded-full`}>
                 {stat.trend}
               </span>
             </div>
@@ -58,21 +58,21 @@ export default function AdminPage() {
 
       <div className="grid lg:grid-cols-3 gap-8">
         {/* User Table */}
-        <div className="lg:col-span-2 glass rounded-[2.5rem] border border-white/5 overflow-hidden">
-          <header className="p-8 border-b border-white/5 flex justify-between items-center">
+        <div className="lg:col-span-2 glass rounded-[2.5rem] border border-black/5 overflow-hidden">
+          <header className="p-8 border-b border-black/5 flex justify-between items-center">
             <h3 className="font-bold flex items-center gap-2"><Users size={20} /> User Registry</h3>
             <div className="relative">
               <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
               <input 
                 placeholder="Search UID..." 
-                className="bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2 text-xs outline-none"
+                className="bg-black/5 border border-black/5 rounded-xl pl-10 pr-4 py-2 text-xs outline-none"
               />
             </div>
           </header>
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-white/5 text-[10px] font-bold uppercase tracking-widest text-muted-foreground bg-zinc-950/40">
+                <tr className="border-b border-black/5 text-[10px] font-bold uppercase tracking-widest text-muted-foreground bg-zinc-950/40">
                   <th className="px-8 py-4">User</th>
                   <th className="px-8 py-4">Status</th>
                   <th className="px-8 py-4">Tier</th>
@@ -87,7 +87,7 @@ export default function AdminPage() {
                   { name: 'Jane Smith', email: 'jane@health.org', status: 'Inactive', tier: 'Free', risk: 'Low' },
                   { name: 'User_992', email: 'masked_992@temp.ai', status: 'Online', tier: 'Premium', risk: 'High' }
                 ].map((user, i) => (
-                  <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition-colors group">
+                  <tr key={i} className="border-b border-black/5 hover:bg-black/5 transition-colors group">
                     <td className="px-8 py-4">
                       <div className="flex items-center gap-3">
                          <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-[10px] font-bold text-primary">{user.name[0]}</div>
@@ -123,10 +123,10 @@ export default function AdminPage() {
         </div>
 
         {/* System Logs */}
-        <div className="p-8 glass rounded-[2.5rem] border border-white/5 space-y-8">
+        <div className="p-8 glass rounded-[2.5rem] border border-black/5 space-y-8">
            <div className="flex justify-between items-center">
             <h3 className="font-bold flex items-center gap-2"><ArrowUpRight size={20} /> Inference Logs</h3>
-            <span className="text-[10px] py-1 px-3 bg-white/5 rounded-full font-bold text-muted-foreground">LAST 1H</span>
+            <span className="text-[10px] py-1 px-3 bg-black/5 rounded-full font-bold text-muted-foreground">LAST 1H</span>
           </div>
           <div className="space-y-4">
              {[
@@ -136,14 +136,14 @@ export default function AdminPage() {
                { time: '23:40:12', event: 'Audio MFCC Extracted', status: 'OK' },
                { time: '23:38:44', event: 'New Digital Twin Update', status: 'OK' }
              ].map((log, i) => (
-                <div key={i} className="flex gap-4 p-3 bg-white/5 rounded-2xl border border-white/5 text-[10px] items-center">
+                <div key={i} className="flex gap-4 p-3 bg-black/5 rounded-2xl border border-black/5 text-[10px] items-center">
                    <span className="text-muted-foreground font-mono">{log.time}</span>
                    <span className="flex-1 font-bold">{log.event}</span>
                    <span className={log.status === 'OK' ? 'text-emerald-400' : 'text-rose-400 font-bold'}>{log.status}</span>
                 </div>
              ))}
           </div>
-          <button className="w-full py-3 bg-white/5 border border-white/10 rounded-xl text-xs font-bold hover:bg-white/10 transition-all">
+          <button className="w-full py-3 bg-black/5 border border-black/5 rounded-xl text-xs font-bold hover:bg-black/10 transition-all">
              View Full CloudLogs
           </button>
         </div>

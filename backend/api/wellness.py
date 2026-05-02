@@ -254,3 +254,11 @@ async def get_nearby_resources(
             "count": len(FALLBACK_RESOURCES),
             "note": f"Live map data temporarily unavailable. Showing curated resources."
         }
+
+@router.get("/actions", summary="Get recommended wellness actions")
+async def get_wellness_actions():
+    return [
+        { "id": "1", "title": "Breathing Exercise", "description": "4-7-8 technique for anxiety", "duration": "5 min", "category": "Anxiety", "type": "meditation" },
+        { "id": "2", "title": "Mindful Walking", "description": "Grounding exercise in nature", "duration": "15 min", "category": "Stress", "type": "physical" },
+        { "id": "3", "title": "Gratitude Journal", "description": "Write down 3 things you're thankful for", "duration": "10 min", "category": "Depression", "type": "writing" }
+    ]

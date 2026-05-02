@@ -162,7 +162,10 @@ class ChatbotEngine:
                 j_q = select(JournalEntry).where(JournalEntry.user_id == user_id).order_by(JournalEntry.created_at.desc()).limit(2)
                 w_q = select(DBWearableData).where(DBWearableData.user_id == user_id).order_by(DBWearableData.created_at.desc()).limit(1)
                 
-                m_res, j_res, w_res = await asyncio.gather(db.execute(m_q), db.execute(j_q), db.execute(w_q))
+                m_res = await db.execute(m_q)
+                j_res = await db.execute(j_q)
+                w_res = await db.execute(w_q)
+                
                 moods    = m_res.scalars().all()
                 journals = j_res.scalars().all()
                 wearable = w_res.scalars().first()

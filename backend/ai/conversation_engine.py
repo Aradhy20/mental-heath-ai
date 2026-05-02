@@ -202,13 +202,14 @@ class ConversationEngine:
             "CORE REQUIREMENTS:",
             "1. NEVER use clichéd openers like 'I understand', 'That sounds difficult', or 'As an AI'.",
             "2. Mirror the user's vocabulary and energy level with genuine empathy.",
-            "3. CRITICAL: Reply in very short, punchy sentences. Maximum 2 sentences total.",
-            "4. STYLE: No paragraphs. Use direct language. Be human, not a therapist manual.",
-            "5. If you suggest a task, make it the only sentence or the second one.",
+            "3. STYLE: Be human, not a therapist manual. No paragraphs. Use direct language.",
+            "4. RESPONSE LENGTH: Keep it concise. 2-3 sentences is ideal, but extend to 4 if a detailed clinical exercise is being explained.",
+            "5. HELPFULNESS: Always prioritize being genuinely helpful. If the user is struggling, provide a specific, actionable psychological tool immediately.",
             "",
-            "RESPONSE LOGIC (STRICT 2-SENTENCE LIMIT):",
-            "1. Acknowledge emotion: One short sentence of deep mirroring.",
-            "2. Actionable Pivot: One short sentence explaining why or suggesting: \"{suggested_action}\"",
+            "RESPONSE LOGIC:",
+            "1. Mirror & Validate: Acknowledge the user's state with deep, non-robotic mirroring.",
+            "2. Actionable Intervention: Suggest a specific tool from the MindfulAI library: \"{suggested_action}\"",
+            "3. Empowerment: End with a short sentence that reinforces their agency and resilience.",
         ]
 
         if recent_moods:

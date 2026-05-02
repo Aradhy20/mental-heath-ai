@@ -118,7 +118,7 @@ export default function NearbySupportPage() {
               placeholder="Search local resources..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-3xl pl-12 pr-6 py-5 text-sm outline-none focus:border-primary/50 transition-all font-bold tracking-tight shadow-xl"
+              className="w-full bg-black/5 border border-black/5 rounded-3xl pl-12 pr-6 py-5 text-sm outline-none focus:border-primary/50 transition-all font-bold tracking-tight shadow-xl"
             />
           </div>
         </div>
@@ -134,7 +134,7 @@ export default function NearbySupportPage() {
               "flex items-center gap-3 px-6 py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap border shadow-lg",
               activeCategory === cat.id 
                 ? "bg-primary border-primary/50 text-white shadow-primary/20 scale-105" 
-                : "bg-white/5 border-white/10 text-muted-foreground hover:bg-white/10"
+                : "bg-black/5 border-black/5 text-muted-foreground hover:bg-black/10"
             )}
           >
             <cat.icon size={16} />
@@ -154,7 +154,7 @@ export default function NearbySupportPage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ delay: i * 0.1 }}
-                className="group relative glass rounded-[2.5rem] border border-white/5 p-8 hover:border-primary/30 transition-all cursor-pointer overflow-hidden shadow-2xl"
+                className="group relative glass rounded-[2.5rem] border border-black/5 p-8 hover:border-primary/30 transition-all cursor-pointer overflow-hidden shadow-2xl"
               >
                 <div className="absolute top-0 right-0 p-8">
                    <div className="p-4 bg-primary/10 border border-primary/20 rounded-2xl text-primary group-hover:scale-110 transition-transform">
@@ -177,7 +177,7 @@ export default function NearbySupportPage() {
                    <div className="space-y-2 flex-1">
                       <div className="flex items-center gap-3">
                          <h3 className="text-2xl font-black tracking-tight">{res.name}</h3>
-                         <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] font-black uppercase tracking-tighter">{res.status}</span>
+                         <span className="px-3 py-1 bg-black/5 border border-black/5 rounded-full text-[10px] font-black uppercase tracking-tighter">{res.status}</span>
                       </div>
                       <p className="text-muted-foreground text-sm flex items-center gap-2">
                         <MapPin size={14} className="text-primary" /> {res.address}
@@ -203,7 +203,7 @@ export default function NearbySupportPage() {
 
         {/* Decorative Neural Map */}
         <div className="hidden lg:block lg:col-span-1">
-          <div className="sticky top-12 glass rounded-[3rem] border border-white/5 p-10 space-y-8 shadow-2xl relative overflow-hidden">
+          <div className="sticky top-12 glass rounded-[3rem] border border-black/5 p-10 space-y-8 shadow-2xl relative overflow-hidden">
              <div className="absolute inset-0 bg-primary/5 blur-[80px] rounded-full -translate-y-1/2" />
              
              <div className="relative z-10 space-y-6">
@@ -212,7 +212,7 @@ export default function NearbySupportPage() {
                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 </div>
 
-                <div className="aspect-square bg-zinc-950/50 rounded-[2rem] border border-white/10 flex items-center justify-center relative overflow-hidden group">
+                <div className="aspect-square bg-zinc-950/50 rounded-[2rem] border border-black/5 flex items-center justify-center relative overflow-hidden group">
                    <div className="absolute inset-0 opacity-10">
                       {/* Neural Grid Placeholder */}
                       <svg width="100%" height="100%">
@@ -257,7 +257,7 @@ export default function NearbySupportPage() {
                       <p className="text-xs font-bold text-emerald-100">All MindfulAI clinical partners are currently synchronized with your biometric telemetry.</p>
                    </div>
                    
-                   <button className="w-full py-5 bg-white/5 border border-white/10 rounded-2xl text-xs font-black uppercase tracking-[0.2em] hover:bg-white/10 transition-all flex items-center justify-center gap-3 group">
+                   <button className="w-full py-5 bg-black/5 border border-black/5 rounded-2xl text-xs font-black uppercase tracking-[0.2em] hover:bg-black/10 transition-all flex items-center justify-center gap-3 group">
                       Sync To Wearable <Zap size={14} className="group-hover:text-primary transition-colors" />
                    </button>
                 </div>

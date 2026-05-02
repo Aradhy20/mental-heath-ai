@@ -3,8 +3,8 @@
 import React from 'react'
 import { 
   Box, List, ListItem, ListItemButton, ListItemIcon, 
-  ListItemText, Typography, Avatar, Divider, 
-  IconButton, Tooltip, useTheme, Badge
+  ListItemText, Typography, Avatar, 
+  IconButton, Tooltip, Badge, alpha
 } from '@mui/material'
 import { 
   Dashboard as DashboardIcon,
@@ -13,141 +13,191 @@ import {
   Insights as InsightsIcon,
   Settings as SettingsIcon,
   Logout as LogoutIcon,
-  Psychology as BrainIcon,
-  Notifications as BellIcon,
-  VideoCameraFront as MultimodalIcon
+  VideoCameraFront as MultimodalIcon,
+  Psychology as PsychologyIcon,
+  SportsEsports as GamesIcon,
+  Shield as SafetyIcon,
+  Place as MapIcon
 } from '@mui/icons-material'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { useAuthStore } from '@/lib/store'
+import { motion } from 'framer-motion'
+
+import { Logo } from "./ui/logo"
+import { ThemeToggle } from "./theme-toggle"
 
 const NAV_ITEMS = [
-  { label: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
-  { label: 'AI Therapist', icon: <ChatIcon />, path: '/chat' },
-  { label: 'Journal', icon: <JournalIcon />, path: '/journal' },
-  { label: 'Insights', icon: <InsightsIcon />, path: '/insights' },
-  { label: 'Multimodal', icon: <MultimodalIcon />, path: '/multimodal' },
+  { label: 'Dashboard', icon: <DashboardIcon fontSize="small" />, path: '/dashboard' },
+  { label: 'AI Therapist', icon: <ChatIcon fontSize="small" />, path: '/chat' },
+  { label: 'Journal', icon: <JournalIcon fontSize="small" />, path: '/journal' },
+  { label: 'Insights', icon: <InsightsIcon fontSize="small" />, path: '/insights' },
+  { label: 'Multimodal', icon: <MultimodalIcon fontSize="small" />, path: '/multimodal' },
+  { label: 'Assessments', icon: <PsychologyIcon fontSize="small" />, path: '/assessments' },
+  { label: 'Games', icon: <GamesIcon fontSize="small" />, path: '/games' },
+  { label: 'Resilience', icon: <SafetyIcon fontSize="small" />, path: '/resilience' },
+  { label: 'Nearby', icon: <MapIcon fontSize="small" />, path: '/nearby' },
 ]
 
 export function Sidebar() {
-  const theme = useTheme()
   const pathname = usePathname()
-  const router = useRouter()
   const { user, logout } = useAuthStore()
 
   return (
     <Box sx={{ 
       width: 280, 
       height: '100vh', 
-      bgcolor: 'background.paper', 
-      borderRight: '1px solid',
-      borderColor: 'rgba(255,255,255,0.05)',
+      p: 2,
       display: 'flex', 
       flexDirection: 'column',
-      zIndex: 100
+      zIndex: 100,
+      position: 'relative'
     }}>
-      {/* Brand */}
-      <Box sx={{ p: 4, display: 'flex', alignItems: 'center', gap: 2 }}>
-        <Avatar sx={{ bgcolor: 'primary.main', width: 40, height: 40, boxShadow: '0 0 20px rgba(208, 188, 255, 0.3)' }}>
-          <BrainIcon />
-        </Avatar>
-        <Box>
-          <Typography variant="h6" sx={{ fontWeight: 900, lineHeight: 1, letterSpacing: -0.5 }}>
-            Mindful<Box component="span" sx={{ color: 'primary.main' }}>AI</Box>
-          </Typography>
-          <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 800, textTransform: 'uppercase', letterSpacing: 1.5, fontSize: '0.6rem' }}>
-            SaaS Platform
-          </Typography>
+      {/* Floating Glass Container */}
+      <Box sx={{
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        bgcolor: (theme) => theme.palette.mode === 'light' ? '#FFFFFF' : '#09090B',
+        borderRadius: 0,
+        border: 'none',
+        borderRight: '1px solid',
+        borderColor: (theme) => theme.palette.mode === 'light' ? 'rgba(0,0,0,0.04)' : 'rgba(255,255,255,0.04)',
+        boxShadow: 'none',
+        overflow: 'hidden'
+      }}>
+        {/* Brand */}
+        <Box sx={{ p: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Logo withText size={36} />
         </Box>
-      </Box>
 
-      {/* Main Nav */}
-      <Box sx={{ flex: 1, px: 2, mt: 2 }}>
-        <List sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-          {NAV_ITEMS.map((item) => {
-            const isActive = pathname === item.path
-            return (
-              <ListItem key={item.path} disablePadding>
-                <ListItemButton 
-                  component={Link} 
-                  href={item.path}
-                  sx={{ 
-                    borderRadius: 4,
-                    py: 1.5,
-                    bgcolor: isActive ? 'rgba(208, 188, 255, 0.08)' : 'transparent',
-                    color: isActive ? 'primary.main' : 'text.secondary',
-                    border: '1px solid',
-                    borderColor: isActive ? 'rgba(208, 188, 255, 0.2)' : 'transparent',
-                    transition: 'all 0.2s',
-                    '&:hover': {
-                      bgcolor: 'rgba(255,255,255,0.03)',
-                      color: 'primary.main'
-                    }
-                  }}
-                >
-                  <ListItemIcon sx={{ color: 'inherit', minWidth: 40 }}>
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText 
-                    primary={item.label} 
-                    primaryTypographyProps={{ 
-                      fontSize: '0.9rem', 
-                      fontWeight: isActive ? 900 : 600,
-                      letterSpacing: 0.2
-                    }} 
-                  />
-                </ListItemButton>
-              </ListItem>
-            )
-          })}
-        </List>
-      </Box>
+        {/* Navigation */}
+        <Box sx={{ flex: 1, px: 2, mt: 2, overflowY: 'auto', '&::-webkit-scrollbar': { display: 'none' } }}>
+          <List sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+            {NAV_ITEMS.map((item) => {
+              const isActive = pathname === item.path
+              return (
+                <ListItem key={item.path} disablePadding>
+                  <ListItemButton 
+                    component={Link} 
+                    href={item.path}
+                    sx={{ 
+                      borderRadius: 4,
+                      py: 1.2,
+                      px: 2,
+                      position: 'relative',
+                      bgcolor: isActive ? alpha('#A78BFA', 0.12) : 'transparent',
+                      color: isActive ? '#7C3AED' : 'text.secondary',
+                      transition: 'all 0.2s ease-out',
+                      '&:hover': {
+                        bgcolor: alpha('#A78BFA', 0.08),
+                        color: '#7C3AED',
+                        transform: 'translateX(2px)'
+                      },
+                      ...(isActive && {
+                        '&::before': {
+                          content: '""',
+                          position: 'absolute',
+                          left: 0,
+                          top: '15%',
+                          bottom: '15%',
+                          width: 4,
+                          bgcolor: '#A78BFA',
+                          borderRadius: '0 4px 4px 0'
+                        }
+                      })
+                    }}
+                  >
+                    <ListItemIcon sx={{ 
+                      color: 'inherit', 
+                      minWidth: 36,
+                      transition: 'transform 0.3s',
+                      ...(isActive && { transform: 'scale(1.1)' })
+                    }}>
+                      {item.icon}
+                    </ListItemIcon>
+                    <ListItemText 
+                      primary={item.label} 
+                      sx={{ 
+                        '& .MuiListItemText-primary': { 
+                          fontSize: '0.85rem', 
+                          fontWeight: isActive ? 800 : 600,
+                          letterSpacing: -0.2
+                        } 
+                      }} 
+                    />
+                  </ListItemButton>
+                </ListItem>
+              )
+            })}
+          </List>
+        </Box>
 
-      {/* Bottom Profile */}
-      <Box sx={{ p: 2, mb: 2 }}>
-        <Box sx={{ 
-          p: 2, 
-          borderRadius: 6, 
-          bgcolor: 'rgba(255,255,255,0.02)', 
-          border: '1px solid rgba(255,255,255,0.05)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 2
-        }}>
-          <Badge color="success" variant="dot" overlap="circular">
-            <Avatar src={user?.avatar} sx={{ width: 40, height: 40, border: '2px solid rgba(255,255,255,0.1)' }}>
-              {user?.username?.[0]}
-            </Avatar>
-          </Badge>
-          <Box sx={{ flex: 1, minWidth: 0 }}>
-            <Typography variant="body2" sx={{ fontWeight: 900, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              {user?.username || 'Guest'}
-            </Typography>
-            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', textTransform: 'capitalize' }}>
-              {user?.role || 'Free Tier'}
-            </Typography>
+        {/* User Profile Area */}
+        <Box sx={{ p: 2, mt: 'auto', borderTop: '1px solid', borderColor: (theme) => alpha(theme.palette.divider, 0.1) }}>
+          <Box sx={{ 
+            p: 1.5, 
+            borderRadius: 6, 
+            bgcolor: (theme) => alpha(theme.palette.text.primary, 0.03),
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1.5
+          }}>
+            <Badge 
+              overlap="circular" 
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              badgeContent={
+                <Box sx={{ width: 10, height: 10, bgcolor: '#10b981', borderRadius: '50%', border: '2px solid white' }} />
+              }
+            >
+              <Avatar 
+                src={user?.avatar} 
+                sx={{ 
+                  width: 36, 
+                  height: 36, 
+                  fontWeight: 800,
+                  fontSize: '0.9rem',
+                  bgcolor: 'primary.main',
+                  color: 'white'
+                }}
+              >
+                {user?.username?.[0]?.toUpperCase()}
+              </Avatar>
+            </Badge>
+            <Box sx={{ flex: 1, minWidth: 0 }}>
+              <Typography variant="body2" sx={{ fontWeight: 800, fontSize: '0.8rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {user?.username || 'Guest User'}
+              </Typography>
+              <Typography variant="caption" color="text.secondary" sx={{ display: 'block', fontSize: '0.7rem', fontWeight: 600 }}>
+                {user?.role || 'Premium Access'}
+              </Typography>
+            </Box>
+            <ThemeToggle />
           </Box>
-          <Tooltip title="Account Settings">
-            <IconButton size="small" sx={{ color: 'text.secondary' }}>
-              <SettingsIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
-        </Box>
 
-        <ListItemButton 
-          onClick={logout}
-          sx={{ 
-            mt: 2, 
-            borderRadius: 4, 
-            color: 'error.main',
-            '&:hover': { bgcolor: 'rgba(239, 83, 80, 0.05)' }
-          }}
-        >
-          <ListItemIcon sx={{ color: 'inherit', minWidth: 40 }}>
-            <LogoutIcon fontSize="small" />
-          </ListItemIcon>
-          <ListItemText primary="Log Out" primaryTypographyProps={{ fontSize: '0.85rem', fontWeight: 700 }} />
-        </ListItemButton>
+          <Box sx={{ display: 'flex', mt: 1, gap: 1 }}>
+            <Tooltip title="Settings">
+              <IconButton size="small" sx={{ flex: 1, borderRadius: 4, bgcolor: (theme) => alpha(theme.palette.text.primary, 0.03) }}>
+                <SettingsIcon fontSize="inherit" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Log Out">
+              <IconButton 
+                size="small" 
+                onClick={logout}
+                sx={{ 
+                  flex: 1, 
+                  borderRadius: 4, 
+                  bgcolor: alpha('#ef4444', 0.05),
+                  color: '#ef4444',
+                  '&:hover': { bgcolor: alpha('#ef4444', 0.1) }
+                }}
+              >
+                <LogoutIcon fontSize="inherit" />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </Box>
       </Box>
     </Box>
   )

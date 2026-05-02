@@ -13,127 +13,148 @@ export default function HomeScreen() {
   const navigation = useNavigation<any>();
 
   return (
-    <View style={[styles.container, { backgroundColor: '#F8FAFC' }]}>
+    <View style={[styles.container, { backgroundColor: '#F9FAFB' }]}>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.safeArea}>
-        {/* Top App Bar */}
+        {/* Premium Header */}
         <View style={styles.appBar}>
           <View style={styles.logoContainer}>
-            <View style={styles.logoBox}>
-              <MaterialCommunityIcons name="heart" size={20} color="#fff" />
+            <View style={styles.logoCircle}>
+               <Image 
+                source={require('../../assets/logo.png')} 
+                style={{ width: 28, height: 28 }}
+                resizeMode="contain"
+              />
             </View>
-            <Text style={styles.brandText}>MindfulAI</Text>
-          </div>
+            <View>
+               <Text style={styles.brandText}>MindfulAI</Text>
+               <Text style={styles.brandSub}>Neural Network</Text>
+            </View>
+          </View>
           <View style={styles.appBarActions}>
-             <TouchableOpacity style={styles.iconCircle}>
-                <MaterialCommunityIcons name="bell-outline" size={24} color="#64748b" />
+             <TouchableOpacity style={styles.glassButton}>
+                <MaterialCommunityIcons name="lightning-bolt" size={20} color="#7E22CE" />
              </TouchableOpacity>
-             <TouchableOpacity style={styles.iconCircle}>
-                <MaterialCommunityIcons name="account-outline" size={24} color="#64748b" />
+             <TouchableOpacity style={styles.profileBox}>
+                <Avatar.Text size={32} label="A" style={{ backgroundColor: '#7E22CE' }} labelStyle={{ fontWeight: '900', fontSize: 14 }} />
              </TouchableOpacity>
           </View>
         </View>
 
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-          {/* Greeting */}
-          <View style={styles.greetingContainer}>
-            <Text style={styles.greetingText}>
-              Welcome back, <Text style={{ fontWeight: 'bold', color: '#1e293b' }}>Aradhya</Text>
-            </Text>
-            <Text style={styles.subGreeting}>Your mental wellness journey is progressing well.</Text>
+          {/* Greeting Section */}
+          <View style={styles.greetingSection}>
+            <Text style={styles.greetingTitle}>Systems Nominal,</Text>
+            <Text style={styles.greetingName}>Aradhy Jain.</Text>
+            <View style={styles.statusBadge}>
+               <View style={styles.statusDot} />
+               <Text style={styles.statusText}>Quantum Link Active</Text>
+            </View>
           </View>
 
-          {/* Main Stats Card */}
-          <Surface style={styles.mainCard} elevation={0}>
+          {/* Main Hero Diagnostic */}
+          <Surface style={styles.heroCard} elevation={0}>
             <LinearGradient
-              colors={['#6366F1', '#4F46E5']}
+              colors={['#7E22CE', '#9333EA']}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
-              style={styles.cardGradient}
+              style={styles.heroGradient}
             >
-              <View style={styles.cardContent}>
-                <View>
-                  <Text style={styles.cardLabel}>CURRENT MOOD</Text>
-                  <Text style={styles.cardTitle}>Feeling Stable</Text>
-                  <Text style={styles.cardSub}>Based on your last voice check-in</Text>
-                </View>
-                <View style={styles.moodIconContainer}>
-                   <MaterialCommunityIcons name="emoticon-happy-outline" size={40} color="#fff" />
-                </View>
+              <View style={styles.heroHeader}>
+                 <View>
+                    <Text style={styles.heroLabel}>NEURAL PROFILE</Text>
+                    <Text style={styles.heroTitle}>Equilibrium.</Text>
+                 </View>
+                 <View style={styles.heroIconBox}>
+                    <MaterialCommunityIcons name="brain" size={32} color="#fff" />
+                 </View>
               </View>
               
-              <View style={styles.progressContainer}>
-                <View style={styles.progressHeader}>
-                  <Text style={styles.progressLabel}>Daily Goal</Text>
-                  <Text style={styles.progressValue}>75%</Text>
-                </View>
-                <View style={styles.progressBarBg}>
-                  <View style={[styles.progressBarFill, { width: '75%' }]} />
-                </View>
+              <Text style={styles.heroDescription}>
+                 Your emotional architecture is currently displaying 92% stability. Deep focus protocols are recommended.
+              </Text>
+
+              <View style={styles.metricRow}>
+                 <View style={styles.metricItem}>
+                    <Text style={styles.metricValue}>12%</Text>
+                    <Text style={styles.metricLabel}>Clarity Up</Text>
+                 </View>
+                 <View style={styles.divider} />
+                 <View style={styles.metricItem}>
+                    <Text style={styles.metricValue}>4.2</Text>
+                    <Text style={styles.metricLabel}>Mood Index</Text>
+                 </View>
+                 <View style={styles.divider} />
+                 <View style={styles.metricItem}>
+                    <Text style={styles.metricValue}>0.03</Text>
+                    <Text style={styles.metricLabel}>Latency</Text>
+                 </View>
               </View>
 
-              <Button 
-                mode="contained" 
-                style={styles.chatButton}
-                labelStyle={styles.chatButtonLabel}
+              <TouchableOpacity 
+                style={styles.heroButton}
                 onPress={() => navigation.navigate('Chat')}
               >
-                Talk to MindfulAI
-              </Button>
+                <Text style={styles.heroButtonText}>Initialize Neural Chat</Text>
+                <MaterialCommunityIcons name="chevron-right" size={20} color="#7E22CE" />
+              </TouchableOpacity>
             </LinearGradient>
           </Surface>
 
-          {/* Quick Actions Grid */}
+          {/* Quick Core Grid */}
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Daily Toolkit</Text>
+            <Text style={styles.sectionTitle}>Command Modules</Text>
           </View>
 
-          <View style={styles.gridContainer}>
-            <TouchableOpacity 
-              style={[styles.gridItem, { backgroundColor: '#fff' }]} 
-              onPress={() => navigation.navigate('Mood')}
-            >
-              <View style={[styles.gridIconBox, { backgroundColor: '#f0fdf4' }]}>
-                <MaterialCommunityIcons name="plus-circle-outline" size={24} color="#22c55e" />
-              </View>
-              <Text style={styles.gridItemTitle}>Log Mood</Text>
-              <Text style={styles.gridItemSub}>Quick check-in</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity 
-              style={[styles.gridItem, { backgroundColor: '#fff' }]}
-              onPress={() => navigation.navigate('Journal')}
-            >
-              <View style={[styles.gridIconBox, { backgroundColor: '#eff6ff' }]}>
-                <MaterialCommunityIcons name="book-open-outline" size={24} color="#3b82f6" />
-              </View>
-              <Text style={styles.gridItemTitle}>Journal</Text>
-              <Text style={styles.gridItemSub}>Write thoughts</Text>
-            </TouchableOpacity>
+          <View style={styles.grid}>
+            <ModuleCard 
+               title="Insights" 
+               sub="Diagnostic" 
+               icon="chart-timeline-variant" 
+               color="#7E22CE" 
+               onPress={() => navigation.navigate('Insights')} 
+            />
+            <ModuleCard 
+               title="Chronicles" 
+               sub="Journaling" 
+               icon="book-open-variant" 
+               color="#3B82F6" 
+               onPress={() => navigation.navigate('Journal')} 
+            />
           </View>
 
-          <View style={[styles.gridContainer, { marginTop: 16 }]}>
-            <TouchableOpacity 
-              style={[styles.gridItem, { backgroundColor: '#fff' }]}
-              onPress={() => navigation.navigate('Insights')}
-            >
-              <View style={[styles.gridIconBox, { backgroundColor: '#faf5ff' }]}>
-                <MaterialCommunityIcons name="chart-line" size={24} color="#a855f7" />
-              </View>
-              <Text style={styles.gridItemTitle}>Insights</Text>
-              <Text style={styles.gridItemSub}>View trends</Text>
-            </TouchableOpacity>
+          <View style={[styles.grid, { marginTop: 16 }]}>
+            <ModuleCard 
+               title="Forensics" 
+               sub="Multimodal" 
+               icon="face-recognition" 
+               color="#F59E0B" 
+               onPress={() => navigation.navigate('Multimodal')} 
+            />
+            <ModuleCard 
+               title="Safety" 
+               sub="Shield" 
+               icon="shield-check" 
+               color="#10B981" 
+               onPress={() => navigation.navigate('Resilience')} 
+            />
+          </View>
 
-            <TouchableOpacity 
-              style={[styles.gridItem, { backgroundColor: '#fff' }]}
-              onPress={() => navigation.navigate('Multimodal')}
-            >
-              <View style={[styles.gridIconBox, { backgroundColor: '#fff7ed' }]}>
-                <MaterialCommunityIcons name="face-recognition" size={24} color="#f97316" />
-              </View>
-              <Text style={styles.gridItemTitle}>Face AI</Text>
-              <Text style={styles.gridItemSub}>Real-time scan</Text>
-            </TouchableOpacity>
+          <View style={[styles.grid, { marginTop: 16 }]}>
+            <ModuleCard 
+               title="Games" 
+               sub="Neuro-Play" 
+               icon="controller-classic" 
+               color="#EF4444" 
+               onPress={() => navigation.navigate('Games')} 
+            />
+            <ModuleCard 
+               title="Nearby" 
+               sub="Physical" 
+               icon="map-marker-radius" 
+               color="#06B6D4" 
+               onPress={() => navigation.navigate('Nearby')} 
+            />
           </View>
 
         </ScrollView>
@@ -141,6 +162,16 @@ export default function HomeScreen() {
     </View>
   );
 }
+
+const ModuleCard = ({ title, sub, icon, color, onPress }: any) => (
+  <TouchableOpacity style={styles.moduleCard} onPress={onPress}>
+     <View style={[styles.moduleIconBox, { backgroundColor: `${color}10` }]}>
+        <MaterialCommunityIcons name={icon} size={24} color={color} />
+     </View>
+     <Text style={styles.moduleTitle}>{title}</Text>
+     <Text style={styles.moduleSub}>{sub}</Text>
+  </TouchableOpacity>
+)
 
 const styles = StyleSheet.create({
   container: {
@@ -154,188 +185,249 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 24,
-    paddingVertical: 16,
+    paddingVertical: 20,
   },
   logoContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    gap: 12,
   },
-  logoBox: {
-    width: 32,
-    height: 32,
-    backgroundColor: '#6366F1',
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#6366F1',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
+  logoCircle: {
+     width: 44,
+     height: 44,
+     backgroundColor: '#fff',
+     borderRadius: 16,
+     alignItems: 'center',
+     justifyContent: 'center',
+     shadowColor: '#000',
+     shadowOffset: { width: 0, height: 4 },
+     shadowOpacity: 0.05,
+     shadowRadius: 10,
+     elevation: 2,
   },
   brandText: {
-    fontSize: 22,
-    fontWeight: '800',
-    color: '#0f172a',
-    letterSpacing: -0.5,
+    fontSize: 20,
+    fontWeight: '900',
+    color: '#111827',
+    letterSpacing: -1,
+  },
+  brandSub: {
+     fontSize: 9,
+     fontWeight: '900',
+     color: '#7E22CE',
+     textTransform: 'uppercase',
+     letterSpacing: 2,
+     marginTop: -2,
   },
   appBarActions: {
     flexDirection: 'row',
+    alignItems: 'center',
     gap: 12,
   },
-  iconCircle: {
-    width: 44,
-    height: 44,
-    backgroundColor: '#fff',
-    borderRadius: 14,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: '#f1f5f9',
+  glassButton: {
+     width: 44,
+     height: 44,
+     backgroundColor: 'rgba(126, 34, 206, 0.05)',
+     borderRadius: 16,
+     alignItems: 'center',
+     justifyContent: 'center',
+     borderWidth: 1,
+     borderColor: 'rgba(126, 34, 206, 0.1)',
+  },
+  profileBox: {
+     borderWidth: 2,
+     borderColor: '#fff',
+     borderRadius: 18,
+     padding: 2,
+     shadowColor: '#000',
+     shadowOffset: { width: 0, height: 4 },
+     shadowOpacity: 0.1,
+     shadowRadius: 10,
   },
   scrollContent: {
     padding: 24,
-    paddingBottom: 40,
+    paddingBottom: 60,
   },
-  greetingContainer: {
-    marginBottom: 28,
-  },
-  greetingText: {
-    fontSize: 24,
-    color: '#64748b',
-    fontWeight: '500',
-  },
-  subGreeting: {
-    fontSize: 14,
-    color: '#94a3b8',
-    marginTop: 4,
-    fontWeight: '500',
-  },
-  mainCard: {
-    borderRadius: 32,
-    overflow: 'hidden',
+  greetingSection: {
     marginBottom: 32,
-    shadowColor: '#6366F1',
-    shadowOffset: { width: 0, height: 10 },
+  },
+  greetingTitle: {
+    fontSize: 16,
+    color: '#6B7280',
+    fontWeight: '700',
+  },
+  greetingName: {
+    fontSize: 32,
+    color: '#111827',
+    fontWeight: '900',
+    letterSpacing: -1,
+  },
+  statusBadge: {
+     flexDirection: 'row',
+     alignItems: 'center',
+     gap: 6,
+     marginTop: 8,
+     backgroundColor: 'rgba(16, 185, 129, 0.05)',
+     alignSelf: 'flex-start',
+     paddingHorizontal: 12,
+     paddingVertical: 6,
+     borderRadius: 10,
+     borderWidth: 1,
+     borderColor: 'rgba(16, 185, 129, 0.1)',
+  },
+  statusDot: {
+     width: 6,
+     height: 6,
+     backgroundColor: '#10B981',
+     borderRadius: 3,
+  },
+  statusText: {
+     fontSize: 9,
+     fontWeight: '900',
+     color: '#059669',
+     textTransform: 'uppercase',
+     letterSpacing: 1,
+  },
+  heroCard: {
+    borderRadius: 40,
+    overflow: 'hidden',
+    marginBottom: 40,
+    shadowColor: '#7E22CE',
+    shadowOffset: { width: 0, height: 20 },
     shadowOpacity: 0.2,
-    shadowRadius: 20,
-    elevation: 8,
+    shadowRadius: 30,
+    elevation: 10,
   },
-  cardGradient: {
-    padding: 28,
+  heroGradient: {
+    padding: 32,
   },
-  cardContent: {
+  heroHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 24,
+    alignItems: 'flex-start',
+    marginBottom: 20,
   },
-  cardLabel: {
-    color: 'rgba(255,255,255,0.7)',
-    fontWeight: '800',
-    fontSize: 10,
-    letterSpacing: 1.5,
+  heroLabel: {
+    color: 'rgba(255,255,255,0.6)',
+    fontWeight: '900',
+    fontSize: 9,
+    letterSpacing: 3,
     marginBottom: 4,
   },
-  cardTitle: {
+  heroTitle: {
     color: '#fff',
-    fontSize: 24,
-    fontWeight: '800',
+    fontSize: 32,
+    fontWeight: '900',
+    letterSpacing: -1,
   },
-  cardSub: {
-    color: 'rgba(255,255,255,0.8)',
-    fontSize: 13,
-    marginTop: 2,
-    fontWeight: '500',
-  },
-  moodIconContainer: {
+  heroIconBox: {
     width: 60,
     height: 60,
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    borderRadius: 20,
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.2)',
   },
-  progressContainer: {
-    marginBottom: 28,
+  heroDescription: {
+     color: 'rgba(255,255,255,0.85)',
+     fontSize: 15,
+     fontWeight: '600',
+     lineHeight: 22,
+     marginBottom: 32,
   },
-  progressHeader: {
+  metricRow: {
+     flexDirection: 'row',
+     justifyContent: 'space-between',
+     alignItems: 'center',
+     marginBottom: 32,
+     backgroundColor: 'rgba(255,255,255,0.1)',
+     padding: 20,
+     borderRadius: 24,
+  },
+  metricItem: {
+     alignItems: 'center',
+  },
+  metricValue: {
+     color: '#fff',
+     fontSize: 18,
+     fontWeight: '900',
+  },
+  metricLabel: {
+     color: 'rgba(255,255,255,0.6)',
+     fontSize: 8,
+     fontWeight: '900',
+     textTransform: 'uppercase',
+     marginTop: 2,
+  },
+  divider: {
+     width: 1,
+     height: 20,
+     backgroundColor: 'rgba(255,255,255,0.2)',
+  },
+  heroButton: {
+    backgroundColor: '#fff',
+    borderRadius: 24,
+    paddingVertical: 18,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 12,
   },
-  progressLabel: {
-    color: '#fff',
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  progressValue: {
-    color: '#fff',
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  progressBarBg: {
-    height: 8,
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    borderRadius: 4,
-  },
-  progressBarFill: {
-    height: '100%',
-    backgroundColor: '#fff',
-    borderRadius: 4,
-  },
-  chatButton: {
-    backgroundColor: '#fff',
-    borderRadius: 18,
-    paddingVertical: 6,
-  },
-  chatButtonLabel: {
-    color: '#6366F1',
-    fontWeight: '800',
+  heroButtonText: {
+    color: '#7E22CE',
+    fontWeight: '900',
     fontSize: 15,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
   },
   sectionHeader: {
-    marginBottom: 16,
+    marginBottom: 20,
+    paddingHorizontal: 4,
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: '800',
-    color: '#0f172a',
+    fontWeight: '900',
+    color: '#111827',
+    letterSpacing: -0.5,
   },
-  gridContainer: {
+  grid: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     gap: 16,
   },
-  gridItem: {
+  moduleCard: {
     flex: 1,
-    padding: 20,
-    borderRadius: 24,
+    padding: 24,
+    backgroundColor: '#fff',
+    borderRadius: 32,
     borderWidth: 1,
-    borderColor: '#f1f5f9',
+    borderColor: '#F3F4F6',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 2,
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.03,
+    shadowRadius: 20,
+    elevation: 4,
   },
-  gridIconBox: {
-    width: 44,
-    height: 44,
-    borderRadius: 14,
+  moduleIconBox: {
+    width: 48,
+    height: 48,
+    borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 16,
+    marginBottom: 20,
   },
-  gridItemTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#1e293b',
+  moduleTitle: {
+    fontSize: 17,
+    fontWeight: '900',
+    color: '#111827',
+    letterSpacing: -0.5,
     marginBottom: 2,
   },
-  gridItemSub: {
-    fontSize: 12,
-    color: '#94a3b8',
-    fontWeight: '500',
+  moduleSub: {
+    fontSize: 11,
+    color: '#9CA3AF',
+    fontWeight: '700',
   },
 });

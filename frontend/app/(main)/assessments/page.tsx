@@ -103,7 +103,7 @@ export default function AssessmentsPage() {
         <h1 className="text-4xl font-bold">Assessment Complete</h1>
         <p className="text-muted-foreground italic">Thank you for your honesty. This data helps our AI specialize your care plan.</p>
         
-        <div className="p-12 glass rounded-[3rem] border border-white/10 space-y-4">
+        <div className="p-12 glass rounded-[3rem] border border-black/5 space-y-4">
            <h2 className="text-sm font-black uppercase tracking-widest text-muted-foreground">Clinical Outcome</h2>
            <div className="space-y-1">
               <p className="text-6xl font-black">{score}</p>
@@ -119,7 +119,7 @@ export default function AssessmentsPage() {
                 setAnswers([])
                 setCurrentQuestion(0)
              }}
-             className="px-8 py-4 bg-white/5 border border-white/10 rounded-2xl font-bold hover:bg-white/10 transition-all"
+             className="px-8 py-4 bg-black/5 border border-black/5 rounded-2xl font-bold hover:bg-black/10 transition-all"
            >
               Done
            </button>
@@ -138,8 +138,8 @@ export default function AssessmentsPage() {
     const progress = (currentQuestion / activeAssessment.questions.length) * 100
     return (
       <div className="max-w-3xl mx-auto space-y-12">
-        <header className="flex justify-between items-center bg-white/5 p-6 rounded-[2rem] border border-white/5">
-           <button onClick={() => setSelectedType(null)} className="p-2 hover:bg-white/5 rounded-full transition-colors">
+        <header className="flex justify-between items-center bg-black/5 p-6 rounded-[2rem] border border-black/5">
+           <button onClick={() => setSelectedType(null)} className="p-2 hover:bg-black/5 rounded-full transition-colors">
               <ChevronLeft size={24} />
            </button>
            <div className="text-center">
@@ -149,7 +149,7 @@ export default function AssessmentsPage() {
            <div className="w-10 h-10" />
         </header>
 
-        <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+        <div className="h-1 w-full bg-black/5 rounded-full overflow-hidden">
            <motion.div animate={{ width: `${progress}%` }} className="h-full bg-primary" />
         </div>
 
@@ -163,7 +163,7 @@ export default function AssessmentsPage() {
                 <button
                   key={i}
                   onClick={() => handleAnswer(opt.value)}
-                  className="p-5 text-sm font-bold bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 hover:border-primary/40 transition-all"
+                  className="p-5 text-sm font-bold bg-black/5 border border-black/5 rounded-2xl hover:bg-black/10 hover:border-primary/40 transition-all"
                 >
                   {opt.label}
                 </button>
@@ -194,7 +194,7 @@ export default function AssessmentsPage() {
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="px-6 py-4 glass rounded-[2.5rem] border border-white/10 flex items-center gap-5 shadow-2xl"
+          className="px-6 py-4 glass rounded-[2.5rem] border border-black/5 flex items-center gap-5 shadow-2xl"
         >
            <div className="w-12 h-12 rounded-[1.25rem] bg-primary/10 flex items-center justify-center text-primary shadow-[0_0_20px_rgba(139,92,246,0.1)]">
               <Activity size={24} />
@@ -221,13 +221,13 @@ export default function AssessmentsPage() {
             }}
           >
             <div className="absolute inset-0 bg-primary/20 blur-[100px] rounded-full opacity-0 group-hover:opacity-20 transition-opacity" />
-            <div className="relative p-12 glass rounded-[4rem] border border-white/5 hover:border-primary/40 transition-all cursor-pointer overflow-hidden space-y-10">
+            <div className="relative p-12 glass rounded-[4rem] border border-black/5 hover:border-primary/40 transition-all cursor-pointer overflow-hidden space-y-10">
                <div className="flex justify-between items-start relative z-10">
                   <div className="space-y-3">
                      <h3 className="text-3xl font-black tracking-tight leading-none">{ASSESSMENTS[key].title.split(' ')[0]} <span className="text-primary italic">{ASSESSMENTS[key].title.split(' ')[1]}</span></h3>
                      <div className="flex gap-4 text-muted-foreground">
-                        <span className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest bg-white/5 px-3 py-1 rounded-full"><FileText size={12} /> {ASSESSMENTS[key].questions.length} Items</span>
-                        <span className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest bg-white/5 px-3 py-1 rounded-full text-emerald-400 border border-emerald-400/20">~3 min</span>
+                        <span className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest bg-black/5 px-3 py-1 rounded-full"><FileText size={12} /> {ASSESSMENTS[key].questions.length} Items</span>
+                        <span className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest bg-black/5 px-3 py-1 rounded-full text-emerald-400 border border-emerald-400/20">~3 min</span>
                      </div>
                   </div>
                   <div className="p-5 bg-primary text-white rounded-[1.5rem] shadow-xl shadow-primary/20 transition-transform group-hover:scale-110">
@@ -239,7 +239,7 @@ export default function AssessmentsPage() {
                  {ASSESSMENTS[key].desc}
                </p>
 
-               <div className="pt-10 border-t border-white/5 space-y-6 relative z-10">
+               <div className="pt-10 border-t border-black/5 space-y-6 relative z-10">
                   <div className="flex justify-between items-end">
                      <div>
                         <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1.5 opacity-50">Latest Index</p>
@@ -247,7 +247,7 @@ export default function AssessmentsPage() {
                      </div>
                      <p className="text-[10px] font-black text-muted-foreground/40 uppercase tracking-widest">Active Monitoring</p>
                   </div>
-                  <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                  <div className="h-1.5 w-full bg-black/5 rounded-full overflow-hidden">
                      <motion.div 
                         initial={{ width: 0 }}
                         animate={{ width: "12%" }} 
@@ -268,7 +268,7 @@ export default function AssessmentsPage() {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        className="p-12 glass rounded-[4rem] border border-white/10 bg-gradient-to-r from-rose-500/5 via-transparent to-transparent flex flex-col md:flex-row items-center gap-12 relative overflow-hidden"
+        className="p-12 glass rounded-[4rem] border border-black/5 bg-gradient-to-r from-rose-500/5 via-transparent to-transparent flex flex-col md:flex-row items-center gap-12 relative overflow-hidden"
       >
         <div className="absolute bottom-0 right-0 p-12 opacity-5">
            <AlertCircle size={120} />

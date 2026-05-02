@@ -3,15 +3,16 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { 
-  Wind, 
-  Brain, 
-  Activity, 
-  Palette, 
-  ChevronRight, 
+import {
+  Wind,
+  Brain,
+  Activity,
+  Palette,
+  ChevronRight,
   Star,
   Play
 } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 const GAMES = [
   {
@@ -80,13 +81,13 @@ export default function GamesPage() {
             <div className="absolute inset-0 bg-primary/20 blur-[100px] rounded-full opacity-0 group-hover:opacity-20 transition-opacity" />
             <Link 
               href={`/games/${game.id}`}
-              className="relative block p-10 glass rounded-[3.5rem] border border-white/5 hover:border-primary/40 transition-all overflow-hidden"
+              className="relative block p-10 glass rounded-[3.5rem] border border-black/5 hover:border-primary/40 transition-all overflow-hidden"
             >
               <div className="flex justify-between items-start mb-10">
-                <div className={cn("p-6 rounded-[2rem] shadow-2xl border border-white/5 transition-transform group-hover:scale-110", game.bg, game.color)}>
+                <div className={cn("p-6 rounded-[2rem] shadow-2xl border border-black/5 transition-transform group-hover:scale-110", game.bg, game.color)}>
                   <game.icon size={36} />
                 </div>
-                <div className="px-5 py-2 rounded-full bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground group-hover:text-primary transition-colors">
+                <div className="px-5 py-2 rounded-full bg-black/5 border border-black/5 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground group-hover:text-primary transition-colors">
                   {game.type}
                 </div>
               </div>
@@ -108,7 +109,7 @@ export default function GamesPage() {
       <motion.div 
         initial={{ opacity: 0, scale: 0.98 }}
         whileInView={{ opacity: 1, scale: 1 }}
-        className="p-12 glass rounded-[4rem] border border-white/10 bg-gradient-to-br from-primary/10 via-transparent to-transparent relative overflow-hidden"
+        className="p-12 glass rounded-[4rem] border border-black/5 bg-gradient-to-br from-primary/10 via-transparent to-transparent relative overflow-hidden"
       >
         <div className="absolute top-0 right-0 p-12 opacity-5">
            <Activity size={200} />
@@ -127,7 +128,7 @@ export default function GamesPage() {
               Launch Tracking Track <ChevronRight size={16} />
             </Link>
           </div>
-          <div className="w-80 h-80 glass rounded-[3rem] border border-white/10 flex items-center justify-center relative group">
+          <div className="w-80 h-80 glass rounded-[3rem] border border-black/5 flex items-center justify-center relative group">
             <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full animate-pulse opacity-50" />
             <Wind size={120} className="text-primary relative z-10 transition-transform group-hover:scale-110 duration-700" />
           </div>
@@ -136,5 +137,3 @@ export default function GamesPage() {
     </div>
   )
 }
-
-import { cn } from '@/lib/utils'

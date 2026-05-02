@@ -6,7 +6,7 @@ ChromaDB vector search is now run in a thread executor (non-blocking).
 
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import SentenceTransformerEmbeddings
-from langchain.prompts import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 from typing import List, Dict
 import os
 import hashlib

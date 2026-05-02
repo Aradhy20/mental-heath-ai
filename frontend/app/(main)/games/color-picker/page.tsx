@@ -3,95 +3,135 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import { ArrowLeft, Palette, Sparkles, Check } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { 
+  ArrowLeft, 
+  Palette, 
+  CheckCircle2, 
+  Zap,
+  Info
+} from 'lucide-react'
 
 const COLORS = [
-  { name: 'Calm', hex: '#60a5fa', desc: 'Serene, peaceful, steady' },
-  { name: 'Creative', hex: '#c084fc', desc: 'Inspired, flow, vibrant' },
-  { name: 'Focused', hex: '#fbbf24', desc: 'Sharp, alert, productive' },
-  { name: 'Energetic', hex: '#f87171', desc: 'Driven, loud, active' },
-  { name: 'Melancholy', hex: '#94a3b8', desc: 'Quiet, heavy, reflective' },
-  { name: 'Grounded', hex: '#34d399', desc: 'Balanced, earth, rooted' },
+  { hex: '#6366F1', label: 'Indigo', emotion: 'Focused / Analytical', desc: 'Higher cognitive load, deep thinking.' },
+  { hex: '#10B981', label: 'Emerald', emotion: 'Balanced / Calm', desc: 'Parasympathetic activation, steady state.' },
+  { hex: '#F59E0B', label: 'Amber', emotion: 'Alert / High Energy', desc: 'Adrenal readiness, hyper-vigilance.' },
+  { hex: '#EF4444', label: 'Rose', emotion: 'Intense / Reactive', desc: 'Amygdala signaling, emotional intensity.' },
+  { hex: '#8B5CF6', label: 'Violet', emotion: 'Creative / Abstract', desc: 'Flow state, lateral thinking enabled.' },
+  { hex: '#06B6D4', label: 'Cyan', emotion: 'Relaxed / Open', desc: 'Reduced stress markers, receptive state.' }
 ]
 
 export default function ColorPickerPage() {
   const router = useRouter()
   const [selected, setSelected] = useState<number | null>(null)
+  const [isFinished, setIsFinished] = useState(false)
 
   return (
-    <div className="max-w-4xl mx-auto space-y-12">
-      <header className="flex justify-between items-center text-muted-foreground">
-        <button onClick={() => router.back()} className="flex items-center gap-2 hover:text-white transition-colors">
+    <div className="max-w-4xl mx-auto p-6 min-h-[80vh] flex flex-col">
+      <header className="mb-8 flex items-center justify-between">
+        <button 
+          onClick={() => router.back()}
+          className="p-2 text-muted-foreground hover:text-foreground flex items-center gap-2 transition-colors"
+        >
           <ArrowLeft size={20} /> Back
         </button>
-        <span className="text-[10px] font-black uppercase tracking-widest">Subconscious Mapping v1.0</span>
+        <div className="px-4 py-1 bg-amber-500/10 border border-amber-500/20 rounded-full text-[10px] font-black uppercase tracking-widest text-amber-500 flex items-center gap-2">
+          <Zap size={12} /> Chromatic Analysis
+        </div>
       </header>
 
-      <div className="space-y-4">
-        <h1 className="text-6xl font-black tracking-tighter">Choose your <span className="text-primary italic">Aura</span></h1>
-        <p className="text-muted-foreground text-xl">Don't think. Let your subconscious choose the color that matches your energy right now.</p>
-      </div>
-
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-        {COLORS.map((color, i) => (
-          <motion.button
-            key={i}
-            whileHover={{ y: -10 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setSelected(i)}
-            className={cn(
-              "group relative p-8 rounded-[3rem] border transition-all overflow-hidden aspect-square",
-              selected === i ? "border-white/40 ring-4 ring-white/10" : "border-white/5 hover:border-white/20"
-            )}
-          >
-            <div 
-              className="absolute inset-0 opacity-20 blur-3xl transition-opacity group-hover:opacity-40" 
-              style={{ backgroundColor: color.hex }} 
-            />
-            
-            <div className="relative z-10 h-full flex flex-col justify-between">
-              <div 
-                className="w-12 h-12 rounded-2xl shadow-xl transition-transform group-hover:scale-110" 
-                style={{ backgroundColor: color.hex }} 
-              />
-              <div className="text-left">
-                <h3 className="text-xl font-bold mb-1">{color.name}</h3>
-                <p className="text-xs text-muted-foreground leading-tight">{color.desc}</p>
-              </div>
-            </div>
-
-            {selected === i && (
-              <div className="absolute top-6 right-6 w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
-                <Check size={16} />
-              </div>
-            )}
-          </motion.button>
-        ))}
-      </div>
-
-      <AnimatePresence>
-        {selected !== null && (
-          <motion.div
+      <AnimatePresence mode="wait">
+        {!isFinished ? (
+          <motion.div 
+            key="picker"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="p-8 glass rounded-[3rem] border border-white/10 bg-gradient-to-r from-primary/5 to-transparent flex flex-col md:flex-row items-center justify-between gap-8"
+            exit={{ opacity: 0, y: -20 }}
+            className="flex-1 space-y-12"
           >
-            <div className="flex items-center gap-6">
-               <div 
-                 className="w-16 h-16 rounded-full blur-xl animate-pulse" 
-                 style={{ backgroundColor: COLORS[selected].hex }} 
-               />
-               <div>
-                  <h3 className="text-2xl font-bold italic">Refining with {COLORS[selected].name} perspective...</h3>
-                  <p className="text-sm text-muted-foreground">Your dashboard experience will temporarily pivot to match this energy.</p>
-               </div>
+            <div className="text-center space-y-4">
+               <h1 className="text-4xl font-black">Color <span className="text-amber-500 italic">Mood</span> Picker</h1>
+               <p className="text-muted-foreground text-lg">Select the color that resonates most with your current mental state.</p>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+               {COLORS.map((c, i) => (
+                 <motion.button
+                   key={i}
+                   whileHover={{ scale: 1.05 }}
+                   whileTap={{ scale: 0.95 }}
+                   onClick={() => setSelected(i)}
+                   className={`aspect-square rounded-[3rem] border-4 transition-all relative overflow-hidden group ${
+                     selected === i ? 'border-white shadow-2xl scale-105' : 'border-transparent opacity-80 hover:opacity-100'
+                   }`}
+                   style={{ backgroundColor: c.hex }}
+                 >
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                       <Palette className="text-white" size={40} />
+                    </div>
+                 </motion.button>
+               ))}
+            </div>
+
+            {selected !== null && (
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="space-y-8"
+              >
+                <div className="glass p-10 rounded-[4rem] border border-black/5 bg-gradient-to-br from-white/5 to-transparent flex flex-col md:flex-row items-center gap-10">
+                   <div 
+                     className="w-32 h-32 rounded-full shadow-2xl shrink-0"
+                     style={{ backgroundColor: COLORS[selected].hex }}
+                   />
+                   <div className="space-y-4 text-center md:text-left">
+                      <div>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-amber-500 mb-1">Detected Resonance</p>
+                        <h3 className="text-3xl font-black">{COLORS[selected].emotion}</h3>
+                      </div>
+                      <p className="text-muted-foreground font-medium leading-relaxed">
+                        {COLORS[selected].desc} This chromatic association suggests your nervous system is currently in a <span className="text-foreground font-bold">{COLORS[selected].label.toLowerCase()}</span> frequency.
+                      </p>
+                   </div>
+                </div>
+
+                <div className="flex gap-4">
+                  <button 
+                    onClick={() => setSelected(null)}
+                    className="flex-1 py-5 bg-black/5 border border-black/5 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-black/10 transition-all"
+                  >
+                    Rescan
+                  </button>
+                  <button 
+                    onClick={() => setIsFinished(true)}
+                    className="flex-[2] py-5 bg-amber-500 text-black font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-amber-600 transition-all shadow-xl shadow-amber-500/20"
+                  >
+                    Confirm & Log State
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </motion.div>
+        ) : (
+          <motion.div 
+            key="complete"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="flex-1 flex flex-col items-center justify-center text-center space-y-12"
+          >
+             <div className="w-24 h-24 bg-amber-500/20 border border-amber-500/30 rounded-[2rem] flex items-center justify-center text-amber-500">
+               <CheckCircle2 size={48} />
+            </div>
+            <div className="space-y-4">
+               <h2 className="text-4xl font-black tracking-tight">State <span className="text-amber-500 italic">Quantified</span></h2>
+               <p className="text-muted-foreground text-lg max-w-sm mx-auto">
+                 Your chromatic state has been integrated into your neural profile. We'll use this to adjust your AI companion's tone.
+               </p>
             </div>
             <button 
               onClick={() => router.push('/dashboard')}
-              className="px-10 py-5 bg-white text-black font-bold rounded-2xl flex items-center gap-2 hover:scale-105 transition-all shadow-2xl"
+              className="px-12 py-5 bg-amber-500 text-black font-black text-xs uppercase tracking-widest rounded-2xl hover:scale-105 transition-all shadow-xl shadow-amber-500/20"
             >
-              Apply Aura <Sparkles size={20} />
+              Back to Hub
             </button>
           </motion.div>
         )}

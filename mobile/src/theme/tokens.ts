@@ -1,32 +1,33 @@
 // MindfulAI Mobile — Ultra-Premium Design System
+// MindfulAI Mobile — Ultra-Premium Design System (Light Mode)
 export const COLORS = {
-  background:  '#1C1B1F', // M3 Surface
-  surface:     '#2B2930', // M3 Surface Container
-  surfaceHighlight: '#332F37',
-  border:      '#49454F', // M3 Outline
+  background:  '#FAFAFA', // M3 Surface Light
+  surface:     '#FFFFFF', // M3 Surface Container Light
+  surfaceHighlight: '#F3F0F5',
+  border:      '#E6E1E5', // M3 Outline Light
   borderHighlight: '#938F99',
   
-  // Material 3 Primary / Violet
-  primary:     '#D0BCFF',
-  onPrimary:   '#381E72',
-  primaryContainer: '#4F378B',
-  onPrimaryContainer: '#EADDFF',
+  // Material 3 Primary / Violet (Light)
+  primary:     '#7E22CE', 
+  onPrimary:   '#FFFFFF',
+  primaryContainer: '#F3E8FF',
+  onPrimaryContainer: '#2E004F',
   
-  secondary:   '#CCC2DC',
-  onSecondary: '#332D41',
+  secondary:   '#625B71',
+  onSecondary: '#FFFFFF',
   
-  text:        '#E6E1E5', // M3 On Surface
-  textMuted:   '#938F99', // M3 Outline
-  textSecond:  '#CAC4D0', // M3 On Surface Variant
+  text:        '#1C1B1F', // M3 On Surface Light
+  textMuted:   '#79747E', // M3 Outline
+  textSecond:  '#49454F', // M3 On Surface Variant Light
   
   // Semantic
-  emerald:     '#B4E49A', // M3 Positive
-  amber:       '#FFB900', // M3 Warning
-  rose:        '#F2B8B5', // M3 Error
-  cyan:        '#A1CED4',
+  emerald:     '#10B981', 
+  amber:       '#F59E0B', 
+  rose:        '#EF4444', 
+  cyan:        '#06B6D4',
   
-  glassLight:  'rgba(255, 255, 255, 0.04)',
-  glassMedium: 'rgba(255, 255, 255, 0.08)',
+  glassLight:  'rgba(0, 0, 0, 0.02)',
+  glassMedium: 'rgba(0, 0, 0, 0.05)',
 } as const
 
 export const FONTS = {

@@ -7,240 +7,226 @@ import {
   ArrowLeft, 
   Brain, 
   HelpCircle, 
-  ChevronRight, 
   CheckCircle2, 
-  Sparkles,
-  ArrowRight
+  AlertCircle,
+  ChevronRight,
+  ShieldCheck,
+  Zap
 } from 'lucide-react'
-import { cn } from '@/lib/utils'
 
-const TRAPS = [
-  { id: 'catastrophizing', title: 'Catastrophizing', desc: 'Predicting the worst possible outcome.' },
-  { id: 'all-or-nothing', title: 'All-or-Nothing', desc: 'Seeing things in black and white.' },
-  { id: 'mind-reading', title: 'Mind Reading', desc: 'Assuming others are thinking negatively of you.' },
-  { id: 'emotional-reasoning', title: 'Emotional Reasoning', desc: 'Believing your feelings are absolute facts.' },
+const DISTORTIONS = [
+  { id: 'catastrophizing', name: 'Catastrophizing', desc: 'Predicting the worst possible outcome.' },
+  { id: 'filtering', name: 'Mental Filtering', desc: 'Focusing only on the negatives.' },
+  { id: 'overgeneralizing', name: 'Overgeneralizing', desc: 'Viewing a single event as a never-ending pattern.' },
+  { id: 'mindreading', name: 'Mind Reading', desc: 'Assuming others are thinking negatively about you.' }
+]
+
+const SCENARIOS = [
+  {
+    thought: "My boss didn't reply to my email immediately. I'm definitely getting fired.",
+    distortions: ['catastrophizing', 'mindreading'],
+    reframe: "My boss is likely busy with other tasks. They will reply when they have time."
+  },
+  {
+    thought: "I made one mistake in my presentation. The whole thing was a disaster.",
+    distortions: ['filtering', 'overgeneralizing'],
+    reframe: "I made one small error, but the rest of the presentation went well and provided value."
+  },
+  {
+    thought: "Everyone at the party was looking at me and thinking I look awkward.",
+    distortions: ['mindreading'],
+    reframe: "Most people are focused on themselves and their own conversations. I'm doing just fine."
+  }
 ]
 
 export default function ThoughtChallengePage() {
   const router = useRouter()
-  const [step, setStep] = useState(1)
-  const [thought, setThought] = useState('')
-  const [selectedTraps, setSelectedTraps] = useState<string[]>([])
-  const [reframed, setReframed] = useState('')
+  const [step, setStep] = useState<'intro' | 'game' | 'complete'>('intro')
+  const [currentScenario, setCurrentScenario] = useState(0)
+  const [selectedDistortions, setSelectedDistortions] = useState<string[]>([])
+  const [showResult, setShowResult] = useState(false)
+  const [score, setScore] = useState(0)
 
-  const toggleTrap = (id: string) => {
-    setSelectedTraps(prev => 
-      prev.includes(id) ? prev.filter(t => t !== id) : [...prev, id]
-    )
+  const scenario = SCENARIOS[currentScenario]
+
+  const handleNext = () => {
+    if (currentScenario < SCENARIOS.length - 1) {
+      setCurrentScenario(currentScenario + 1)
+      setSelectedDistortions([])
+      setShowResult(false)
+    } else {
+      setStep('complete')
+    }
+  }
+
+  const checkAnswers = () => {
+    const isCorrect = scenario.distortions.every(d => selectedDistortions.includes(d)) && 
+                      selectedDistortions.length === scenario.distortions.length
+    if (isCorrect) setScore(s => s + 1)
+    setShowResult(true)
+  }
+
+  const toggleDistortion = (id: string) => {
+    if (selectedDistortions.includes(id)) {
+      setSelectedDistortions(selectedDistortions.filter(d => d !== id))
+    } else {
+      setSelectedDistortions([...selectedDistortions, id])
+    }
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 pb-20">
-      <header className="flex justify-between items-center">
+    <div className="max-w-4xl mx-auto p-6 min-h-[80vh] flex flex-col">
+      <header className="mb-8 flex items-center justify-between">
         <button 
           onClick={() => router.back()}
-          className="p-4 text-muted-foreground hover:text-foreground flex items-center gap-2 transition-colors"
+          className="p-2 text-muted-foreground hover:text-foreground flex items-center gap-2 transition-colors"
         >
-          <ArrowLeft size={20} /> Back to Games
+          <ArrowLeft size={20} /> Back
         </button>
-        <div className="flex gap-2">
-          {[1, 2, 3].map(i => (
-            <div key={i} className={cn(
-              "h-1 w-12 rounded-full transition-all duration-500",
-              step >= i ? "bg-primary" : "bg-white/10"
-            )} />
-          ))}
+        <div className="px-4 py-1 bg-primary/10 border border-primary/20 rounded-full text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-2">
+          <Zap size={12} /> Neural Training Mode
         </div>
       </header>
 
       <AnimatePresence mode="wait">
-        {step === 1 && (
+        {step === 'intro' && (
           <motion.div 
-            key="step1"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            className="space-y-8"
+            key="intro"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="flex-1 flex flex-col items-center justify-center text-center space-y-12"
           >
+            <div className="w-24 h-24 bg-primary/10 rounded-[2rem] flex items-center justify-center text-primary shadow-2xl shadow-primary/10 border border-primary/20">
+              <Brain size={48} />
+            </div>
             <div className="space-y-4">
-              <div className="w-16 h-16 rounded-3xl bg-primary/20 flex items-center justify-center text-primary mb-6">
-                <Brain size={32} />
-              </div>
-              <h1 className="text-4xl font-bold">Catch the <span className="text-primary italic">Thought</span></h1>
-              <p className="text-muted-foreground text-lg">What is currently weighing on your mind? Be as specific and honest as possible.</p>
-            </div>
-
-            <div className="relative">
-              <textarea 
-                value={thought}
-                onChange={(e) => setThought(e.target.value)}
-                placeholder="Example: 'I'll never be good at this job because I messed up that presentation...'"
-                className="w-full h-48 bg-white/5 border border-white/10 rounded-[2rem] p-8 text-xl outline-none focus:border-primary/50 transition-all resize-none"
-              />
-              <div className="absolute bottom-6 right-8 text-xs text-muted-foreground font-mono">
-                {thought.length} characters
-              </div>
-            </div>
-
-            <button 
-              disabled={!thought.trim()}
-              onClick={() => setStep(2)}
-              className="w-full py-5 bg-primary text-white font-bold rounded-2xl flex items-center justify-center gap-2 disabled:opacity-50 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-primary/20"
-            >
-              Identify Traps <ChevronRight size={20} />
-            </button>
-          </motion.div>
-        )}
-
-        {step === 2 && (
-          <motion.div 
-            key="step2"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            className="space-y-12"
-          >
-            <div className="space-y-4">
-              <h2 className="text-3xl font-bold">Identify the <span className="text-amber-400">Thinking Traps</span></h2>
-              <p className="text-muted-foreground">Our minds often play tricks on us. Which of these patterns do you notice in your thought?</p>
-            </div>
-
-            <div className="p-6 bg-white/5 border border-white/5 rounded-3xl italic text-muted-foreground">
-              "{thought}"
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {TRAPS.map((trap) => (
-                <button
-                  key={trap.id}
-                  onClick={() => toggleTrap(trap.id)}
-                  className={cn(
-                    "p-6 rounded-3xl border text-left transition-all group",
-                    selectedTraps.includes(trap.id) 
-                      ? "bg-primary/10 border-primary shadow-lg shadow-primary/10" 
-                      : "bg-white/5 border-white/5 hover:border-white/20"
-                  )}
-                >
-                  <div className="flex justify-between items-center mb-2">
-                    <h4 className={cn("font-bold", selectedTraps.includes(trap.id) ? "text-primary" : "text-foreground")}>
-                      {trap.title}
-                    </h4>
-                    {selectedTraps.includes(trap.id) && <CheckCircle2 size={16} className="text-primary" />}
-                  </div>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{trap.desc}</p>
-                </button>
-              ))}
-            </div>
-
-            <button 
-              disabled={selectedTraps.length === 0}
-              onClick={() => setStep(3)}
-              className="w-full py-5 bg-primary text-white font-bold rounded-2xl flex items-center justify-center gap-2 disabled:opacity-50 hover:scale-[1.02] active:scale-[0.98] transition-all"
-            >
-              Challenge It <ChevronRight size={20} />
-            </button>
-          </motion.div>
-        )}
-
-        {step === 3 && (
-          <motion.div 
-            key="step3"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="space-y-8"
-          >
-            <div className="space-y-4">
-              <h2 className="text-3xl font-bold">Reframe with <span className="text-emerald-400">Balance</span></h2>
-              <p className="text-muted-foreground text-lg">Now, try to write a more balanced version of this thought. What are the actual facts?</p>
-            </div>
-
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 text-rose-400 font-bold text-xs uppercase tracking-widest">
-                <HelpCircle size={14} /> Distorted Thought
-                <div className="h-px flex-1 bg-rose-400/20" />
-              </div>
-              <div className="p-6 bg-rose-500/5 border border-rose-500/10 rounded-2xl text-rose-200/60 line-through decoration-rose-500/50">
-                "{thought}"
-              </div>
-            </div>
-
-            <div className="space-y-4 pt-4">
-              <div className="flex items-center gap-3 text-emerald-400 font-bold text-xs uppercase tracking-widest">
-                <Sparkles size={14} /> Balanced Truth
-                <div className="h-px flex-1 bg-emerald-400/20" />
-              </div>
-              <textarea 
-                value={reframed}
-                onChange={(e) => setReframed(e.target.value)}
-                placeholder="Example: 'I found one presentation difficult, but overall my team values my work and I am improving every day...'"
-                className="w-full h-48 bg-emerald-500/5 border border-emerald-500/20 rounded-[2rem] p-8 text-xl outline-none focus:border-emerald-500/50 transition-all resize-none"
-              />
-            </div>
-
-            <button 
-              disabled={!reframed.trim()}
-              onClick={() => setStep(4)}
-              className="w-full py-5 bg-emerald-500 text-white font-bold rounded-2xl flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-emerald-500/20"
-            >
-              Complete Challenge <CheckCircle2 size={20} />
-            </button>
-          </motion.div>
-        )}
-
-        {step === 4 && (
-          <motion.div 
-            key="step4"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="text-center space-y-12 py-12"
-          >
-            <div className="relative">
-               <motion.div 
-                 initial={{ scale: 0 }}
-                 animate={{ scale: 1 }}
-                 transition={{ type: "spring", bounce: 0.5 }}
-                 className="w-24 h-24 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mx-auto"
-               >
-                 <CheckCircle2 size={48} />
-               </motion.div>
-               <motion.div 
-                 animate={{ scale: [1, 1.2, 1], opacity: [0, 1, 0] }}
-                 transition={{ repeat: Infinity, duration: 2 }}
-                 className="absolute inset-0 bg-emerald-500/20 rounded-full blur-2xl"
-               />
-            </div>
-
-            <div className="space-y-4">
-              <h2 className="text-4xl font-bold">Resilience <span className="text-emerald-400">Grown</span></h2>
-              <p className="text-muted-foreground text-lg max-w-sm mx-auto">
-                You successfully reframed a cognitive distortion. This activity has been logged to your digital twin's cognitive profile.
+              <h1 className="text-5xl font-black tracking-tight">Thought <span className="text-primary italic">Challenge</span></h1>
+              <p className="text-muted-foreground text-lg max-w-lg mx-auto">
+                Train your brain to identify and reframe cognitive distortions. Master the art of balanced thinking.
               </p>
             </div>
+            <button 
+              onClick={() => setStep('game')}
+              className="px-12 py-5 bg-primary text-white font-black text-xs uppercase tracking-[0.2em] rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-primary/30"
+            >
+              Initialize Neuro-Sync
+            </button>
+          </motion.div>
+        )}
 
-            <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
-              <div className="p-4 glass rounded-2xl border border-white/5">
-                <p className="text-[10px] uppercase font-black text-muted-foreground mb-1">XP Earned</p>
-                <p className="text-xl font-bold text-primary">+150</p>
-              </div>
-              <div className="p-4 glass rounded-2xl border border-white/5">
-                <p className="text-[10px] uppercase font-black text-muted-foreground mb-1">Clarity Boost</p>
-                <p className="text-xl font-bold text-emerald-400">+12%</p>
-              </div>
+        {step === 'game' && (
+          <motion.div 
+            key="game"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            className="flex-1 space-y-8"
+          >
+            <div className="glass p-10 rounded-[3rem] border border-black/5 relative overflow-hidden">
+               <div className="absolute top-0 right-0 p-6 opacity-5">
+                  <HelpCircle size={120} />
+               </div>
+               <div className="relative z-10 space-y-6">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-primary">Intrusive Thought Analysis</p>
+                  <h2 className="text-3xl font-medium leading-relaxed italic text-foreground/90">
+                    "{scenario.thought}"
+                  </h2>
+               </div>
             </div>
 
-            <div className="flex gap-4 justify-center pt-8">
-              <button 
-                onClick={() => setStep(1)}
-                className="px-8 py-4 bg-white/5 border border-white/10 rounded-2xl font-bold hover:bg-white/10 transition-all"
-              >
-                Continue Playing
-              </button>
-              <button 
-                onClick={() => router.push('/dashboard')}
-                className="px-10 py-4 bg-primary text-white rounded-2xl font-bold hover:scale-105 transition-all shadow-xl shadow-primary/20"
-              >
-                Back to Dashboard
-              </button>
+            <div className="space-y-6">
+               <h3 className="text-sm font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                  <AlertCircle size={16} /> Identify the Distortions
+               </h3>
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {DISTORTIONS.map((d) => (
+                    <button
+                      key={d.id}
+                      onClick={() => !showResult && toggleDistortion(d.id)}
+                      disabled={showResult}
+                      className={`p-6 rounded-[2rem] border transition-all text-left group ${
+                        selectedDistortions.includes(d.id)
+                          ? 'bg-primary border-primary text-white shadow-xl shadow-primary/20 scale-[1.02]'
+                          : 'bg-black/5 border-black/5 text-muted-foreground hover:border-black/10'
+                      }`}
+                    >
+                      <h4 className={`font-black uppercase tracking-tighter mb-1 ${selectedDistortions.includes(d.id) ? 'text-white' : 'text-foreground'}`}>{d.name}</h4>
+                      <p className={`text-xs ${selectedDistortions.includes(d.id) ? 'text-primary-foreground' : 'text-muted-foreground'}`}>{d.desc}</p>
+                    </button>
+                  ))}
+               </div>
+            </div>
+
+            <div className="flex justify-center pt-8">
+               {!showResult ? (
+                 <button 
+                   onClick={checkAnswers}
+                   disabled={selectedDistortions.length === 0}
+                   className="px-10 py-5 bg-white text-black font-black text-xs uppercase tracking-widest rounded-2xl hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
+                 >
+                   Submit Analysis
+                 </button>
+               ) : (
+                 <motion.div 
+                   initial={{ opacity: 0, scale: 0.9 }}
+                   animate={{ opacity: 1, scale: 1 }}
+                   className="w-full space-y-8"
+                 >
+                   <div className={`p-8 rounded-[2.5rem] border ${
+                     scenario.distortions.every(d => selectedDistortions.includes(d)) 
+                       ? 'bg-emerald-500/10 border-emerald-500/20' 
+                       : 'bg-amber-500/10 border-amber-500/20'
+                   }`}>
+                      <div className="flex items-center gap-4 mb-4">
+                         {scenario.distortions.every(d => selectedDistortions.includes(d)) 
+                           ? <CheckCircle2 className="text-emerald-400" /> 
+                           : <ShieldCheck className="text-amber-400" />}
+                         <h4 className="font-black uppercase tracking-widest text-sm">AI Cognitive Reframe</h4>
+                      </div>
+                      <p className="text-lg font-medium italic text-foreground/90">"{scenario.reframe}"</p>
+                   </div>
+                   <button 
+                     onClick={handleNext}
+                     className="w-full py-5 bg-primary text-white font-black text-xs uppercase tracking-widest rounded-2xl flex items-center justify-center gap-2 hover:opacity-90"
+                   >
+                     Next Scenario <ChevronRight size={16} />
+                   </button>
+                 </motion.div>
+               )}
+            </div>
+          </motion.div>
+        )}
+
+        {step === 'complete' && (
+          <motion.div 
+            key="complete"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="flex-1 flex flex-col items-center justify-center text-center space-y-12"
+          >
+            <div className="w-24 h-24 bg-emerald-500/20 border border-emerald-500/30 rounded-full flex items-center justify-center text-emerald-400">
+               <CheckCircle2 size={48} />
+            </div>
+            <div className="space-y-4">
+               <h2 className="text-4xl font-black tracking-tight">Neuro-Baseline <span className="text-emerald-400 italic">Realigned</span></h2>
+               <p className="text-muted-foreground text-lg max-w-sm mx-auto">
+                 You successfully identified {score} out of {SCENARIOS.length} cognitive distortion patterns. Your resilience index has increased.
+               </p>
+            </div>
+            <div className="flex gap-4">
+               <button 
+                 onClick={() => { setStep('intro'); setCurrentScenario(0); setScore(0); }}
+                 className="px-10 py-5 bg-black/5 border border-black/5 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-black/10 transition-all"
+               >
+                 Recalibrate
+               </button>
+               <button 
+                 onClick={() => router.push('/dashboard')}
+                 className="px-10 py-5 bg-primary text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:scale-105 transition-all shadow-xl shadow-primary/20"
+               >
+                 View Insights
+               </button>
             </div>
           </motion.div>
         )}

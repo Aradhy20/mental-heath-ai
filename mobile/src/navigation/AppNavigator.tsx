@@ -16,6 +16,8 @@ import AuthScreen from '../screens/AuthScreen'
 import MoodScreen from '../screens/MoodScreen'
 import NearbyScreen from '../screens/NearbyScreen'
 import MultimodalScreen from '../screens/MultimodalScreen'
+import ResilienceScreen from '../screens/ResilienceScreen'
+import GamesScreen from '../screens/GamesScreen'
 
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
@@ -93,6 +95,8 @@ export default function AppNavigator() {
             <Stack.Screen name="Chat" component={ChatScreen} />
             <Stack.Screen name="Mood" component={MoodScreen} />
             <Stack.Screen name="Nearby" component={NearbyScreen} />
+            <Stack.Screen name="Resilience" component={ResilienceScreen} />
+            <Stack.Screen name="Games" component={GamesScreen} />
           </>
         )}
       </Stack.Navigator>

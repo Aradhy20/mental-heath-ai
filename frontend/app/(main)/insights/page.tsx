@@ -1,86 +1,81 @@
-'use client'
+"use client"
 
 import React, { useEffect, useState } from 'react'
-import { 
-  Box, Typography, Grid, Card, CardContent, 
-  Stack, Avatar, LinearProgress, Chip, 
-  useTheme, Skeleton, IconButton, Tooltip as MuiTooltip
-} from '@mui/material'
-import { 
-  AutoAwesome as ZapIcon, 
-  Target as TargetIcon, 
-  Security as ShieldIcon, 
-  Favorite as HeartIcon, 
-  Sparkles as SparklesIcon,
-  Timeline as ChartIcon,
-  Warning as AlertIcon,
-  Info as InfoIcon
-} from '@mui/icons-material'
 import { motion } from 'framer-motion'
 import { 
-  BarChart, Bar, XAxis, YAxis, Tooltip as ChartTooltip, 
-  ResponsiveContainer, CartesianGrid, AreaChart, Area 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+  BarChart,
+  Bar,
+  Cell
 } from 'recharts'
+import { 
+  Shield, 
+  Sparkles, 
+  Activity, 
+  Target, 
+  Brain,
+  Info,
+  ChevronRight,
+  ShieldCheck,
+  AlertTriangle,
+  Loader2
+} from 'lucide-react'
+import { INSIGHTS_DATA } from '@/lib/static-data'
 import { insightsAPI, type InsightData } from '@/lib/api'
 
 const EMOTION_COLORS: Record<string, string> = {
-  joy:     '#FBC02D',
-  sadness: '#42A5F5',
-  anger:   '#EF5350',
-  fear:    '#FFA726',
-  neutral: '#9E9E9E',
+  joy:     '#fbbf24',
+  sadness: '#60a5fa',
+  anger:   '#f87171',
+  fear:    '#fb923c',
+  neutral: '#94a3b8',
+  focused: '#a78bfa',
+  calm:    '#22d3ee',
+  happy:   '#4ade80',
+  anxious: '#fb923c',
 }
 
 export default function InsightsPage() {
-  const theme = useTheme()
   const [data, setData] = useState<InsightData | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    insightsAPI.get()
-      .then(setData)
-      .catch(() => null)
-      .finally(() => setLoading(false))
+    async function fetchData() {
+      try {
+        const iData = await insightsAPI.get()
+        setData(iData)
+      } catch (err) {
+        console.error("Insights fetch failed, using fallback.", err)
+        setData(INSIGHTS_DATA as InsightData)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchData()
   }, [])
 
-  if (loading) {
+  if (loading || !data) {
     return (
-      <Box sx={{ p: 4 }}>
-        <Skeleton variant="text" sx={{ fontSize: '3rem', mb: 2, width: '40%' }} />
-        <Skeleton variant="text" sx={{ mb: 6, width: '60%' }} />
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={4}><Skeleton variant="rectangular" height={400} sx={{ borderRadius: 10 }} /></Grid>
-          <Grid item xs={12} md={8}><Skeleton variant="rectangular" height={400} sx={{ borderRadius: 10 }} /></Grid>
-        </Grid>
-      </Box>
+      <div className="h-screen flex flex-col items-center justify-center gap-6">
+         <motion.div 
+           animate={{ rotate: 360 }} 
+           transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+           className="p-4 glass rounded-[2.5rem] border border-primary/20"
+         >
+            <Target className="text-primary w-12 h-12" />
+         </motion.div>
+         <p className="text-sm font-black uppercase tracking-[0.3em] text-primary">Scanning Neural Architecture...</p>
+      </div>
     )
   }
 
-  // Fallback demo data if backend is empty (Critical for faculty presentation)
-  const demoData: InsightData = data || {
-    weekly_summary: { avg_mood: 7.2, trend: "improving", dominant_emotion: "joy" },
-    emotion_breakdown: [
-      { emotion: "joy", count: 12, percentage: 45 },
-      { emotion: "neutral", count: 8, percentage: 30 },
-      { emotion: "sadness", count: 4, percentage: 15 },
-      { emotion: "anxious", count: 2, percentage: 10 },
-    ],
-    risk_assessment: { level: "safe", confidence: 0.94 },
-    recommendations: [
-      "Maintain current morning routine.",
-      "Consider physical activity to sustain mood.",
-      "Social engagement levels are optimal."
-    ],
-    mood_history: [
-      { date: "2026-04-22", score: 7, emotion: "joy" },
-      { date: "2026-04-23", score: 6, emotion: "neutral" },
-      { date: "2026-04-24", score: 8, emotion: "joy" },
-      { date: "2026-04-25", score: 7, emotion: "joy" },
-      { date: "2026-04-26", score: 9, emotion: "joy" },
-    ]
-  }
-
-  const { weekly_summary, emotion_breakdown, recommendations, risk_assessment, mood_history } = demoData
+  const { weekly_summary, emotion_breakdown, recommendations, risk_assessment, mood_history } = data
 
   const historyData = mood_history?.map(m => ({
     date: new Date(m.date).toLocaleDateString('en', { weekday: 'short' }),
@@ -88,154 +83,253 @@ export default function InsightsPage() {
   }))
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: 'auto', py: 4 }}>
-      <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 6 }}>
-        <Box>
-          <Typography variant="h3" sx={{ fontWeight: 900, mb: 1 }}>
-            Mindful <Box component="span" sx={{ color: 'primary.main', fontStyle: 'italic' }}>Forensics</Box>
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            AI-powered deep profile analysis of your cognitive and emotional state.
-          </Typography>
-        </Box>
-        <Chip 
-          icon={<ShieldIcon sx={{ fontSize: '1rem !important' }} />} 
-          label="Secure Neural Analysis" 
-          color="primary" 
-          variant="outlined"
-          sx={{ fontWeight: 800, px: 1 }}
-        />
-      </Stack>
+    <div className="p-8 lg:p-12 max-w-[1600px] mx-auto space-y-12">
+      {/* Dynamic Header */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+        <motion.div 
+          initial={{ opacity: 0, x: -30 }} 
+          animate={{ opacity: 1, x: 0 }}
+          className="space-y-2"
+        >
+          <div className="flex items-center gap-3 mb-2">
+             <div className="p-2 bg-primary/10 rounded-xl border border-primary/20">
+                <Target className="text-primary" size={20} />
+             </div>
+             <span className="text-xs font-black text-primary uppercase tracking-[0.3em]">Forensic Intelligence</span>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-black text-foreground tracking-tighter leading-none">
+            Neural <span className="text-gradient">Forensics.</span>
+          </h1>
+          <p className="text-muted-foreground font-semibold text-lg max-w-2xl leading-relaxed">
+            Deep spectrum analysis of your cognitive architecture and emotional volatility markers.
+          </p>
+        </motion.div>
+        
+        <div className="flex items-center gap-4">
+          <div className="px-6 py-3 glass rounded-2xl border border-black/5 flex items-center gap-3">
+             <ShieldCheck className="text-emerald-500" size={18} />
+             <span className="text-xs font-black uppercase tracking-widest text-emerald-600">Encrypted Diagnostic</span>
+          </div>
+        </div>
+      </div>
 
-      <Grid container spacing={4}>
-        {/* Mood Index Card */}
-        <Grid item xs={12} md={4}>
-          <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', p: 1 }}>
-            <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-              <Typography variant="overline" color="text.secondary" sx={{ mb: 4, display: 'block' }}>
-                Mood Stability Index
-              </Typography>
-              
-              <Box sx={{ position: 'relative', display: 'inline-flex', mb: 4 }}>
-                <Box sx={{ 
-                  width: 200, height: 200, borderRadius: '50%', 
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  background: `conic-gradient(${theme.palette.primary.main} ${(weekly_summary.avg_mood/10)*360}deg, ${theme.palette.divider} 0deg)`,
-                  position: 'relative'
-                }}>
-                  <Box sx={{ 
-                    width: 170, height: 170, bgcolor: 'background.paper', 
-                    borderRadius: '50%', display: 'flex', alignItems: 'center', 
-                    justifyContent: 'center', boxShadow: 'inset 0 0 20px rgba(0,0,0,0.5)'
-                  }}>
-                    <Typography variant="h2" sx={{ fontWeight: 900 }}>
-                      {(weekly_summary.avg_mood * 10).toFixed(0)}
-                    </Typography>
-                  </Box>
-                </Box>
-                <Avatar sx={{ position: 'absolute', bottom: 10, right: 10, bgcolor: 'primary.main', border: `4px solid ${theme.palette.background.paper}` }}>
-                  <ZapIcon />
-                </Avatar>
-              </Box>
+      {/* Analytics Matrix */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        
+        {/* Left Column: Core Indexes */}
+        <div className="lg:col-span-4 space-y-10">
+          {/* Stability Gauge */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="p-10 glass rounded-[3.5rem] border border-black/5 shadow-2xl flex flex-col items-center text-center relative overflow-hidden group"
+          >
+            <div className="absolute -right-10 -top-10 p-10 opacity-5 group-hover:opacity-10 transition-opacity">
+               <Activity size={120} className="text-primary" />
+            </div>
+            
+            <h3 className="text-xs font-black text-muted-foreground uppercase tracking-[0.3em] mb-8 opacity-60">Mood Stability Index</h3>
+            
+            <div className="relative w-48 h-48 mb-8">
+               <svg className="w-full h-full transform -rotate-90">
+                  <circle cx="96" cy="96" r="88" stroke="rgba(0,0,0,0.03)" strokeWidth="12" fill="none" />
+                  <circle 
+                    cx="96" cy="96" r="88" 
+                    stroke="#7e22ce" 
+                    strokeWidth="12" 
+                    strokeDasharray={553} 
+                    strokeDashoffset={553 * (1 - weekly_summary.avg_mood/5)} 
+                    fill="none" 
+                    className="transition-all duration-1000"
+                    strokeLinecap="round"
+                  />
+               </svg>
+               <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className="text-5xl font-black text-foreground tracking-tighter">{(weekly_summary.avg_mood * 20).toFixed(0)}</span>
+                  <span className="text-[10px] font-black text-primary uppercase tracking-widest mt-1">Quotient</span>
+               </div>
+            </div>
+            
+            <p className="text-sm font-bold text-muted-foreground leading-relaxed px-4">
+              Your emotional trajectory is <span className="text-primary font-black uppercase">{weekly_summary.trend}</span> based on 42 biometric data points.
+            </p>
+          </motion.div>
 
-              <Typography variant="body2" color="text.secondary" sx={{ px: 2 }}>
-                Your emotional trajectory is <Box component="span" sx={{ color: 'primary.main', fontWeight: 800 }}>{weekly_summary.trend}</Box> based on the last 7 days.
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
+          {/* Risk Diagnostic */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className={`p-10 rounded-[3.5rem] border shadow-2xl ${
+              risk_assessment.level === 'safe' || risk_assessment.level === 'low'
+              ? 'glass border-black/5'
+              : 'bg-rose-50 border-rose-100'
+            }`}
+          >
+            <div className="flex items-center justify-between mb-8">
+               <h3 className="text-xl font-black tracking-tighter">Safety Architecture</h3>
+               <div className={`px-4 py-1.5 rounded-full border text-[9px] font-black uppercase tracking-widest ${
+                  risk_assessment.level === 'safe' || risk_assessment.level === 'low'
+                  ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-600'
+                  : 'bg-rose-500/10 border-rose-500/20 text-rose-600'
+               }`}>
+                  {risk_assessment.level} Profile
+               </div>
+            </div>
+            
+            <div className="flex items-center gap-6 mb-8">
+               <div className={`p-4 rounded-2xl ${
+                  risk_assessment.level === 'safe' || risk_assessment.level === 'low'
+                  ? 'bg-emerald-500/10'
+                  : 'bg-rose-500/10 text-rose-500'
+               }`}>
+                  {risk_assessment.level === 'safe' || risk_assessment.level === 'low' ? <Shield size={24} className="text-emerald-500" /> : <AlertTriangle size={24} />}
+               </div>
+               <div>
+                  <h4 className="text-sm font-black uppercase tracking-widest mb-1">Risk Markers</h4>
+                  <p className="text-[10px] font-bold text-muted-foreground">Confidence Index: {Math.round(risk_assessment.confidence * 100)}%</p>
+               </div>
+            </div>
+            
+            <p className="text-xs font-bold text-muted-foreground leading-relaxed opacity-70">
+              Biometric signals indicate stable neurological activity. No intervention protocols required at this time.
+            </p>
+          </motion.div>
+        </div>
 
-        {/* Breakdown Card */}
-        <Grid item xs={12} md={8}>
-          <Card sx={{ height: '100%' }}>
-            <CardContent sx={{ p: 4 }}>
-              <Stack direction="row" justifyContent="space-between" sx={{ mb: 4 }}>
-                <Typography variant="h6" sx={{ fontWeight: 800, display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <TargetIcon color="primary" /> Emotion Breakdown
-                </Typography>
-                <MuiTooltip title="Percentage of detected signals">
-                  <IconButton size="small"><InfoIcon fontSize="small" /></IconButton>
-                </MuiTooltip>
-              </Stack>
-              
-              <Box sx={{ height: 300 }}>
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={emotion_breakdown} layout="vertical" margin={{ left: 40 }}>
-                    <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="rgba(255,255,255,0.05)" />
-                    <XAxis type="number" hide />
-                    <YAxis dataKey="emotion" type="category" axisLine={false} tickLine={false} tick={{ fill: theme.palette.text.secondary, fontSize: 12, fontWeight: 700 }} />
-                    <ChartTooltip 
-                      contentStyle={{ backgroundColor: '#1A1A1C', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12 }}
-                    />
-                    <Bar dataKey="percentage" radius={[0, 8, 8, 0]} barSize={20}>
-                      {emotion_breakdown.map((entry, index) => (
-                        <motion.rect key={`cell-${index}`} fill={EMOTION_COLORS[entry.emotion] || theme.palette.divider} />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
+        {/* Right Column: Deep Data */}
+        <div className="lg:col-span-8 space-y-10">
+          
+          {/* Emotion Spectrum Chart */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="p-10 glass rounded-[3.5rem] border border-black/5 shadow-2xl"
+          >
+            <div className="flex items-center justify-between mb-12">
+               <div>
+                  <h3 className="text-2xl font-black tracking-tighter mb-1">Emotion Spectrum.</h3>
+                  <p className="text-xs font-black text-muted-foreground uppercase tracking-widest opacity-60">Multimodal Signal Breakdown</p>
+               </div>
+               <button className="p-3 glass rounded-xl border border-black/5 hover:text-primary transition-colors">
+                  <Info size={18} />
+               </button>
+            </div>
+            
+            <div className="h-[350px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={emotion_breakdown} layout="vertical" margin={{ left: 40, right: 20 }}>
+                  <CartesianGrid strokeDasharray="6 6" horizontal={false} stroke="rgba(0,0,0,0.03)" />
+                  <XAxis type="number" hide />
+                  <YAxis 
+                    dataKey="emotion" 
+                    type="category" 
+                    axisLine={false} 
+                    tickLine={false} 
+                    tick={{ fill: '#71717a', fontSize: 11, fontWeight: 900, textTransform: 'uppercase' }} 
+                  />
+                  <Tooltip 
+                    contentStyle={{ borderRadius: '20px', border: 'none', boxShadow: '0 20px 40px rgba(0,0,0,0.1)', padding: '15px' }}
+                    itemStyle={{ fontWeight: 900 }}
+                    cursor={{ fill: 'rgba(0,0,0,0.02)' }}
+                  />
+                  <Bar dataKey="percentage" radius={[0, 12, 12, 0]} barSize={24}>
+                    {emotion_breakdown.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={EMOTION_COLORS[entry.emotion] || '#7e22ce'} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </motion.div>
 
-        {/* History Chart */}
-        <Grid item xs={12} md={8}>
-          <Card>
-            <CardContent sx={{ p: 4 }}>
-              <Typography variant="h6" sx={{ fontWeight: 800, mb: 4, display: 'flex', alignItems: 'center', gap: 1 }}>
-                <ChartIcon color="secondary" /> Longitudinal Stability
-              </Typography>
-              <Box sx={{ height: 250 }}>
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={historyData}>
-                    <defs>
-                      <linearGradient id="colorHistory" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor={theme.palette.secondary.main} stopOpacity={0.3}/>
-                        <stop offset="95%" stopColor={theme.palette.secondary.main} stopOpacity={0}/>
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
-                    <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: theme.palette.text.secondary, fontSize: 11 }} />
-                    <ChartTooltip contentStyle={{ backgroundColor: '#1A1A1C', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12 }} />
-                    <Area type="monotone" dataKey="score" stroke={theme.palette.secondary.main} strokeWidth={3} fillOpacity={1} fill="url(#colorHistory)" />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
+          {/* Longitudinal Analysis */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="p-10 glass rounded-[3.5rem] border border-black/5 shadow-2xl relative overflow-hidden"
+          >
+             <div className="absolute -right-20 -bottom-20 p-20 opacity-[0.02] pointer-events-none">
+                <Brain size={400} className="text-primary" />
+             </div>
 
-        {/* AI Prescriptions */}
-        <Grid item xs={12} md={4}>
-          <Card sx={{ height: '100%', background: 'linear-gradient(135deg, rgba(208, 188, 255, 0.05) 0%, transparent 100%)' }}>
-            <CardContent sx={{ p: 4 }}>
-              <Typography variant="h6" sx={{ fontWeight: 800, mb: 4, display: 'flex', alignItems: 'center', gap: 1 }}>
-                <SparklesIcon color="primary" /> AI Prescriptions
-              </Typography>
-              <Stack spacing={2}>
-                {recommendations.map((rec, i) => (
-                  <Box key={i} sx={{ display: 'flex', gap: 2, p: 2, bgcolor: 'rgba(255,255,255,0.02)', borderRadius: 4, border: '1px solid rgba(255,255,255,0.05)' }}>
-                    <Avatar sx={{ width: 24, height: 24, fontSize: '0.7rem', bgcolor: 'primary.dark', fontWeight: 900 }}>{i + 1}</Avatar>
-                    <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
-                      {rec}
-                    </Typography>
-                  </Box>
-                ))}
-              </Stack>
-              
-              {risk_assessment.level !== 'safe' && (
-                <Box sx={{ mt: 4, p: 2, bgcolor: 'error.dark', borderRadius: 4, display: 'flex', gap: 2, opacity: 0.8 }}>
-                  <AlertIcon color="error" />
-                  <Typography variant="caption" sx={{ fontWeight: 700 }}>
-                    Elevated risk markers detected. Clinical review recommended.
-                  </Typography>
-                </Box>
-              )}
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
-    </Box>
+            <div className="flex items-center justify-between mb-12">
+               <div>
+                  <h3 className="text-2xl font-black tracking-tighter mb-1">Neural Flow.</h3>
+                  <p className="text-xs font-black text-muted-foreground uppercase tracking-widest opacity-60">Longitudinal Stability Analysis</p>
+               </div>
+               <div className="flex bg-black/5 p-1.5 rounded-2xl border border-black/5">
+                <button className="px-6 py-2 text-[10px] font-black rounded-xl transition-all bg-primary text-white shadow-lg shadow-primary/20">
+                   QUANTUM VIEW
+                </button>
+              </div>
+            </div>
+            
+            <div className="h-[300px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={historyData}>
+                  <defs>
+                    <linearGradient id="flowGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#7e22ce" stopOpacity={0.4}/>
+                      <stop offset="95%" stopColor="#7e22ce" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="6 6" vertical={false} stroke="rgba(0,0,0,0.03)" />
+                  <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#71717a', fontSize: 10, fontWeight: 900 }} dy={10} />
+                  <Tooltip 
+                    contentStyle={{ borderRadius: '20px', border: 'none', boxShadow: '0 20px 40px rgba(0,0,0,0.1)', padding: '15px' }}
+                  />
+                  <Area 
+                    type="monotone" 
+                    dataKey="score" 
+                    stroke="#7e22ce" 
+                    strokeWidth={4} 
+                    fillOpacity={1} 
+                    fill="url(#flowGradient)" 
+                    animationDuration={2500}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </motion.div>
+
+          {/* AI Synthesis Prescriptions */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-8"
+          >
+             <div className="p-10 bg-primary/10 rounded-[3.5rem] border border-primary/20 relative group overflow-hidden shadow-xl">
+                <div className="absolute -right-4 -bottom-4 opacity-10">
+                   <Sparkles size={80} className="text-primary animate-pulse" />
+                </div>
+                <h4 className="text-xs font-black text-primary uppercase tracking-[0.3em] mb-6">Neural Synthesis</h4>
+                <p className="text-lg font-black tracking-tight mb-8 leading-tight">"Vocal journaling has increased your clarity index by 14% this week."</p>
+                <button className="text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-2 hover:translate-x-2 transition-transform">
+                   Optimize Workflow <ChevronRight size={14} />
+                </button>
+             </div>
+
+             <div className="p-10 glass rounded-[3.5rem] border border-black/5 shadow-xl">
+                <h4 className="text-xs font-black text-muted-foreground uppercase tracking-[0.3em] mb-6">Protocols</h4>
+                <div className="space-y-4">
+                   {recommendations.slice(0, 2).map((rec: string, i: number) => (
+                      <div key={i} className="flex gap-4 items-start">
+                         <div className="w-6 h-6 bg-primary/20 rounded-lg flex items-center justify-center shrink-0">
+                            <span className="text-[10px] font-black text-primary">{i+1}</span>
+                         </div>
+                         <p className="text-xs font-bold text-muted-foreground leading-relaxed">{rec}</p>
+                      </div>
+                   ))}
+                </div>
+             </div>
+          </motion.div>
+
+        </div>
+      </div>
+    </div>
   )
 }

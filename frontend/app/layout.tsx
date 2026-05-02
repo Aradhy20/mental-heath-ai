@@ -18,6 +18,8 @@ export const metadata: Metadata = {
 };
 
 import { MUIProvider } from "@/components/providers/mui-provider";
+import { ThemeProvider } from "next-themes";
+import { NeuralBackground } from "@/components/ui/neural-background";
 
 export default function RootLayout({
   children,
@@ -27,12 +29,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${inter.variable} ${outfit.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
-        <MUIProvider>
-          {children}
-        </MUIProvider>
+        <NeuralBackground />
+        <ThemeProvider attribute="class" defaultTheme="light">
+          <MUIProvider>
+            {children}
+          </MUIProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -9,19 +9,13 @@ from dotenv import load_dotenv
 env_path = os.path.join(os.path.dirname(__file__), "..", ".env")
 load_dotenv(dotenv_path=env_path)
 
-# --- SQL Configuration (PostgreSQL — primary storage for all relational data) ---
-# Primary storage for: Auth, Identity, Tokens
-POSTGRES_URL = os.getenv(
-    "POSTGRES_URL",
-    "postgresql+asyncpg://postgres:12345678@localhost:5432/mindful_ai"
-)
+# --- SQL Configuration (SQLite — for portability and demo-ready stability) ---
+SQLITE_URL = "sqlite+aiosqlite:///./mindful.db"
 
 engine = create_async_engine(
-    POSTGRES_URL, 
+    SQLITE_URL, 
     echo=False, 
-    pool_pre_ping=True,
-    pool_size=5,
-    max_overflow=10
+    pool_pre_ping=True
 )
 AsyncSessionLocal = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 Base = declarative_base()

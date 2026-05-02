@@ -1,17 +1,20 @@
 /**
  * MindfulAI — Zustand Auth Store
- * Persists JWT + user profile across page reloads.
+ * Orchestrates user sessions and coordinates with the clinical backend.
  */
 'use client'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { authAPI, type AuthResponse } from './api'
+import { authAPI } from './api'
+import { DEMO_USER, DEMO_TOKEN } from './static-data'
 
 interface User {
   user_id: string
   username: string
   email: string
   full_name: string | null
+  avatar?: string
+  role?: string
 }
 
 interface AuthState {
@@ -30,24 +33,38 @@ export const useAuthStore = create<AuthState>()(
       user:     null,
       isAuthed: false,
 
-      login: async (email, password) => {
-        const data = await authAPI.login({ email, password })
-        const token = data.access_token || data.token
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('mindful_token', token)
-          document.cookie = `mindful_token=${token}; path=/; max-age=86400; SameSite=Strict`
+      login: async (email: string, password: string) => {
+        try {
+          const res = await authAPI.login({ email, password })
+          const token = res.access_token || res.token || DEMO_TOKEN
+          const user = res.user ? { ...res.user, user_id: res.user_id } : DEMO_USER
+          
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('mindful_token', token)
+            document.cookie = `mindful_token=${token}; path=/; max-age=86400; SameSite=Strict`
+          }
+          set({ token, user, isAuthed: true })
+        } catch (err) {
+          console.error("Login failed:", err)
+          throw err
         }
-        set({ token, user: { user_id: data.user_id, ...data.user }, isAuthed: true })
       },
 
-      register: async (username, email, password) => {
-        const data = await authAPI.register({ username, email, password })
-        const token = data.access_token || data.token
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('mindful_token', token)
-          document.cookie = `mindful_token=${token}; path=/; max-age=86400; SameSite=Strict`
+      register: async (username: string, email: string, password: string) => {
+        try {
+          const res = await authAPI.register({ username, email, password })
+          const token = res.access_token || res.token || DEMO_TOKEN
+          const user = res.user ? { ...res.user, user_id: res.user_id } : DEMO_USER
+
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('mindful_token', token)
+            document.cookie = `mindful_token=${token}; path=/; max-age=86400; SameSite=Strict`
+          }
+          set({ token, user, isAuthed: true })
+        } catch (err) {
+          console.error("Registration failed:", err)
+          throw err
         }
-        set({ token, user: { user_id: data.user_id, ...data.user }, isAuthed: true })
       },
 
       logout: () => {
